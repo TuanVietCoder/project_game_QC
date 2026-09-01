@@ -1,0 +1,93 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle - Dark -->
+  <circle cx="256" cy="256" r="256" fill="#0a0408"/>
+
+  <!-- Outer ring - Purple glow -->
+  <circle cx="256" cy="256" r="245" fill="none" stroke="#9d47ff" stroke-width="3" opacity="0.8"/>
+  <circle cx="256" cy="256" r="240" fill="none" stroke="#7d2aa3" stroke-width="1" opacity="0.5"/>
+
+  <!-- Inner circle - Evil theme -->
+  <circle cx="256" cy="256" r="200" fill="#1a0f25" stroke="#9d47ff" stroke-width="2"/>
+
+  <!-- Evil God / Demon Boss - Pixel Art -->
+  <g id="demon-god">
+    <!-- Head - Dark purple circle -->
+    <circle cx="256" cy="160" r="55" fill="#3d1a5f" stroke="#9d47ff" stroke-width="2"/>
+
+    <!-- Head aura - evil glow -->
+    <circle cx="256" cy="160" r="65" fill="none" stroke="#9d47ff" stroke-width="1" opacity="0.4"/>
+
+    <!-- Left eye - glowing red/purple -->
+    <circle cx="235" cy="145" r="12" fill="#ff1a6e"/>
+    <circle cx="235" cy="145" r="8" fill="#ff47a3" opacity="0.8"/>
+    <circle cx="237" cy="143" r="3" fill="#ffffff"/>
+
+    <!-- Right eye - glowing red/purple -->
+    <circle cx="277" cy="145" r="12" fill="#ff1a6e"/>
+    <circle cx="277" cy="145" r="8" fill="#ff47a3" opacity="0.8"/>
+    <circle cx="279" cy="143" r="3" fill="#ffffff"/>
+
+    <!-- Evil horns - pixel horns -->
+    <polygon points="220,110 210,75 225,100" fill="#7d2aa3"/>
+    <polygon points="292,110 302,75 287,100" fill="#7d2aa3"/>
+
+    <!-- Mouth - sinister grin -->
+    <path d="M 240 175 Q 256 190 272 175" stroke="#ff1a6e" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+    <!-- Body - Dark purple -->
+    <rect x="225" y="210" width="62" height="70" fill="#2d1345" stroke="#9d47ff" stroke-width="2" rx="4"/>
+
+    <!-- Chest aura -->
+    <circle cx="256" cy="245" r="45" fill="none" stroke="#9d47ff" stroke-width="1" opacity="0.3"/>
+
+    <!-- Left arm - clawed hand -->
+    <rect x="165" y="230" width="60" height="20" fill="#2d1345" stroke="#7d2aa3" stroke-width="1" rx="2"/>
+    <g id="left-claws">
+      <polygon points="165,225 160,210 170,220" fill="#9d47ff"/>
+      <polygon points="175,225 170,210 180,220" fill="#9d47ff"/>
+      <polygon points="185,225 180,210 190,220" fill="#9d47ff"/>
+      <polygon points="165,255 160,270 170,260" fill="#9d47ff"/>
+    </g>
+
+    <!-- Right arm - clawed hand -->
+    <rect x="287" y="230" width="60" height="20" fill="#2d1345" stroke="#7d2aa3" stroke-width="1" rx="2"/>
+    <g id="right-claws">
+      <polygon points="347,225 352,210 342,220" fill="#9d47ff"/>
+      <polygon points="337,225 342,210 332,220" fill="#9d47ff"/>
+      <polygon points="327,225 332,210 322,220" fill="#9d47ff"/>
+      <polygon points="347,255 352,270 342,260" fill="#9d47ff"/>
+    </g>
+
+    <!-- Aura particles around boss -->
+    <g id="evil-aura" opacity="0.6">
+      <circle cx="200" cy="220" r="5" fill="#9d47ff"/>
+      <circle cx="312" cy="220" r="5" fill="#9d47ff"/>
+      <circle cx="180" cy="280" r="4" fill="#7d2aa3"/>
+      <circle cx="332" cy="280" r="4" fill="#7d2aa3"/>
+      <circle cx="256" cy="300" r="6" fill="#ff1a6e" opacity="0.4"/>
+    </g>
+  </g>
+
+  <!-- Studio text - arcade style - Purple -->
+  <text x="256" y="380" font-family="Arial, sans-serif" font-size="32" font-weight="bold"
+        text-anchor="middle" fill="#9d47ff" letter-spacing="2">
+    TUANVIET
+  </text>
+
+  <!-- Tagline -->
+  <text x="256" y="415" font-family="Arial, sans-serif" font-size="14" font-weight="500"
+        text-anchor="middle" fill="#7d2aa3" letter-spacing="1">
+    STUDIO
+  </text>
+
+  <!-- Decorative elements - purple pixels -->
+  <g id="pixels" fill="#9d47ff" opacity="0.6">
+    <rect x="140" y="240" width="6" height="6"/>
+    <rect x="366" y="240" width="6" height="6"/>
+    <rect x="250" y="110" width="4" height="4"/>
+    <rect x="258" y="110" width="4" height="4"/>
+  </g>
+
+  <!-- Version indicator - tiny purple pixel -->
+  <circle cx="200" cy="420" r="3" fill="#9d47ff" opacity="0.8"/>
+</svg>
