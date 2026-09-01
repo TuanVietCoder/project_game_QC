@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Tin tức & cập nhật Ashfall - Game soulslike pixel art. Thông tin về bản cập nhật, sự kiện, cộng đồng từ TuanViet Studio.">
+<meta name="keywords" content="tin tức game, ashfall update, game soulslike, TuanViet Studio, tin tức mobile game">
+<meta name="author" content="TuanViet Studio">
+<meta property="og:title" content="Tin Tức Ashfall - Cập Nhật & Sự Kiện | TuanViet Studio">
+<meta property="og:description" content="Theo dõi tin tức mới nhất, bản cập nhật, và sự kiện của Ashfall - game soulslike pixel art tốt nhất Việt Nam.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ashfall.io.vn/tin-tuc.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tin Tức Ashfall - Cập Nhật & Sự Kiện">
+<meta name="twitter:description" content="Cập nhật mới nhất cho Ashfall - game soulslike pixel art.">
+<title>Tin Tức Ashfall - Cập Nhật & Sự Kiện | TuanViet Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{
+    --bg:#100d0a;
+    --bg-plate:#1a1510;
+    --bg-plate-2:#221b14;
+    --ink:#efe6d4;
+    --muted:#a99a82;
+    --muted-2:#75695a;
+    --line:rgba(239,230,212,0.14);
+    --line-strong:rgba(239,230,212,0.30);
+    --ember:#ff9d47;
+    --ember-dim:#c97a38;
+    --crack:#cf4b3e;
+    --moss:#8fa87f;
+    --font-display:'Spectral', Georgia, 'Times New Roman', serif;
+    --font-body:'Be Vietnam Pro', -apple-system, 'Segoe UI', sans-serif;
+    --font-mono:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:
+      radial-gradient(ellipse 1100px 620px at 50% -6%, rgba(207,75,62,0.08), transparent 62%),
+      radial-gradient(ellipse 700px 500px at 100% 42%, rgba(255,157,71,0.04), transparent 60%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--crack); color:#1a1208; }
+  a{ color:var(--ember); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  :focus-visible{ outline:2px solid var(--ember); outline-offset:3px; border-radius:2px; }
+
+  .wrap{ max-width:1060px; margin:0 auto; padding:0 26px; }
+
+  /* Nav bar */
+  nav{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:1000;
+    background:rgba(16,13,10,0.95);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .nav-content{
+    max-width:1060px;
+    margin:0 auto;
+    padding:14px 26px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+  }
+  nav .logo{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:1.4rem;
+    color:var(--ember);
+    text-decoration:none;
+  }
+  nav .nav-links{
+    display:flex;
+    gap:22px;
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  nav .nav-links a{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--muted);
+    transition:color .2s ease;
+  }
+  nav .nav-links a:hover{
+    color:var(--ember);
+    text-decoration:none;
+  }
+
+  /* Header */
+  .news-header{
+    margin-top:60px;
+    padding:80px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  .news-header h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(2.2rem, 5vw, 3.4rem);
+    line-height:1.1;
+    margin:0 0 16px;
+    color:var(--ink);
+  }
+  .news-header h1 em{
+    color:var(--crack);
+    font-style:normal;
+  }
+  .news-header .sub{
+    font-size:1.02rem;
+    color:var(--muted);
+    max-width:520px;
+    margin:0 auto;
+  }
+
+  /* Filter tags */
+  .filter-tags{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:center;
+    margin-top:30px;
+    padding-top:30px;
+    border-top:1px solid var(--line);
+  }
+  .tag-btn{
+    font-family:var(--font-mono);
+    font-size:10.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    padding:8px 14px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    background:transparent;
+    color:var(--muted-2);
+    cursor:pointer;
+    transition:all .2s ease;
+  }
+  .tag-btn:hover,
+  .tag-btn.active{
+    border-color:var(--crack);
+    color:var(--crack);
+    background:rgba(207,75,62,0.06);
+  }
+
+  /* News grid */
+  .news-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:22px;
+    padding:80px 0;
+    max-width:1060px;
+    margin:0 auto;
+  }
+  @media (max-width:900px){
+    .news-grid{
+      grid-template-columns:repeat(2, 1fr);
+      gap:18px;
+      padding:60px 26px;
+    }
+  }
+  @media (max-width:620px){
+    .news-grid{
+      grid-template-columns:1fr;
+      gap:16px;
+      padding:40px 26px;
+    }
+  }
+
+  /* News card */
+  .news-card{
+    background:var(--bg-plate);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    transition:all .3s ease;
+  }
+  .news-card:hover{
+    border-color:var(--crack);
+    background:var(--bg-plate-2);
+    transform:translateY(-4px);
+    box-shadow:0 12px 24px rgba(207,75,62,0.15);
+  }
+
+  .news-card .thumb{
+    width:100%;
+    height:200px;
+    background:linear-gradient(135deg, rgba(207,75,62,0.2), rgba(255,157,71,0.1));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:3rem;
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+    position:relative;
+  }
+  .news-card:hover .thumb{
+    background:linear-gradient(135deg, rgba(207,75,62,0.3), rgba(255,157,71,0.2));
+  }
+
+  .news-card .content{
+    padding:20px 20px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    flex-grow:1;
+  }
+
+  .news-card .meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+  }
+
+  .news-card .date{
+    font-family:var(--font-mono);
+    font-size:10px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--muted-2);
+  }
+
+  .news-card .category{
+    font-family:var(--font-mono);
+    font-size:9.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    padding:4px 8px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    color:var(--ember);
+    background:rgba(255,157,71,0.06);
+  }
+  .news-card.category-event .category{
+    border-color:var(--crack);
+    color:var(--crack);
+    background:rgba(207,75,62,0.06);
+  }
+  .news-card.category-update .category{
+    border-color:var(--moss);
+    color:var(--moss);
+    background:rgba(143,168,127,0.06);
+  }
+
+  .news-card .title{
+    font-family:var(--font-display);
+    font-size:1.22rem;
+    font-weight:700;
+    line-height:1.3;
+    color:var(--ink);
+    margin:4px 0 0;
+    flex-grow:1;
+  }
+  .news-card:hover .title{
+    color:var(--crack);
+  }
+
+  .news-card .excerpt{
+    font-size:.92rem;
+    color:var(--muted);
+    line-height:1.5;
+    margin:0;
+  }
+
+  .news-card .read-more{
+    align-self:flex-start;
+    font-family:var(--font-mono);
+    font-size:10px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ember);
+    margin-top:8px;
+    transition:color .2s ease;
+  }
+  .news-card:hover .read-more{
+    color:var(--crack);
+  }
+
+  /* Music control */
+  .music-control{
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    z-index:999;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(26,21,16,0.85);
+    backdrop-filter:blur(10px);
+    color:var(--ember);
+    font-size:1.4rem;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all .3s ease;
+  }
+  .music-control:hover{
+    border-color:var(--ember);
+    background:rgba(26,21,16,0.95);
+    transform:scale(1.1);
+  }
+  .music-control.muted{
+    color:var(--muted);
+    border-color:var(--line);
+  }
+  @keyframes pulseSound{
+    0%, 100%{ transform:scale(1); }
+    50%{ transform:scale(1.08); }
+  }
+  .music-control.playing{
+    animation:pulseSound 2s ease-in-out infinite;
+  }
+
+  /* Footer */
+  footer{
+    border-top:1px solid var(--line);
+    padding:50px 26px;
+    text-align:center;
+    color:var(--muted-2);
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.08em;
+  }
+  footer a{
+    color:var(--ember);
+  }
+
+  /* Mobile optimizations */
+  @media (max-width:620px){
+    nav .nav-links{
+      display:none;
+    }
+    .music-control{
+      bottom:20px;
+      right:20px;
+      width:44px;
+      height:44px;
+      font-size:1.2rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-content">
+    <a href="index.html" class="logo">ASHFALL</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Trang chủ</a></li>
+      <li><a href="map.html">Bản đồ</a></li>
+      <li><a href="studio.html">Studio</a></li>
+      <li><a href="tin-tuc.html">Tin tức</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Audio element -->
+<audio id="bgm" loop>
+  <source src="assets/bgm.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Music control button -->
+<button id="musicControl" class="music-control playing" title="Tắt nhạc / Mute music" aria-label="Điều khiển nhạc nền">🔊</button>
+
+<!-- Header -->
+<div class="news-header">
+  <h1>Tin Tức <em>Ashfall</em></h1>
+  <p class="sub">Cập nhật mới nhất, sự kiện, và tin tức từ TuanViet Studio</p>
+  <div class="filter-tags">
+    <button class="tag-btn active" data-filter="all">Tất cả</button>
+    <button class="tag-btn" data-filter="update">Cập nhật</button>
+    <button class="tag-btn" data-filter="event">Sự kiện</button>
+    <button class="tag-btn" data-filter="guide">Hướng dẫn</button>
+  </div>
+</div>
+
+<!-- News grid -->
+<div class="news-grid">
+  <!-- Card 1 -->
+  <div class="news-card category-update" data-category="update">
+    <div class="thumb">🎮</div>
+    <div class="content">
+      <div class="meta">
+        <span class="date">25/09/2024</span>
+        <span class="category">Cập nhật</span>
+      </div>
+      <h3 class="title">Version 0.2.0 - Thêm Boss Mới</h3>
+      <p class="excerpt">Cập nhật lớn với 3 boss mới, hệ thống vũ khí cải tiến, và tối ưu hóa performance.</p>
+      <a href="#" class="read-more">Đọc thêm →</a>
+    </div>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="news-card category-event" data-category="event">
+    <div class="thumb">🏆</div>
+    <div class="content">
+      <div class="meta">
+        <span class="date">20/09/2024</span>
+        <span class="category">Sự kiện</span>
+      </div>
+      <h3 class="title">Giải Đấu Speedrun Ashfall</h3>
+      <p class="excerpt">Tham gia giải đấu speedrun toàn game, giải thưởng 500K VND cho Top 3.</p>
+      <a href="#" class="read-more">Chi tiết sự kiện →</a>
+    </div>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="news-card category-guide" data-category="guide">
+    <div class="thumb">📖</div>
+    <div class="content">
+      <div class="meta">
+        <span class="date">15/09/2024</span>
+        <span class="category">Hướng dẫn</span>
+      </div>
+      <h3 class="title">Cách Đánh Boss Hiệp Sĩ Tro</h3>
+      <p class="excerpt">Hướng dẫn chi tiết về pattern, điểm yếu, và kỹ năng cần thiết để chiến thắng.</p>
+      <a href="#" class="read-more">Đọc hướng dẫn →</a>
+    </div>
+  </div>
+
+  <!-- Card 4 -->
+  <div class="news-card category-update" data-category="update">
+    <div class="thumb">⚔️</div>
+    <div class="content">
+      <div class="meta">
+        <span class="date">10/09/2024</span>
+        <span class="category">Cập nhật</span>
+      </div>
+      <h3 class="title">Hệ Thống Vũ Khí Cải Tiến</h3>
+      <p class="excerpt">Cân bằng lại các vũ khí, thêm hiệu ứng đặc biệt, và nâng cao tính chiến thuật.</p>
+      <a href="#" class="read-more">Xem chi tiết →</a>
+    </div>
+  </div>
+
+  <!-- Card 5 -->
+  <div class="news-card category-event" data-category="event">
+    <div class="thumb">🎊</div>
+    <div class="content">
+      <div class="meta">
+        <span class="date">05/09/2024</span>
+        <span class="category">Sự kiện</span>
+      </div>
+      <h3 class="title">Ashfall Milestone - 100K Tải</h3>
+      <p class="excerpt">Cảm ơn cộng đồng! Chúng tôi đạt 100K lượt tải. Có phần thưởng đặc biệt sắp tới.</p>
+      <a href="#" class="read-more">Xem phần thưởng →</a>
+    </div>
+  </div>
+
+  <!-- Card 6 -->
+  <div class="news-card category-guide" data-category="guide">
+    <div class="thumb">🛡️</div>
+    <div class="content">
+      <div class="meta">
+        <span class="date">01/09/2024</span>
+        <span class="category">Hướng dẫn</span>
+      </div>
+      <h3 class="title">Chiến Lược Sống Sót - Beginner Guide</h3>
+      <p class="excerpt">Hướng dẫn cho người chơi mới: cách sử dụng phòng thủ, cách quản lý năng lượng.</p>
+      <a href="#" class="read-more">Bắt đầu ngay →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2024 TuanViet Studio. Made with dark souls energy. 🖤</p>
+  <p><a href="index.html">Trang chủ</a> • <a href="https://github.com/TuanVietCoder">GitHub</a> • <a href="studio.html">Liên hệ</a></p>
+</footer>
+
+<!-- Scripts -->
+<script>
+  const bgm = document.getElementById('bgm');
+  const musicControl = document.getElementById('musicControl');
+  bgm.volume = 0.3;
+
+  // Check session storage untuk music state
+  const bgmPaused = sessionStorage.getItem('bgmPaused');
+  if (bgmPaused === 'true') {
+    bgm.pause();
+    musicControl.classList.remove('playing');
+    musicControl.classList.add('muted');
+    musicControl.textContent = '🔇';
+    musicControl.title = 'Bật nhạc / Unmute music';
+  } else {
+    bgm.play().catch(() => {});
+  }
+
+  musicControl.addEventListener('click', function() {
+    if (bgm.paused) {
+      bgm.play();
+      musicControl.classList.remove('muted');
+      musicControl.classList.add('playing');
+      musicControl.textContent = '🔊';
+      musicControl.title = 'Tắt nhạc / Mute music';
+      sessionStorage.setItem('bgmPaused', 'false');
+    } else {
+      bgm.pause();
+      musicControl.classList.add('muted');
+      musicControl.classList.remove('playing');
+      musicControl.textContent = '🔇';
+      musicControl.title = 'Bật nhạc / Unmute music';
+      sessionStorage.setItem('bgmPaused', 'true');
+    }
+  });
+
+  // Filter functionality
+  const filterBtns = document.querySelectorAll('.tag-btn');
+  const newsCards = document.querySelectorAll('.news-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const filter = this.getAttribute('data-filter');
+
+      filterBtns.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+
+      newsCards.forEach(card => {
+        if (filter === 'all') {
+          card.style.display = 'flex';
+        } else {
+          const category = card.getAttribute('data-category');
+          card.style.display = category === filter ? 'flex' : 'none';
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
