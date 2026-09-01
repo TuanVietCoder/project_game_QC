@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Vì sao người trẻ lại mê những tựa game khiến mình chết đi sống lại hàng chục lần? Góc nhìn về tâm lý, áp lực thành tích và văn hóa 'git gud' của Gen Z.">
+<meta name="keywords" content="gen z chơi game gì, game soulslike giới trẻ, tâm lý chơi game khó, game giải tỏa căng thẳng, áp lực thành tích gen z, văn hóa git gud, game chữa lành, boss game khó, soulslike việt nam, ashfall, game khó nhưng công bằng, áp lực học tập giới trẻ, dopamine game, flow state chơi game">
+<meta name="author" content="TuanViet Studio">
+<meta property="og:title" content="Vì Sao Người Trẻ Lại Mê Những Game Khiến Mình 'Chết Đi Sống Lại'?">
+<meta property="og:description" content="Một góc nhìn ấm áp về lý do Gen Z tìm đến những tựa game khó nhất — và vì sao điều đó chẳng có gì kỳ lạ cả.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ashfall.io.vn/blog-post-5.html">
+<meta property="og:image" content="https://ashfall.io.vn/assets/tuanviet-studio-logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vì Sao Người Trẻ Lại Mê Những Game Khiến Mình 'Chết Đi Sống Lại'?">
+<meta name="twitter:description" content="Góc nhìn về tâm lý, áp lực thành tích và văn hóa 'git gud' đằng sau cơn sốt soulslike trong giới trẻ.">
+<title>Vì Sao Người Trẻ Mê Game Cực Khó? Góc Nhìn Đằng Sau Cơn Sốt Soulslike | Ashfall Blog</title>
+<link rel="icon" type="image/png" href="assets/tuanviet-studio-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{
+    --bg:#100d0a;
+    --bg-plate:#1a1510;
+    --bg-plate-2:#221b14;
+    --ink:#efe6d4;
+    --muted:#a99a82;
+    --muted-2:#75695a;
+    --line:rgba(239,230,212,0.14);
+    --line-strong:rgba(239,230,212,0.30);
+    --ember:#ff9d47;
+    --ember-dim:#c97a38;
+    --crack:#cf4b3e;
+    --moss:#8fa87f;
+    --font-display:'Spectral', Georgia, 'Times New Roman', serif;
+    --font-body:'Be Vietnam Pro', -apple-system, 'Segoe UI', sans-serif;
+    --font-mono:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:radial-gradient(ellipse 1100px 620px at 50% -6%, rgba(255,157,71,0.08), transparent 62%),
+      radial-gradient(ellipse 700px 500px at 100% 42%, rgba(207,75,62,0.06), transparent 60%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--crack); color:#1a1208; }
+  a{ color:var(--ember); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  :focus-visible{ outline:2px solid var(--ember); outline-offset:3px; border-radius:2px; }
+
+  nav{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:1000;
+    background:rgba(16,13,10,0.95);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .nav-content{
+    max-width:900px;
+    margin:0 auto;
+    padding:14px 26px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+  }
+  nav .logo{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:1.4rem;
+    color:var(--ember);
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  nav .logo img{ height:35px; width:auto; }
+  nav .nav-links{ display:flex; gap:22px; list-style:none; margin:0; padding:0; }
+  nav .nav-links a{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--muted);
+    transition:color .2s ease;
+  }
+  nav .nav-links a:hover{ color:var(--ember); text-decoration:none; }
+  nav .nav-links a.active{ color:var(--ember); }
+
+  .wrap{ max-width:760px; margin:0 auto; padding:0 26px; }
+  article{ margin-top:80px; padding-bottom:40px; }
+
+  .post-header{ padding:70px 0 32px; border-bottom:1px solid var(--line); margin-bottom:44px; }
+  .kicker{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--ember-dim);
+    margin:0 0 16px;
+  }
+  h1{
+    font-family:var(--font-display);
+    font-size:clamp(1.9rem, 4.4vw, 2.7rem);
+    font-weight:700;
+    line-height:1.22;
+    margin:0 0 18px;
+    color:var(--ink);
+  }
+  h1 em{ color:var(--crack); font-style:normal; }
+  .post-meta{ display:flex; gap:20px; flex-wrap:wrap; font-size:.9rem; color:var(--muted); }
+  .post-meta span::before{ content:'· '; color:var(--muted-2); }
+  .post-meta span:first-child::before{ content:''; }
+
+  .lede{
+    font-family:var(--font-display);
+    font-size:1.22rem;
+    line-height:1.6;
+    color:var(--ink);
+    margin:0 0 8px;
+  }
+
+  h2{
+    font-family:var(--font-display);
+    font-size:1.5rem;
+    font-weight:700;
+    margin:46px 0 16px;
+    color:var(--ink);
+  }
+  h3{
+    font-family:var(--font-display);
+    font-size:1.18rem;
+    font-weight:700;
+    margin:30px 0 12px;
+    color:var(--ember);
+  }
+  p{ margin:0 0 18px; color:var(--ink); font-size:1.01rem; }
+  strong{ color:var(--ember); font-weight:600; }
+  em.soft{ color:var(--muted); font-style:italic; }
+  ul, ol{ margin:16px 0; padding-left:22px; }
+  li{ margin:9px 0; line-height:1.65; }
+
+  blockquote{
+    margin:32px 0;
+    padding:20px 24px;
+    background:var(--bg-plate);
+    border-left:3px solid var(--crack);
+    border-radius:0 8px 8px 0;
+    font-family:var(--font-display);
+    font-style:italic;
+    font-size:1.12rem;
+    color:var(--ink);
+  }
+
+  .pull-stat{
+    display:flex;
+    gap:20px;
+    align-items:center;
+    margin:36px 0;
+    padding:22px 24px;
+    background:var(--bg-plate);
+    border:1px solid var(--line);
+    border-radius:10px;
+  }
+  .pull-stat .num{
+    font-family:var(--font-display);
+    font-size:2.4rem;
+    font-weight:700;
+    color:var(--crack);
+    line-height:1;
+    white-space:nowrap;
+  }
+  .pull-stat p{ margin:0; font-size:.95rem; color:var(--muted); }
+
+  .divider{
+    text-align:center;
+    color:var(--ember-dim);
+    letter-spacing:.4em;
+    font-size:.8rem;
+    margin:48px 0;
+  }
+
+  .cta-box{
+    background:var(--bg-plate);
+    border:1px solid var(--line-strong);
+    border-radius:12px;
+    padding:32px 28px;
+    margin:48px 0;
+    text-align:center;
+  }
+  .cta-box h3{ margin-top:0; color:var(--ink); font-size:1.3rem; }
+  .cta-box p{ color:var(--muted); }
+  .cta-box a{
+    display:inline-block;
+    background:var(--ember);
+    color:#1a1208;
+    padding:13px 28px;
+    border-radius:6px;
+    font-weight:700;
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    margin-top:8px;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .cta-box a:hover{ background:var(--crack); text-decoration:none; transform:translateY(-2px); }
+
+  .related-box{
+    margin-top:40px;
+    padding:22px 24px;
+    background:rgba(207,75,62,0.08);
+    border-radius:10px;
+    border-left:4px solid var(--crack);
+  }
+  .related-box p.label{ margin:0 0 12px; font-weight:600; color:var(--ink); }
+  .related-box ul{ margin:0; padding-left:20px; list-style:disc; }
+  .related-box li{ margin:8px 0; }
+
+  .tags{
+    margin-top:50px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    color:var(--muted);
+    font-size:.88rem;
+  }
+
+  .music-control{
+    position:fixed; bottom:30px; right:30px; z-index:999;
+    width:50px; height:50px; border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(26,21,16,0.85);
+    backdrop-filter:blur(10px);
+    color:var(--ember); font-size:1.4rem; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:all .3s ease;
+  }
+  .music-control:hover{ border-color:var(--ember); transform:scale(1.1); }
+  .music-control.muted{ color:var(--muted); border-color:var(--line); }
+  @keyframes pulseSound{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.08);} }
+  .music-control.playing{ animation:pulseSound 2s ease-in-out infinite; }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:50px 26px;
+    text-align:center;
+    color:var(--muted-2);
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.08em;
+  }
+  footer a{ color:var(--ember); }
+
+  @media (max-width:620px){
+    nav .nav-links{ display:none; }
+    .post-header{ padding-top:56px; }
+    .pull-stat{ flex-direction:column; text-align:center; gap:8px; }
+    .music-control{ bottom:20px; right:20px; width:44px; height:44px; font-size:1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-content">
+    <a href="index.html" class="logo"><img src="assets/tuanviet-studio-logo.png" alt="ASHFALL"></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Trang chủ</a></li>
+      <li><a href="map.html">Bản đồ</a></li>
+      <li><a href="studio.html">Studio</a></li>
+      <li><a href="tin-tuc.html">Tin tức</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+    </ul>
+  </div>
+</nav>
+
+<audio id="bgm" loop><source src="assets/bgm.mp3" type="audio/mpeg"></audio>
+<button id="musicControl" class="music-control playing" title="Tắt nhạc / Mute music" aria-label="Điều khiển nhạc nền">🔊</button>
+
+<div class="wrap">
+  <article>
+    <div class="post-header">
+      <p class="kicker">Góc nhìn · Văn hóa game</p>
+      <h1>Vì sao người trẻ lại mê những tựa game khiến mình <em>chết đi sống lại</em>?</h1>
+      <p class="post-meta">
+        <span>8 tháng 9, 2024</span>
+        <span>TuanViet Studio</span>
+        <span>9 phút đọc</span>
+      </p>
+    </div>
+
+    <p class="lede">1 giờ sáng. Một bạn trẻ ngồi trước màn hình, vừa thua con boss thứ 47 lần liên tiếp. Tay hơi mỏi, mắt hơi cay. Nhưng thay vì tắt máy trong ấm ức, bạn ấy bật cười, gõ nhẹ vào bàn phím: "Lần này gần lắm rồi" — rồi bấm Thử Lại.</p>
+
+    <p>Nếu bạn không chơi loại game này, cảnh tượng đó nghe có vẻ hơi... tự hành hạ bản thân. Nhưng nếu bạn từng ở trong khoảnh khắc ấy, bạn sẽ hiểu: đó không phải là đau khổ. Đó là một trong những cảm giác trong trẻo nhất mà một trò chơi có thể mang lại.</p>
+
+    <p>Vài năm gần đây, dòng game <strong>soulslike</strong> — thể loại nổi tiếng vì độ khó "không khoan nhượng" — đã từ một ngách nhỏ dành cho dân hardcore trở thành một hiện tượng văn hóa thực sự trong giới trẻ. Không phải vì nó dễ tiếp cận hơn. Ngược lại — nó vẫn khó, vẫn khắc nghiệt như trước. Vậy điều gì đang thực sự xảy ra?</p>
+
+    <h2>Một thế hệ lớn lên với "mọi thứ chỉ cách một cú chạm"</h2>
+    <p>Gen Z là thế hệ đầu tiên lớn lên khi mọi câu trả lời đều có sẵn trong túi quần. Không biết nấu gì — hỏi. Không hiểu bài — tra ngay. Muốn xem phim — bấm play, không cần chờ băng tua lại. Sự tiện lợi ấy tuyệt vời, nhưng nó cũng âm thầm lấy đi một thứ: <strong>cảm giác tự mình vượt qua một điều gì đó thật sự khó</strong>.</p>
+
+    <p>Và có lẽ đó chính là lý do vì sao, giữa hàng nghìn tựa game mời gọi bằng phần thưởng dễ dàng, vòng quay may mắn, hay những "combo tự động" — rất nhiều người trẻ lại quay sang chọn một tựa game <em class="soft">không nương tay với họ một chút nào</em>. Không phải vì họ thích bị hành. Mà vì họ đang tìm lại một cảm giác mà cuộc sống hiện đại ngày càng hiếm khi cho phép: <strong>được thất bại, và được thử lại, mà không ai đánh giá.</strong></p>
+
+    <blockquote>
+      "Ở ngoài đời, thất bại một lần là cả một câu chuyện — điểm số, ánh mắt, bình luận. Nhưng trong game, thua boss lần thứ 50 chỉ có nghĩa là: lần thứ 51 mình sẽ giỏi hơn một chút."
+    </blockquote>
+
+    <h2>Áp lực "phải hoàn hảo" — và một khoảng trời được phép sai</h2>
+    <p>Không cần số liệu nghiên cứu nào để nhận ra: người trẻ hôm nay đang sống dưới một áp lực thành tích chưa từng có. Điểm số phải cao. Hồ sơ phải đẹp. Mạng xã hội thì lúc nào cũng trưng ra phiên bản hoàn hảo nhất của người khác, khiến ai cũng vô thức so sánh mình với một chuẩn mực không có thật.</p>
+
+    <p>Trong bối cảnh đó, một trò chơi mà ở đó <strong>thất bại là một phần được thiết kế sẵn của trải nghiệm</strong> — nơi bạn thua không phải vì bạn "kém", mà đơn giản vì bạn chưa học xong bài học của trận đấu — lại trở thành một nơi trú ẩn kỳ lạ mà dễ chịu. Không ai chấm điểm số lần bạn ngã. Không ai đăng story chê bai. Chỉ có bạn, con boss, và cơ hội thử lại ngay lập tức.</p>
+
+    <p>Đó là một dạng <strong>không gian an toàn để thất bại</strong> — thứ mà rất nhiều bạn trẻ đang thiếu ở ngoài đời thực.</p>
+
+    <div class="pull-stat">
+      <div class="num">10x</div>
+      <p>Trung bình một người chơi thử lại một trận boss khó gấp <strong>khoảng 10 lần</strong> trước khi thắng — và phần lớn nói rằng cảm giác chiến thắng sau đó "đáng giá hơn bất kỳ chiến thắng dễ dàng nào" họ từng có trong game khác.</p>
+    </div>
+
+    <h2>Khoa học đứng sau cảm giác "đã" khi thắng một trận khó</h2>
+    <p>Có một lý do rất con người đằng sau chuyện này, và nó liên quan đến cách não bộ xử lý phần thưởng. Khi bạn lướt mạng xã hội, mỗi lượt thích, mỗi video mới đều cho não một liều dopamine nhỏ, tức thời — dễ dàng, nhưng cũng trôi qua rất nhanh, để lại cảm giác trống rỗng nếu lặp lại quá nhiều.</p>
+
+    <p>Ngược lại, khi bạn dồn hết tập trung để học một pattern boss, thất bại, điều chỉnh, thử lại — và cuối cùng thắng — não bộ giải phóng dopamine theo một cách hoàn toàn khác: chậm hơn, nhưng sâu và bền hơn nhiều. Các nhà tâm lý học gọi trạng thái tập trung cao độ đó là <strong>flow</strong> — nơi thời gian như biến mất, và mọi giác quan chỉ còn tập trung vào một việc duy nhất.</p>
+
+    <p>Nói cách khác: những tựa game khó không "tra tấn" người chơi. Chúng đang <strong>cho mượn tạm một cảm giác làm chủ</strong> mà cuộc sống thường ngày, với vô vàn biến số nằm ngoài tầm kiểm soát, hiếm khi mang lại một cách rõ ràng và công bằng đến vậy.</p>
+
+    <div class="divider">⚔ ⚔ ⚔</div>
+
+    <h2>Văn hóa "git gud" — nghiêm khắc nhưng không hề đơn độc</h2>
+    <p>Nếu bạn từng lướt qua cộng đồng game khó, chắc bạn đã thấy câu nói quen thuộc: <strong>"git gud"</strong> (chơi cho giỏi lên). Nghe qua có vẻ khắc nghiệt, thậm chí hơi phũ. Nhưng nhìn kỹ hơn, đó lại là một trong những nét văn hóa cộng đồng ấm áp nhất mà giới trẻ đang xây dựng cho nhau.</p>
+
+    <p>Đằng sau câu nói tưởng như lạnh lùng ấy là một niềm tin chung: <strong>ai cũng có thể giỏi lên, miễn là không bỏ cuộc</strong>. Không có khái niệm "tài năng bẩm sinh" ở đây — chỉ có số lần thử, số lần quan sát, số lần điều chỉnh. Trong các cộng đồng này, người chơi chia sẻ mẹo cho nhau, an ủi nhau sau một lần thua đau, và cùng nhau ăn mừng khi ai đó cuối cùng cũng vượt qua được con boss "ác mộng".</p>
+
+    <p>Đó là một dạng đồng cảm rất riêng: không phải "để tôi làm hộ bạn", mà là "tôi tin bạn làm được, và tôi sẽ ở đây khi bạn cần".</p>
+
+    <h2>Và vì sao điều này lại đặc biệt đúng với người trẻ Việt Nam</h2>
+    <p>Ở Việt Nam, áp lực "phải giỏi, phải hơn người, phải thành công sớm" có lẽ còn nặng nề hơn nhiều nơi khác. Từ áp lực thi cử, áp lực chọn ngành, đến áp lực phải có một cuộc sống "đáng khoe" trên mạng xã hội trước tuổi 25. Giữa những kỳ vọng dồn dập ấy, nhiều bạn trẻ đang âm thầm tìm một nơi mà thành công chỉ phụ thuộc vào duy nhất một điều: <strong>chính họ, và sự kiên trì của họ</strong>.</p>
+
+    <p>Không có ai "quen biết" giúp bạn qua ải. Không có tiền nào mua được kỹ năng đọc pattern boss. Không có xuất phát điểm nào khiến trận đấu dễ hơn cho người này, khó hơn cho người kia. Tất cả đều công bằng — điều mà, thành thật mà nói, không phải lúc nào cũng dễ tìm thấy ở ngoài đời.</p>
+
+    <h2>Ashfall — được làm bởi những người trẻ, hiểu rõ điều đó</h2>
+    <p><strong>Ashfall</strong> ra đời từ chính suy nghĩ ấy. TuanViet Studio không muốn làm một tựa game chiều lòng người chơi bằng những phần thưởng rẻ tiền hay hệ thống "cày cuốc" vô nghĩa. Chúng mình muốn làm một nơi mà bất kỳ ai — dù mới bắt đầu hay đã chơi game nhiều năm — đều có thể bước vào với cùng một xuất phát điểm, và bước ra với một cảm giác thật sự tự hào vì chính họ đã làm được.</p>
+
+    <p>Không vũ khí nào "mạnh hơn" chỉ vì bạn trả tiền. Không đường tắt nào bỏ qua việc học pattern của boss. Chỉ có bạn, cây kiếm trong tay, và một câu hỏi duy nhất: <em class="soft">lần này, bạn đã sẵn sàng nhìn kỹ hơn chưa?</em></p>
+
+    <p>Đó cũng là lý do đằng sau câu tagline mà rất nhiều bạn đã thấy trên trang chủ của tụi mình: <strong>"Chỉ có kỹ năng mới chiến thắng được tất cả."</strong> Không phải một câu khẩu hiệu để nghe cho ngầu — mà là một lời hứa. Ashfall sẽ không bao giờ dễ dãi với bạn. Nhưng đổi lại, nó sẽ luôn công bằng.</p>
+
+    <div class="cta-box">
+      <h3>Sẵn sàng thử thách chính mình chưa?</h3>
+      <p>Không quảng cáo hoa mỹ, không hứa hẹn dễ dàng. Chỉ có một thế giới pixel art khắc nghiệt, và cơ hội để bạn tự chứng minh bản thân — từng nhát kiếm một.</p>
+      <a href="index.html">Chơi Ashfall Ngay</a>
+    </div>
+
+    <h2>Lời kết: có những thứ đáng để "chết đi sống lại" vì nó</h2>
+    <p>Vậy nên, lần tới nếu bạn thấy ai đó thua boss lần thứ 50 mà vẫn cười, đừng vội nghĩ họ đang tự làm khổ mình. Rất có thể, họ đang tìm thấy một trong số ít những nơi mà nỗ lực luôn được đền đáp đúng như những gì họ bỏ ra — không hơn, không kém, không cần ai công nhận ngoài chính bản thân mình.</p>
+
+    <p>Và biết đâu, đó cũng chính xác là điều bạn đang cần lúc này.</p>
+
+    <div class="related-box">
+      <p class="label">📖 Đọc thêm trên blog Ashfall:</p>
+      <ul>
+        <li><a href="blog-post-3.html">Lý Thuyết Game Design: Tại Sao Soulslike Khó Lại Cuốn Hút →</a></li>
+        <li><a href="blog-post-2.html">Hướng Dẫn Boss Hiệp Sĩ Tro - Chiến Lược & Pattern Recognition →</a></li>
+        <li><a href="blog-post-1.html">Ashfall - Game Soulslike Tốt Nhất 2024: Phân Tích Chi Tiết →</a></li>
+      </ul>
+    </div>
+
+    <p class="tags"><strong>Tags:</strong> #GenZ #SoulslikeCulture #TâmLýChơiGame #GitGud #Ashfall #GameViệtNam</p>
+  </article>
+</div>
+
+<footer>
+  <p>&copy; 2024 TuanViet Studio. Made with dark souls energy. 🖤</p>
+  <p><a href="index.html">Trang chủ</a> • <a href="https://github.com/TuanVietCoder">GitHub</a> • <a href="studio.html">Liên hệ</a></p>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Vì Sao Người Trẻ Lại Mê Những Game Khiến Mình 'Chết Đi Sống Lại'?",
+  "description": "Góc nhìn về tâm lý, áp lực thành tích và văn hóa git gud đằng sau cơn sốt soulslike trong giới trẻ.",
+  "image": "https://ashfall.io.vn/assets/tuanviet-studio-logo.png",
+  "datePublished": "2024-09-08",
+  "dateModified": "2024-09-08",
+  "author": { "@type": "Organization", "name": "TuanViet Studio", "url": "https://ashfall.io.vn" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TuanViet Studio",
+    "logo": { "@type": "ImageObject", "url": "https://ashfall.io.vn/assets/tuanviet-studio-logo.png" }
+  },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ashfall.io.vn/blog-post-5.html" }
+}
+</script>
+
+<script>
+  const bgm = document.getElementById('bgm');
+  const musicControl = document.getElementById('musicControl');
+  bgm.volume = 0.3;
+
+  const bgmPaused = sessionStorage.getItem('bgmPaused');
+  if (bgmPaused === 'true') {
+    bgm.pause();
+    musicControl.classList.remove('playing');
+    musicControl.classList.add('muted');
+    musicControl.textContent = '🔇';
+    musicControl.title = 'Bật nhạc / Unmute music';
+  } else {
+    bgm.play().catch(() => {});
+  }
+
+  musicControl.addEventListener('click', function() {
+    if (bgm.paused) {
+      bgm.play();
+      musicControl.classList.remove('muted');
+      musicControl.classList.add('playing');
+      musicControl.textContent = '🔊';
+      musicControl.title = 'Tắt nhạc / Mute music';
+      sessionStorage.setItem('bgmPaused', 'false');
+    } else {
+      bgm.pause();
+      musicControl.classList.add('muted');
+      musicControl.classList.remove('playing');
+      musicControl.textContent = '🔇';
+      musicControl.title = 'Bật nhạc / Unmute music';
+      sessionStorage.setItem('bgmPaused', 'true');
+    }
+  });
+</script>
+
+</body>
+</html>
