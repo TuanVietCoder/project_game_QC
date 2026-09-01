@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Hướng Dẫn Boss Hiệp Sĩ Tro - Chiến Lược Pattern Recognition, điểm yếu, và kỹ năng cần thiết để chiến thắng trận đấu khó nhất Ashfall.">
+<meta name="keywords" content="boss guide, Hiệp Sĩ Tro, pattern recognition, game strategy, boss fight, Ashfall guide, game tips">
+<meta name="author" content="TuanViet Studio">
+<meta property="og:title" content="Hướng Dẫn Boss Hiệp Sĩ Tro - Chiến Lược & Pattern Recognition">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ashfall.io.vn/blog-post-2.html">
+<title>Hướng Dẫn Boss Hiệp Sĩ Tro | Ashfall Game Guide</title>
+<link rel="icon" type="image/png" href="assets/tuanviet-studio-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{
+    --bg:#100d0a;
+    --bg-plate:#1a1510;
+    --bg-plate-2:#221b14;
+    --ink:#efe6d4;
+    --muted:#a99a82;
+    --muted-2:#75695a;
+    --line:rgba(239,230,212,0.14);
+    --ember:#ff9d47;
+    --crack:#cf4b3e;
+    --font-display:'Spectral', Georgia, 'Times New Roman', serif;
+    --font-body:'Be Vietnam Pro', -apple-system, 'Segoe UI', sans-serif;
+    --font-mono:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:radial-gradient(ellipse 1100px 620px at 50% -6%, rgba(255,157,71,0.08), transparent 62%),
+      radial-gradient(ellipse 700px 500px at 100% 42%, rgba(207,75,62,0.06), transparent 60%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:var(--ember); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  .wrap{ max-width:900px; margin:0 auto; padding:60px 26px; }
+  nav{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:1000;
+    background:rgba(16,13,10,0.95);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .nav-content{
+    max-width:900px;
+    margin:0 auto;
+    padding:14px 26px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  nav .logo{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:1.4rem;
+    color:var(--ember);
+  }
+  nav .nav-links{
+    display:flex;
+    gap:22px;
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  nav .nav-links a{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  article{ margin-top:80px; }
+  .post-header{ padding-bottom:30px; border-bottom:1px solid var(--line); margin-bottom:40px; }
+  h1{ font-family:var(--font-display); font-size:clamp(1.8rem, 4vw, 2.6rem); font-weight:700; margin:0 0 12px; color:var(--ink); }
+  h1 em{ color:var(--crack); font-style:normal; }
+  .post-meta{ display:flex; gap:20px; flex-wrap:wrap; font-size:.92rem; color:var(--muted); }
+  h2{ font-family:var(--font-display); font-size:1.6rem; font-weight:700; margin:40px 0 16px; color:var(--ink); }
+  h3{ font-family:var(--font-display); font-size:1.3rem; font-weight:700; margin:28px 0 12px; color:var(--ink); }
+  p{ margin:0 0 18px; }
+  strong{ color:var(--ember); font-weight:600; }
+  ul, ol{ margin:16px 0; padding-left:24px; }
+  li{ margin:8px 0; line-height:1.6; }
+  .cta-box{ background:var(--bg-plate); border:1px solid var(--line); border-radius:10px; padding:24px; margin:40px 0; text-align:center; }
+  .cta-box a{ display:inline-block; background:var(--ember); color:#1a1208; padding:12px 24px; border-radius:5px; font-weight:600; }
+  .music-control{ position:fixed; bottom:30px; right:30px; z-index:999; width:50px; height:50px; border-radius:50%; border:1px solid var(--line); background:rgba(26,21,16,0.85); color:var(--ember); font-size:1.4rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  footer{ border-top:1px solid var(--line); padding:50px 26px; text-align:center; margin-top:60px; color:var(--muted-2); }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-content">
+    <a href="index.html" class="logo">ASHFALL</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Trang chủ</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="studio.html">Studio</a></li>
+    </ul>
+  </div>
+</nav>
+<audio id="bgm" loop><source src="assets/bgm.mp3" type="audio/mpeg"></audio>
+<button id="musicControl" class="music-control playing">🔊</button>
+
+<div class="wrap">
+  <article>
+    <div class="post-header">
+      <h1>Hướng Dẫn Boss Hiệp Sĩ Tro - <em>Chiến Lược & Pattern Recognition</em></h1>
+      <div class="post-meta">
+        <span>25 tháng 8, 2024</span>
+        <span>TuanViet Studio</span>
+        <span>10 phút đọc</span>
+      </div>
+    </div>
+
+    <h2>Giới Thiệu Boss Hiệp Sĩ Tro</h2>
+    <p>Hiệp Sĩ Tro là một trong những boss khó nhất trong Ashfall. Đây không chỉ là một trận đấu về sức mạnh, mà về <strong>kỹ năng, độc lập tính, và khả năng đọc pattern</strong>. Nếu bạn muốn chiến thắng, bạn cần phải học cách chơi thông minh.</p>
+
+    <h2>Chuẩn Bị Trước Khi Đánh Boss</h2>
+    <h3>Lựa Chọn Vũ Khí</h3>
+    <ul>
+      <li><strong>Kiếm Dài Tro:</strong> Cân bằng, an toàn nhất cho người mới</li>
+      <li><strong>Thương Xám:</strong> DPS cao, cần timing tốt</li>
+      <li><strong>Đạt Kiếm Vô:</strong> Sát thương khủng, rất rủi ro</li>
+    </ul>
+    <p>Khuyến khích: <strong>Kiếm Dài Tro</strong> cho lần đầu tiên.</p>
+
+    <h3>Prepare Mindset</h3>
+    <p>Trước khi vào trận, hãy nhớ: <strong>Boss này sẽ đánh bại bạn lần đầu</strong>. Điều này là bình thường! Mục tiêu của bạn trong vòng thứ nhất là:</p>
+    <ul>
+      <li>Quan sát các pattern của boss</li>
+      <li>Tìm hiểu điểm yếu</li>
+      <li>Học cách phòng thủ</li>
+    </ul>
+
+    <h2>Phase 1: Những Pattern Chính</h2>
+    <p>Hiệp Sĩ Tro có khoảng 4-5 pattern chính:</p>
+
+    <h3>Pattern 1: Combo Kiếm (3-4 nhát)</h3>
+    <p><strong>Nhận dạng:</strong> Boss nhấc kiếm lên, hô to</p>
+    <p><strong>Cách đối phó:</strong> Roll lùi 2-3 lần, sau đó counter-attack</p>
+    <p><strong>Cơ hội tấn công:</strong> Sau pattern này, boss có 2-3 giây recovery</p>
+
+    <h3>Pattern 2: Charge Tấn Công</h3>
+    <p><strong>Nhận dạng:</strong> Boss chạy lại phía bạn với kiếm hạ thấp</p>
+    <p><strong>Cách đối phó:</strong> Roll sang trái HOẶC phải (không roll lùi!)</p>
+    <p><strong>Cơ hội tấn công:</strong> Charge ở sau, bạn có 3-4 giây để tấn công</p>
+
+    <h3>Pattern 3: AOE Spin Attack</h3>
+    <p><strong>Nhận dạng:</strong> Boss quay tròn với kiếm rộng</p>
+    <p><strong>Cách đối phó:</strong> Roll lùi xa, không counterattack</p>
+    <p><strong>Chú ý:</strong> Pattern này xuất hiện khi boss HP dưới 50%</p>
+
+    <h2>Phase 2: Khi Boss HP Dưới 50%</h2>
+    <p>Khi HP boss dưới 50%, boss sẽ:</p>
+    <ul>
+      <li>Tấn công nhanh hơn</li>
+      <li>Thêm AOE spin attack</li>
+      <li>Ít recovery time</li>
+    </ul>
+    <p><strong>Chiến lược:</strong> Tấn công bé bé nhưng thường xuyên. Đừng try đánh quá nhiều một lúc.</p>
+
+    <h2>Top Tips Chiến Thắng</h2>
+    <ol>
+      <li><strong>Dodge > Damage:</strong> Phòng thủ tốt hơn tấn công</li>
+      <li><strong>Learn Patterns:</strong> Chơi 5-10 lần để quen với pattern</li>
+      <li><strong>Manage HP:</strong> Không bao giờ để HP dưới 30%</li>
+      <li><strong>Patience:</strong> Cuộc chiến này kéo dài 3-5 phút là bình thường</li>
+      <li><strong>Practice Rolling:</strong> Dodge đúng là chìa khóa</li>
+    </ol>
+
+    <h2>Video Reference & More Tips</h2>
+    <p>Nếu bạn còn gặp khó khăn, hãy:</p>
+    <ul>
+      <li>Xem lại các tutorial video trên YouTube</li>
+      <li>Thử vũ khí khác nhau</li>
+      <li>Luyện tập dodge ở các enemy khác</li>
+      <li>Tham gia cộng đồng <a href="studio.html">TuanViet Studio</a> để hỏi tips</li>
+    </ul>
+
+    <div class="cta-box">
+      <h3>Sẵn Sàng Chiến Thắng?</h3>
+      <p>Áp dụng những chiến lược này và hãy chuẩn bị cho chiến thắng của bạn!</p>
+      <a href="index.html">Chơi Ashfall Ngay</a>
+    </div>
+
+    <p style="margin-top:60px; padding-top:20px; border-top:1px solid var(--line); color:var(--muted); font-size:.9rem;">
+      <strong>Tags:</strong> #BossGuide #GameTips #Ashfall #PatternRecognition #Strategy
+    </p>
+  </article>
+</div>
+
+<footer>
+  <p>&copy; 2024 TuanViet Studio. <a href="index.html">Trang chủ</a> • <a href="blog.html">Blog</a></p>
+</footer>
+
+<script>
+  const bgm = document.getElementById('bgm');
+  const mc = document.getElementById('musicControl');
+  bgm.volume = 0.3;
+  bgm.play().catch(() => {});
+  mc.addEventListener('click', function() {
+    bgm.paused ? bgm.play() : bgm.pause();
+    mc.textContent = bgm.paused ? '🔇' : '🔊';
+  });
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Hướng Dẫn Boss Hiệp Sĩ Tro - Chiến Lược & Pattern Recognition",
+  "datePublished": "2024-08-25",
+  "author": {"@type": "Organization", "name": "TuanViet Studio"}
+}
+</script>
+
+</body>
+</html>
