@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tuấn Việt — TuanViet Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{
+    --bg:#100d0a;
+    --bg-plate:#1a1510;
+    --bg-plate-2:#221b14;
+    --ink:#efe6d4;
+    --muted:#a99a82;
+    --muted-2:#75695a;
+    --line:rgba(239,230,212,0.14);
+    --line-strong:rgba(239,230,212,0.30);
+    --ember:#ff9d47;
+    --ember-dim:#c97a38;
+    --crack:#cf4b3e;
+    --moss:#8fa87f;
+    --font-display:'Spectral', Georgia, 'Times New Roman', serif;
+    --font-body:'Be Vietnam Pro', -apple-system, 'Segoe UI', sans-serif;
+    --font-mono:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:
+      radial-gradient(ellipse 900px 520px at 50% -8%, rgba(255,157,71,0.12), transparent 64%),
+      var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.68;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--ember); color:#1a1208; }
+  a{ color:var(--ember); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  :focus-visible{ outline:2px solid var(--ember); outline-offset:3px; border-radius:2px; }
+
+  .wrap{ max-width:760px; margin:0 auto; padding:0 26px; }
+
+  /* top row */
+  .top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:22px 0 0;
+  }
+  .back{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .lang{
+    display:flex;
+    font-family:var(--font-mono);
+    font-size:11px;
+    font-weight:700;
+    border:1px solid var(--line-strong);
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .lang button{
+    background:transparent; border:none; color:var(--muted-2);
+    padding:6px 11px; cursor:pointer;
+  }
+  .lang button[aria-pressed="true"]{ color:#1a1208; background:var(--ember); }
+
+  /* hero */
+  .hero{ padding:64px 0 20px; display:flex; gap:28px; align-items:center; flex-wrap:wrap; }
+  .avatar{
+    width:120px; height:120px;
+    flex:none;
+    border-radius:50%;
+    background-image:url(assets/avatar.jpg);
+    background-size:232%;
+    background-position:57% 21%;
+    background-repeat:no-repeat;
+    border:2px solid var(--ember-dim);
+    box-shadow:0 8px 30px rgba(207,75,62,0.28);
+  }
+  .hero .who h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(2rem, 6vw, 3rem);
+    margin:0;
+    letter-spacing:.01em;
+    text-wrap:balance;
+  }
+  .hero .who .role{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ember-dim);
+    margin:10px 0 0;
+  }
+
+  section{ padding:40px 0; border-top:1px solid var(--line); }
+  section:first-of-type{ border-top:none; }
+  h2{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--muted-2);
+    margin:0 0 18px;
+  }
+  p{ margin:0 0 14px; color:var(--ink); }
+  p:last-child{ margin-bottom:0; }
+  .lead{ color:var(--muted); }
+
+  .projects{ display:flex; flex-direction:column; gap:14px; }
+  .proj{
+    display:block;
+    background:var(--bg-plate);
+    border:1px solid var(--line);
+    border-radius:11px;
+    padding:20px 22px;
+    transition:border-color .16s ease, transform .16s ease;
+  }
+  .proj:hover{ border-color:var(--ember-dim); transform:translateY(-1px); text-decoration:none; }
+  .proj .pn{ font-family:var(--font-display); font-size:1.2rem; font-weight:700; color:var(--ink); }
+  .proj .pd{ font-size:.92rem; color:var(--muted); margin-top:4px; }
+  .proj .pt{
+    font-family:var(--font-mono); font-size:10px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--ember-dim); margin-top:10px;
+  }
+
+  .now{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px; }
+  .now li{ position:relative; padding-left:22px; color:var(--ink); }
+  .now li::before{
+    content:""; position:absolute; left:0; top:9px;
+    width:7px; height:7px; border-radius:50%;
+    background:var(--ember); box-shadow:0 0 8px rgba(255,157,71,0.5);
+  }
+  .now li b{ font-weight:600; }
+  .now li span{ display:block; font-size:.88rem; color:var(--muted); }
+
+  .stack{ display:flex; flex-wrap:wrap; gap:8px 10px; }
+  .stack span{
+    font-family:var(--font-mono); font-size:11px;
+    color:var(--muted); border:1px solid var(--line);
+    border-radius:999px; padding:6px 13px;
+  }
+
+  .contact a{ display:inline-flex; align-items:center; gap:8px; margin-right:20px; font-family:var(--font-mono); font-size:13px; }
+
+  footer{
+    padding:40px 0 60px;
+    border-top:1px solid var(--line);
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--muted-2);
+    letter-spacing:.03em;
+  }
+
+  /* Music Control Button */
+  .music-control{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    z-index:999;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:rgba(255,157,71,0.15);
+    border:2px solid #ff9d47;
+    color:#ff9d47;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    transition:all .2s ease;
+    box-shadow:0 4px 12px rgba(255,157,71,0.2);
+  }
+  .music-control:hover{
+    background:rgba(255,157,71,0.25);
+    box-shadow:0 6px 16px rgba(255,157,71,0.3);
+    transform:scale(1.08);
+  }
+  .music-control.playing{
+    animation:pulseSound 0.6s ease-in-out infinite;
+  }
+  @keyframes pulseSound{
+    0%, 100%{ transform:scale(1); }
+    50%{ transform:scale(1.05); }
+  }
+  .music-control.muted{
+    background:rgba(127,115,100,0.15);
+    border-color:#8b7d6b;
+    color:#8b7d6b;
+  }
+  .music-control.muted:hover{
+    background:rgba(127,115,100,0.25);
+    box-shadow:0 6px 16px rgba(127,115,100,0.2);
+  }
+
+  @media (max-width:620px){
+    .music-control{
+      width:45px;
+      height:45px;
+      bottom:15px;
+      right:15px;
+      font-size:20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Background Music -->
+<audio id="bgm" loop>
+  <source src="assets/bgm.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Music Control Button -->
+<button id="musicControl" class="music-control playing" title="Tắt nhạc / Mute music" aria-label="Điều khiển nhạc nền">🔊</button>
+
+<script>
+  const bgm = document.getElementById('bgm');
+  const musicControl = document.getElementById('musicControl');
+  bgm.volume = 0.3;
+
+  musicControl.addEventListener('click', function() {
+    if (bgm.paused) {
+      bgm.play();
+      musicControl.classList.remove('muted');
+      musicControl.classList.add('playing');
+      musicControl.textContent = '🔊';
+      musicControl.title = 'Tắt nhạc / Mute music';
+      sessionStorage.setItem('bgmPaused', 'false');
+    } else {
+      bgm.pause();
+      musicControl.classList.add('muted');
+      musicControl.classList.remove('playing');
+      musicControl.textContent = '🔇';
+      musicControl.title = 'Bật nhạc / Unmute music';
+      sessionStorage.setItem('bgmPaused', 'true');
+    }
+  });
+
+  const savedTime = sessionStorage.getItem('bgmTime');
+  const wasPaused = sessionStorage.getItem('bgmPaused') === 'true';
+
+  if (savedTime) {
+    bgm.currentTime = parseFloat(savedTime);
+  }
+
+  if (wasPaused) {
+    bgm.pause();
+    musicControl.classList.add('muted');
+    musicControl.classList.remove('playing');
+    musicControl.textContent = '🔇';
+  } else {
+    bgm.play().catch(function(error) {
+      document.addEventListener('click', function playOnFirstInteraction() {
+        bgm.play();
+        musicControl.classList.remove('muted');
+        musicControl.classList.add('playing');
+        document.removeEventListener('click', playOnFirstInteraction);
+      }, { once: true });
+    });
+  }
+
+  window.addEventListener('beforeunload', function() {
+    sessionStorage.setItem('bgmTime', bgm.currentTime);
+  });
+</script>
+
+<div class="wrap">
+
+  <div class="top">
+    <a class="back" href="index.html" data-en="← Back to Ashfall">← Về trang Ashfall</a>
+    <div class="lang" role="group" aria-label="Ngôn ngữ / Language">
+      <button type="button" data-lang="vi" aria-pressed="true">VI</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="avatar" role="img" aria-label="Tuấn Việt"></div>
+    <div class="who">
+      <h1>Tuấn Việt</h1>
+      <p class="role" data-en="Solo game developer · TuanViet Studio">Lập trình game một mình · TuanViet Studio</p>
+    </div>
+  </header>
+
+  <section>
+    <h2 data-en="About">Giới thiệu</h2>
+    <p data-en="I'm an independent developer in Vietnam. I build small games end to end — design, code, and the tooling around them — and care most about how a fight <em>feels</em> moment to moment.">Mình là một lập trình viên độc lập ở Việt Nam. Mình làm những game nhỏ từ đầu đến cuối — thiết kế, code, và cả công cụ đi kèm — và quan tâm nhất tới cảm giác <em>từng khoảnh khắc</em> trong một trận đấu.</p>
+    <p class="lead" data-en="Right now most of my time goes to Ashfall — a top-down pixel-art soulslike for mobile, built in Godot.">Hiện tại phần lớn thời gian mình dồn vào Ashfall — một soulslike pixel-art nhìn từ trên xuống cho điện thoại, làm bằng Godot.</p>
+  </section>
+
+  <section>
+    <h2 data-en="Currently">Hiện tại</h2>
+    <ul class="now">
+      <li data-en="<b>MSc in Information Technology</b> — Ho Chi Minh City University of Industry and Trade (HUIT)<span>in progress</span>"><b>Học Thạc sĩ Công nghệ thông tin</b> — Đại học Công Thương TP.HCM (HUIT)<span>đang học</span></li>
+      <li data-en="<b>Pedagogical training program</b> — Hanoi Pedagogical University 2<span>in progress</span>"><b>Học Nghiệp vụ sư phạm</b> — Đại học Sư phạm Hà Nội 2<span>đang học</span></li>
+      <li data-en="<b>Working in Viettel outsourcing</b> — Tan Phu branch"><b>Làm việc tại outsource Viettel</b> — chi nhánh Tân Phú</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 data-en="Projects">Dự án</h2>
+    <div class="projects">
+      <a class="proj" href="index.html">
+        <div class="pn">Ashfall / Tro Tàn</div>
+        <div class="pd" data-en="A pixel-art soulslike for mobile. Boss moves and weapons are all editor scenes; the boss telegraphs by posture, not by floor markers.">Soulslike pixel-art cho điện thoại. Chiêu boss và vũ khí đều là scene trong editor; boss báo đòn bằng tư thế, không phải ô đỏ dưới sàn.</div>
+        <div class="pt">Godot 4.3 · GDScript · đang phát triển</div>
+      </a>
+      <a class="proj" href="https://github.com/TuanVietCoder">
+        <div class="pn" data-en="Other experiments">Vài thứ nhỏ khác</div>
+        <div class="pd" data-en="Desktop toys, notes tools, browser extensions — the stuff that starts as &quot;what if&quot; on a weekend.">Đồ chơi desktop, công cụ ghi chú, extension trình duyệt — mấy thứ bắt đầu từ câu &quot;thử xem sao&quot; vào cuối tuần.</div>
+        <div class="pt" data-en="See more on GitHub">Xem thêm trên GitHub</div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-en="Tools I reach for">Công cụ hay dùng</h2>
+    <div class="stack">
+      <span>Godot 4</span>
+      <span>GDScript</span>
+      <span>C#</span>
+      <span>HTML / CSS / JS</span>
+      <span data-en="Pixel art">Pixel art</span>
+      <span>Git</span>
+      <span data-en="Game / combat design">Thiết kế game / combat</span>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-en="Get in touch">Liên hệ</h2>
+    <p class="contact">
+      <a href="https://github.com/TuanVietCoder">GitHub ↗</a>
+      <a href="mailto:wannacry74123@gmail.com">Email ↗</a>
+    </p>
+    <p class="lead" style="margin-top:14px;font-size:.9rem" data-en="Open to collaboration on Ashfall — pixel art, sound, or level design. Say hi.">Sẵn sàng hợp tác cho Ashfall — pixel art, âm thanh, hoặc thiết kế màn. Cứ nhắn mình.</p>
+  </section>
+
+  <footer data-en="TuanViet Studio · personal page · a work in progress">TuanViet Studio · trang cá nhân · còn đang hoàn thiện</footer>
+
+</div>
+
+<script>
+  (function(){
+    function load(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+    function store(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+    var els = [].slice.call(document.querySelectorAll('[data-en]'));
+    els.forEach(function(el){ el.dataset.vi = el.innerHTML.trim(); });
+    var btns = document.querySelectorAll('.lang button');
+    var lang = load('ashfall_lang') === 'en' ? 'en' : 'vi';
+    function apply(next){
+      lang = next;
+      document.documentElement.setAttribute('lang', lang === 'en' ? 'en' : 'vi');
+      els.forEach(function(el){ el.innerHTML = lang === 'en' ? el.dataset.en : el.dataset.vi; });
+      btns.forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.lang === lang)); });
+      store('ashfall_lang', lang);
+    }
+    btns.forEach(function(b){ b.addEventListener('click', function(){ if (b.dataset.lang !== lang) apply(b.dataset.lang); }); });
+    apply(lang);
+  })();
+</script>
+</body>
+</html>

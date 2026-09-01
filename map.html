@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bản Đồ Ashfall</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;0,700;1,500&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
+
+  :root{
+    --bg:#120f0c;
+    --bg-plate:#1b1611;
+    --bg-plate-2:#221b14;
+    --ink:#ece2d0;
+    --muted:#a1927a;
+    --muted-2:#6f6353;
+    --line: rgba(236,226,208,0.16);
+    --line-strong: rgba(236,226,208,0.32);
+    --accent:#ff9d47;
+    --accent-dim:#c97a38;
+    --crack:#c1483d;
+    --moss:#8aa17d;
+    --font-display:'Spectral', Georgia, 'Times New Roman', serif;
+    --font-body:'Be Vietnam Pro', -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -8%, rgba(255,157,71,0.10), transparent 60%),
+      var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--accent); color:#1a1208; }
+
+  .wrap{ max-width:1040px; margin:0 auto; padding:0 28px 80px; }
+
+  /* ---------- hero ---------- */
+  header.hero{
+    padding:76px 28px 54px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(ellipse 700px 320px at 50% 0%, rgba(255,157,71,0.14), transparent 65%);
+  }
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--accent-dim);
+    margin:0 0 14px;
+  }
+  h1.title{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(2.4rem, 6vw, 4.1rem);
+    letter-spacing:.02em;
+    margin:0;
+    text-wrap:balance;
+    color:var(--ink);
+    text-shadow: 0 0 34px rgba(255,157,71,0.30);
+  }
+  .title em{ color:var(--accent); font-style:italic; }
+  .subtitle{
+    font-family:var(--font-display);
+    font-style:italic;
+    font-weight:500;
+    font-size:clamp(1.05rem,2.4vw,1.35rem);
+    color:var(--muted);
+    margin:16px 0 0;
+  }
+  .meta-line{
+    margin:26px auto 0;
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--muted-2);
+    display:flex;
+    gap:18px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .meta-line span{ white-space:nowrap; }
+
+  /* ---------- intro ---------- */
+  section.intro{
+    padding:52px 0 8px;
+    max-width:700px;
+    margin:0 auto;
+  }
+  section.intro p{
+    font-size:1.02rem;
+    line-height:1.75;
+    color:var(--ink);
+  }
+  section.intro p + p{ margin-top:16px; }
+  section.intro strong{ color:var(--accent); font-weight:600; }
+  .stardew-note{
+    margin-top:22px;
+    padding:16px 18px;
+    border-left:2px solid var(--accent-dim);
+    background:var(--bg-plate);
+    font-size:.92rem;
+    line-height:1.65;
+    color:var(--muted);
+  }
+  .stardew-note b{ color:var(--ink); }
+
+  /* ---------- plate shell ---------- */
+  section.plate{ padding:64px 0 16px; }
+  .plate-head{ margin-bottom:30px; }
+  .plate-head .eyebrow{ margin-bottom:10px; }
+  h2.plate-title{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(1.5rem,3vw,2.05rem);
+    margin:0 0 14px;
+    text-wrap:balance;
+  }
+  .plate-desc{
+    max-width:640px;
+    color:var(--muted);
+    font-size:.97rem;
+    line-height:1.7;
+  }
+  .plate-desc code{
+    font-family:var(--font-mono);
+    font-size:.85em;
+    background:var(--bg-plate-2);
+    padding:1px 5px;
+    border-radius:3px;
+    color:var(--accent);
+  }
+
+  .plate-card{
+    background:var(--bg-plate);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:26px;
+    position:relative;
+    overflow:hidden;
+  }
+  .plate-card::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 500px 260px at 12% 0%, rgba(255,157,71,0.06), transparent 60%),
+      radial-gradient(ellipse 500px 260px at 88% 100%, rgba(138,161,125,0.06), transparent 60%);
+    pointer-events:none;
+  }
+  figure{ margin:0; }
+  figure svg{ display:block; width:100%; height:auto; max-width:100%; }
+  figcaption{
+    margin-top:18px;
+    font-size:.85rem;
+    color:var(--muted-2);
+    line-height:1.6;
+    border-top:1px solid var(--line);
+    padding-top:14px;
+  }
+
+  /* two-col layout for plate 1 */
+  .plate-grid{ display:grid; grid-template-columns:1.5fr 1fr; gap:28px; align-items:start; }
+  @media (max-width:820px){ .plate-grid{ grid-template-columns:1fr; } }
+
+  .region-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:.83rem;
+  }
+  .region-table th, .region-table td{
+    text-align:left;
+    padding:8px 10px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  .region-table th{
+    font-family:var(--font-mono);
+    font-size:.68rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--muted-2);
+    font-weight:600;
+  }
+  .region-table td.num{ font-family:var(--font-mono); color:var(--muted); width:1.4em; }
+  .region-table td.region{ color:var(--ink); font-weight:600; }
+  .tag{
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-size:.66rem;
+    letter-spacing:.03em;
+    padding:2px 7px;
+    border-radius:20px;
+    border:1px solid var(--line-strong);
+    color:var(--muted);
+    white-space:nowrap;
+  }
+  .tag.building{ color:var(--accent); border-color:var(--accent-dim); background:rgba(255,157,71,0.08); }
+  .tag.locked{ color:var(--crack); border-color:var(--crack); background:rgba(193,72,61,0.08); }
+
+  /* legend */
+  .legend{
+    margin-top:22px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 24px;
+    font-size:.82rem;
+    color:var(--muted);
+  }
+  .legend .item{ display:flex; align-items:center; gap:8px; }
+  .legend svg{ width:20px; height:20px; flex:none; }
+
+  /* checklist */
+  section.next{ padding:64px 0 10px; }
+  .stage{
+    background:var(--bg-plate);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:22px 24px;
+    margin-bottom:16px;
+  }
+  .stage h3{
+    font-family:var(--font-display);
+    font-size:1.1rem;
+    margin:0 0 12px;
+    color:var(--accent);
+    font-weight:600;
+  }
+  .stage ol{ margin:0; padding-left:1.2em; color:var(--ink); }
+  .stage li{ margin-bottom:7px; font-size:.93rem; line-height:1.55; }
+  .stage li:last-child{ margin-bottom:0; }
+  .stage li code{
+    font-family:var(--font-mono);
+    font-size:.85em;
+    background:var(--bg-plate-2);
+    padding:1px 5px;
+    border-radius:3px;
+    color:var(--moss);
+  }
+
+  footer{
+    margin-top:60px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--muted-2);
+    letter-spacing:.03em;
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    .flicker{ animation:flicker 5s ease-in-out infinite; }
+  }
+  @keyframes flicker{
+    0%,100%{ opacity:1; }
+    45%{ opacity:.85; }
+    50%{ opacity:1; }
+    78%{ opacity:.92; }
+  }
+
+  /* Music Control Button */
+  .music-control{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    z-index:999;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:rgba(255,157,71,0.15);
+    border:2px solid var(--accent);
+    color:var(--accent);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    transition:all .2s ease;
+    box-shadow:0 4px 12px rgba(255,157,71,0.2);
+  }
+  .music-control:hover{
+    background:rgba(255,157,71,0.25);
+    box-shadow:0 6px 16px rgba(255,157,71,0.3);
+    transform:scale(1.08);
+  }
+  .music-control.playing{
+    animation:pulseSound 0.6s ease-in-out infinite;
+  }
+  @keyframes pulseSound{
+    0%, 100%{ transform:scale(1); }
+    50%{ transform:scale(1.05); }
+  }
+  .music-control.muted{
+    background:rgba(127,115,100,0.15);
+    border-color:var(--muted-2);
+    color:var(--muted-2);
+  }
+  .music-control.muted:hover{
+    background:rgba(127,115,100,0.25);
+    box-shadow:0 6px 16px rgba(127,115,100,0.2);
+  }
+
+  @media (max-width:620px){
+    .music-control{
+      width:45px;
+      height:45px;
+      bottom:15px;
+      right:15px;
+      font-size:20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Background Music -->
+<audio id="bgm" loop>
+  <source src="assets/bgm.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Music Control Button -->
+<button id="musicControl" class="music-control playing" title="Tắt nhạc / Mute music" aria-label="Điều khiển nhạc nền">🔊</button>
+
+<script>
+  const bgm = document.getElementById('bgm');
+  const musicControl = document.getElementById('musicControl');
+  bgm.volume = 0.3;
+
+  musicControl.addEventListener('click', function() {
+    if (bgm.paused) {
+      bgm.play();
+      musicControl.classList.remove('muted');
+      musicControl.classList.add('playing');
+      musicControl.textContent = '🔊';
+      musicControl.title = 'Tắt nhạc / Mute music';
+      sessionStorage.setItem('bgmPaused', 'false');
+    } else {
+      bgm.pause();
+      musicControl.classList.add('muted');
+      musicControl.classList.remove('playing');
+      musicControl.textContent = '🔇';
+      musicControl.title = 'Bật nhạc / Unmute music';
+      sessionStorage.setItem('bgmPaused', 'true');
+    }
+  });
+
+  const savedTime = sessionStorage.getItem('bgmTime');
+  const wasPaused = sessionStorage.getItem('bgmPaused') === 'true';
+
+  if (savedTime) {
+    bgm.currentTime = parseFloat(savedTime);
+  }
+
+  if (wasPaused) {
+    bgm.pause();
+    musicControl.classList.add('muted');
+    musicControl.classList.remove('playing');
+    musicControl.textContent = '🔇';
+  } else {
+    bgm.play().catch(function(error) {
+      document.addEventListener('click', function playOnFirstInteraction() {
+        bgm.play();
+        musicControl.classList.remove('muted');
+        musicControl.classList.add('playing');
+        document.removeEventListener('click', playOnFirstInteraction);
+      }, { once: true });
+    });
+  }
+
+  window.addEventListener('beforeunload', function() {
+    sessionStorage.setItem('bgmTime', bgm.currentTime);
+  });
+</script>
+
+<header class="hero">
+  <p class="eyebrow">Thiết kế bản đồ</p>
+  <h1 class="title">ASH<em class="flicker">FALL</em></h1>
+  <p class="subtitle">「Tro Tàn」— chuỗi map từ thôn làng tới Hủ Mộc Vương</p>
+  <div class="meta-line">
+    <span>Godot 4.3 · v0.6.0</span>
+    <span>·</span>
+    <span>dựa theo docs/08 — thế giới &amp; cốt truyện (đã chốt)</span>
+    <span>·</span>
+    <span>31/08/2026</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="intro">
+    <p>Cổng <span style="font-family:var(--font-mono);color:var(--accent)">"Vào rừng phía bắc"</span> trong <code style="font-family:var(--font-mono);color:var(--accent)">village.tscn</code> hiện dẫn thẳng vào sân đấu boss — Rừng mới chỉ là một cái nhãn. Bản hub‑and‑spoke đầu tiên (làng nối thẳng bảy vùng như nan hoa) cũng phẳng như vậy: bước một cái là chạm biên giới vương quốc kế.</p>
+    <p>Bản đề xuất này đổi hướng theo đúng cách <strong>Stardew Valley</strong> nối Pelican Town với Cindersap Forest, Mountain, Beach — và cách <strong>Dark Souls</strong> cho thấy một cánh cổng khoá từ rất xa trước khi mở được nó. Mỗi vùng đất không còn là một map, mà là <strong>một chuỗi nhiều map nối tiếp</strong>, hiểm địa tăng dần, có nhánh phụ để lạc vào, và có lối tắt phải tự mở lấy.</p>
+    <div class="stardew-note">
+      <b>Khuôn dùng cho mọi vùng đất:</b> Thôn làng → Viền vùng (an toàn) → Hiểm địa sâu (khó, có Bếp Lửa Tro) → Cổng/Hang vào → Đấu trường. Bốn trạm, không phải một. Chuỗi Rừng dưới đây là bản đầy đủ đầu tiên theo khuôn này.
+    </div>
+  </section>
+
+  <!-- ============ PLATE I ============ -->
+  <section class="plate" id="plate-1">
+    <div class="plate-head">
+      <p class="eyebrow">Plate I — Bản đồ thế giới</p>
+      <h2 class="plate-title">Thôn làng là tâm, bảy chuỗi toả ra như bảy Nghiệp Ấn</h2>
+      <p class="plate-desc">Rừng là chuỗi duy nhất đã có hình (tô cam). Sáu vùng còn lại vẫn là cổng chưa mở trên <code>village.tscn</code> — vẽ sẵn vị trí để không phải đoán lại khi tới lượt build. Hai lối khoá ở Rừng Viền gieo trước sự tồn tại của Thành Trì và Biển Cả ngay từ chuyến đi đầu tiên.</p>
+    </div>
+
+    <div class="plate-grid">
+      <div class="plate-card">
+        <figure>
+          <svg viewBox="0 0 960 900" role="img" aria-label="Sơ đồ thế giới: thôn làng ở trung tâm, chuỗi Rừng bốn trạm toả lên phía bắc đã hoàn thiện, sáu vùng đất còn lại là cổng chưa mở, Tòa Thành khoá tới khi thu đủ bốn Nghiệp Ấn.">
+            <defs>
+              <g id="lock">
+                <rect x="-7" y="-1" width="14" height="11" rx="2" fill="none" stroke-width="1.6"/>
+                <path d="M-4,-1 v-4 a4,4 0 0 1 8,0 v4" fill="none" stroke-width="1.6"/>
+              </g>
+              <g id="flame">
+                <path d="M0,-10 C4,-5 5,-1 2,2 C4,1 5,-1 5,-1 C6,3 3,7 -1,6.5 C-5,6 -6,1 -3,-2 C-4,-4 -3,-7 0,-10 Z"/>
+              </g>
+              <g id="sword-cross">
+                <line x1="-9" y1="-9" x2="9" y2="9" stroke-width="2" stroke-linecap="round"/>
+                <line x1="9" y1="-9" x2="-9" y2="9" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="0" cy="0" r="2.4"/>
+              </g>
+            </defs>
+
+            <!-- ===== connectors (drawn first, covered by node circles) ===== -->
+            <g fill="none" stroke-linecap="round">
+              <!-- forest chain spine -->
+              <line x1="540" y1="565" x2="540" y2="516" stroke="var(--accent)" stroke-width="2.5"/>
+              <line x1="540" y1="444" x2="540" y2="386" stroke="var(--accent)" stroke-width="2.5"/>
+              <line x1="540" y1="314" x2="540" y2="262" stroke="var(--accent)" stroke-width="2.5"/>
+              <line x1="540" y1="198" x2="540" y2="150" stroke="var(--accent)" stroke-width="2.5"/>
+              <!-- secret branch -->
+              <line x1="504" y1="480" x2="414" y2="470" stroke="var(--moss)" stroke-width="1.6" stroke-dasharray="3 5"/>
+              <!-- future-region stubs: direct, muted, dashed -->
+              <line x1="500" y1="618" x2="240" y2="620" stroke="var(--muted-2)" stroke-width="1.4" stroke-dasharray="2 6"/>
+              <line x1="580" y1="618" x2="850" y2="620" stroke="var(--muted-2)" stroke-width="1.4" stroke-dasharray="2 6"/>
+              <line x1="560" y1="645" x2="695" y2="750" stroke="var(--muted-2)" stroke-width="1.4" stroke-dasharray="2 6"/>
+              <!-- Toa Thanh: crack, distinct -->
+              <line x1="500" y1="640" x2="385" y2="765" stroke="var(--crack)" stroke-width="1.4" stroke-dasharray="1 5"/>
+              <!-- foreshadow curves from Rung Vien signposts out to future stubs -->
+              <path d="M486,444 C 420,430 350,410 300,384" stroke="var(--crack)" stroke-width="1.3" stroke-dasharray="1 6" opacity="0.85"/>
+              <path d="M596,444 C 660,430 720,410 758,384" stroke="var(--crack)" stroke-width="1.3" stroke-dasharray="1 6" opacity="0.85"/>
+            </g>
+
+            <!-- ===== future-region stub nodes ===== -->
+            <g font-family="var(--font-body)" text-anchor="middle">
+              <!-- Thanh Tri -->
+              <circle cx="300" cy="380" r="30" fill="var(--bg-plate-2)" stroke="var(--muted-2)" stroke-width="1.6" stroke-dasharray="4 4"/>
+              <text x="300" y="376" font-size="12" fill="var(--muted)">2 · Thành Trì</text>
+              <text x="300" y="392" font-size="9.5" fill="var(--muted-2)" font-family="var(--font-mono)">cổng chưa mở</text>
+
+              <!-- Bien Ca -->
+              <circle cx="760" cy="380" r="30" fill="var(--bg-plate-2)" stroke="var(--muted-2)" stroke-width="1.6" stroke-dasharray="4 4"/>
+              <text x="760" y="376" font-size="12" fill="var(--muted)">3 · Biển Cả</text>
+              <text x="760" y="392" font-size="9.5" fill="var(--muted-2)" font-family="var(--font-mono)">cổng chưa mở</text>
+
+              <!-- Mo Sau -->
+              <circle cx="220" cy="620" r="30" fill="var(--bg-plate-2)" stroke="var(--muted-2)" stroke-width="1.6" stroke-dasharray="4 4"/>
+              <text x="220" y="616" font-size="12" fill="var(--muted)">4 · Mỏ Sâu</text>
+              <text x="220" y="632" font-size="9.5" fill="var(--muted-2)" font-family="var(--font-mono)">cổng chưa mở</text>
+
+              <!-- Thanh Canh -->
+              <circle cx="860" cy="620" r="30" fill="var(--bg-plate-2)" stroke="var(--muted-2)" stroke-width="1.6" stroke-dasharray="4 4"/>
+              <text x="860" y="616" font-size="12" fill="var(--muted)">5 · Thánh Canh</text>
+              <text x="860" y="632" font-size="9.5" fill="var(--muted-2)" font-family="var(--font-mono)">cổng chưa mở</text>
+
+              <!-- Thanh Cung -->
+              <circle cx="700" cy="760" r="30" fill="var(--bg-plate-2)" stroke="var(--muted-2)" stroke-width="1.6" stroke-dasharray="4 4"/>
+              <text x="700" y="756" font-size="12" fill="var(--muted)">6 · Thánh Cung</text>
+              <text x="700" y="772" font-size="9.5" fill="var(--muted-2)" font-family="var(--font-mono)">cổng chưa mở</text>
+
+              <!-- Toa Thanh: locked -->
+              <circle cx="380" cy="780" r="34" fill="rgba(193,72,61,0.10)" stroke="var(--crack)" stroke-width="1.8" stroke-dasharray="5 4"/>
+              <use href="#lock" x="380" y="758" stroke="var(--crack)" fill="none"/>
+              <text x="380" y="790" font-size="12" fill="var(--crack)" font-weight="600">7 · Tòa Thành</text>
+              <text x="380" y="805" font-size="9" fill="var(--crack)" font-family="var(--font-mono)">khoá ≥4 Nghiệp Ấn</text>
+            </g>
+
+            <!-- ===== secret branch node ===== -->
+            <g text-anchor="middle">
+              <circle cx="390" cy="470" r="24" fill="var(--bg-plate-2)" stroke="var(--moss)" stroke-width="1.5" stroke-dasharray="3 4"/>
+              <text x="390" y="467" font-size="9.5" fill="var(--moss)">Rừng Bị</text>
+              <text x="390" y="478" font-size="9.5" fill="var(--moss)">Quên</text>
+            </g>
+
+            <!-- ===== forest chain nodes (built / building — ember) ===== -->
+            <g text-anchor="middle">
+              <circle cx="540" cy="480" r="36" fill="rgba(255,157,71,0.14)" stroke="var(--accent)" stroke-width="2"/>
+              <text x="540" y="476" font-size="12.5" fill="var(--ink)" font-weight="600">Rừng Viền</text>
+              <text x="540" y="491" font-size="9" fill="var(--accent)" font-family="var(--font-mono)">1a · dễ</text>
+
+              <circle cx="540" cy="350" r="36" fill="rgba(255,157,71,0.14)" stroke="var(--accent)" stroke-width="2"/>
+              <use href="#flame" x="540" y="335" fill="var(--accent)"/>
+              <text x="540" y="360" font-size="12.5" fill="var(--ink)" font-weight="600">Rừng Sâu</text>
+              <text x="540" y="373" font-size="9" fill="var(--accent)" font-family="var(--font-mono)">1b · khó</text>
+
+              <circle cx="540" cy="230" r="32" fill="rgba(255,157,71,0.14)" stroke="var(--accent)" stroke-width="2"/>
+              <text x="540" y="226" font-size="11.5" fill="var(--ink)" font-weight="600">Hang</text>
+              <text x="540" y="239" font-size="11.5" fill="var(--ink)" font-weight="600">Hủ Mộc Vương</text>
+
+              <circle cx="540" cy="110" r="40" fill="rgba(193,72,61,0.16)" stroke="var(--crack)" stroke-width="2"/>
+              <use href="#sword-cross" x="540" y="98" stroke="var(--ink)" fill="var(--ink)"/>
+              <text x="540" y="122" font-size="11.5" fill="var(--ink)" font-weight="600">Đấu trường</text>
+              <text x="540" y="134" font-size="8.5" fill="var(--crack)" font-family="var(--font-mono)">Nghiệp Ấn 1/7</text>
+            </g>
+
+            <!-- ===== village hub ===== -->
+            <g text-anchor="middle">
+              <circle cx="540" cy="620" r="55" fill="var(--bg-plate-2)" stroke="var(--ink)" stroke-width="2.2"/>
+              <circle cx="540" cy="620" r="55" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.35"/>
+              <text x="540" y="614" font-size="14" fill="var(--ink)" font-weight="700" font-family="var(--font-display)">Thôn Làng</text>
+              <text x="540" y="632" font-size="9" fill="var(--muted)" font-family="var(--font-mono)">không Nghiệp Ấn</text>
+            </g>
+          </svg>
+          <figcaption>Cam = chuỗi Rừng, bốn trạm đang xây, đọc từ Thôn Làng lên Đấu trường. Nét đứt xám = năm vùng còn lại, cổng chưa mở trên <code style="font-family:var(--font-mono)">village.tscn</code>. Nét đứt đỏ cong = hai lối khoá nhìn thấy được ngay trong Rừng Viền, gieo trước Thành Trì &amp; Biển Cả. Tòa Thành viền đỏ, khoá tới khi thu đủ bốn Nghiệp Ấn.</figcaption>
+        </figure>
+      </div>
+
+      <div>
+        <table class="region-table">
+          <thead><tr><th>#</th><th>Vùng</th><th>Vua</th><th>Trạng thái</th></tr></thead>
+          <tbody>
+            <tr><td class="num">1</td><td class="region">Rừng</td><td>Hủ Mộc Vương</td><td><span class="tag building">đang xây</span></td></tr>
+            <tr><td class="num">2</td><td class="region">Thành Trì</td><td>Trường Vi Vương</td><td><span class="tag">cổng chưa mở</span></td></tr>
+            <tr><td class="num">3</td><td class="region">Biển Cả</td><td>Trầm Vương</td><td><span class="tag">cổng chưa mở</span></td></tr>
+            <tr><td class="num">4</td><td class="region">Mỏ Sâu</td><td>Thám U Vương</td><td><span class="tag">cổng chưa mở</span></td></tr>
+            <tr><td class="num">5</td><td class="region">Thánh Canh</td><td>Mộng Canh Vương</td><td><span class="tag">cổng chưa mở</span></td></tr>
+            <tr><td class="num">6</td><td class="region">Thánh Cung</td><td>Ảnh Vương</td><td><span class="tag">cổng chưa mở</span></td></tr>
+            <tr><td class="num">7</td><td class="region">Tòa Thành</td><td>Thiên Ngự Vương</td><td><span class="tag locked">khoá ≥4</span></td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:.82rem;color:var(--muted-2);line-height:1.6;margin-top:16px;">
+          Thứ tự chơi giữa bảy vùng vẫn tự do hoàn toàn (docs/08 mục 9) — sơ đồ này chỉ là hình dạng cổng nối, không ép hướng đi.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PLATE II ============ -->
+  <section class="plate" id="plate-2">
+    <div class="plate-head">
+      <p class="eyebrow">Plate II — Chuỗi Rừng</p>
+      <h2 class="plate-title">Bốn trạm, hiểm địa tăng dần, một lối tắt phải tự mở</h2>
+      <p class="plate-desc">Sơ đồ <em>trình tự</em> (đọc từ trên xuống), không phải bản đồ theo la bàn. Mỗi khối là một scene <code>Zone</code> thật sẽ dựng trong Godot — kích thước khối tỉ lệ gần đúng theo <code>zone_size</code> đề xuất trong tài liệu đi kèm.</p>
+    </div>
+
+    <div class="plate-card">
+      <figure>
+        <svg viewBox="0 0 900 1430" role="img" aria-label="Sơ đồ chuỗi bốn map khu Rừng: từ Thôn Làng lên Rừng Viền có nhánh bí mật và hai lối khoá, tới Rừng Sâu có Bếp Lửa Tro và lối tắt về làng, qua Hang Hủ Mộc Vương yên tĩnh, tới Đấu trường boss.">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
+            </marker>
+            <marker id="arrow-crack" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--crack)"/>
+            </marker>
+            <g id="door2">
+              <path d="M-11,10 v-9 a11,11 0 0 1 22,0 v9 z" fill="none" stroke-width="2"/>
+            </g>
+            <g id="spawn-dot">
+              <circle r="4"/>
+              <circle r="7.5" fill="none" stroke-width="1" opacity="0.5"/>
+            </g>
+            <g id="enemy-diamond">
+              <rect x="-6" y="-6" width="12" height="12" fill="none" stroke="var(--crack)" stroke-width="1.4" stroke-dasharray="2.5 2.5" transform="rotate(45)"/>
+            </g>
+            <g id="cart">
+              <rect x="-11" y="-6" width="18" height="9" rx="1.5" fill="none" stroke-width="1.5"/>
+              <circle cx="-6" cy="4" r="3" fill="none" stroke-width="1.4"/>
+              <circle cx="4" cy="4" r="3" fill="none" stroke-width="1.4"/>
+            </g>
+            <g id="wall-broken">
+              <path d="M-14,6 h6 l2,-5 l3,5 l3,-7 l3,7 l3,-5 l2,5 h6" fill="none" stroke-width="1.6" stroke-linejoin="round"/>
+            </g>
+            <g id="lock2">
+              <rect x="-7" y="-1" width="14" height="11" rx="2" fill="none" stroke-width="1.6"/>
+              <path d="M-4,-1 v-4 a4,4 0 0 1 8,0 v4" fill="none" stroke-width="1.6"/>
+            </g>
+            <g id="flame2">
+              <path d="M0,-10 C4,-5 5,-1 2,2 C4,1 5,-1 5,-1 C6,3 3,7 -1,6.5 C-5,6 -6,1 -3,-2 C-4,-4 -3,-7 0,-10 Z"/>
+            </g>
+            <g id="sword-cross2">
+              <line x1="-9" y1="-9" x2="9" y2="9" stroke-width="2" stroke-linecap="round"/>
+              <line x1="9" y1="-9" x2="-9" y2="9" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="0" cy="0" r="2.4"/>
+            </g>
+          </defs>
+
+          <!-- ================= VILLAGE ================= -->
+          <g>
+            <rect x="290" y="40" width="260" height="90" rx="6" fill="var(--bg-plate-2)" stroke="var(--line-strong)" stroke-width="1.6"/>
+            <text x="420" y="78" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="16" fill="var(--ink)">THÔN LÀNG</text>
+            <text x="420" y="98" text-anchor="middle" font-family="var(--font-mono)" font-size="9.5" fill="var(--muted-2)">village.tscn — đã có</text>
+          </g>
+
+          <!-- connector village -> rung vien -->
+          <line x1="420" y1="130" x2="420" y2="170" stroke="var(--accent)" stroke-width="2.2" marker-end="url(#arrow)"/>
+          <use href="#door2" x="420" y="150" stroke="var(--accent)" fill="none"/>
+          <text x="440" y="153" font-size="10.5" fill="var(--accent)">Cổng Bắc</text>
+
+          <!-- ================= RUNG VIEN ================= -->
+          <g>
+            <rect x="260" y="180" width="320" height="280" rx="6" fill="var(--bg-plate-2)" stroke="var(--accent-dim)" stroke-width="1.8"/>
+            <text x="420" y="212" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="16" fill="var(--ink)">RỪNG VIỀN</text>
+            <text x="420" y="230" text-anchor="middle" font-family="var(--font-mono)" font-size="9.5" fill="var(--muted-2)">forest_edge.tscn — 720×640 — dễ</text>
+
+            <use href="#spawn-dot" x="420" y="430" stroke="var(--accent)" fill="var(--accent)"/>
+            <text x="420" y="450" text-anchor="middle" font-size="8.5" fill="var(--muted)" font-family="var(--font-mono)">from_village</text>
+
+            <use href="#cart" x="330" y="330" stroke="var(--muted)"/>
+            <text x="330" y="352" text-anchor="middle" font-size="8.5" fill="var(--muted-2)" font-family="var(--font-mono)">xe ngựa bị rễ nuốt</text>
+
+            <use href="#enemy-diamond" x="470" y="300"/>
+            <use href="#enemy-diamond" x="500" y="360"/>
+          </g>
+
+          <!-- locked west label + tick -->
+          <line x1="260" y1="230" x2="150" y2="205" stroke="var(--crack)" stroke-width="1.4" stroke-dasharray="2 5"/>
+          <use href="#lock2" x="145" y="178" stroke="var(--crack)" fill="none"/>
+          <text x="150" y="200" font-size="10" fill="var(--crack)" text-anchor="middle">Đèo Đá</text>
+          <text x="150" y="213" font-size="8.5" fill="var(--crack)" text-anchor="middle" font-family="var(--font-mono)">→ 2 · Thành Trì (khoá)</text>
+
+          <!-- locked east label + tick -->
+          <line x1="580" y1="230" x2="700" y2="205" stroke="var(--crack)" stroke-width="1.4" stroke-dasharray="2 5"/>
+          <use href="#lock2" x="695" y="178" stroke="var(--crack)" fill="none"/>
+          <text x="700" y="200" font-size="10" fill="var(--crack)" text-anchor="middle">Đường Biển</text>
+          <text x="700" y="213" font-size="8.5" fill="var(--crack)" text-anchor="middle" font-family="var(--font-mono)">→ 3 · Biển Cả (khoá)</text>
+
+          <!-- secret branch -->
+          <line x1="260" y1="340" x2="150" y2="340" stroke="var(--moss)" stroke-width="1.5" stroke-dasharray="3 5"/>
+          <rect x="55" y="305" width="130" height="70" rx="5" fill="var(--bg-plate-2)" stroke="var(--moss)" stroke-width="1.4" stroke-dasharray="4 4"/>
+          <text x="120" y="333" text-anchor="middle" font-size="10" fill="var(--moss)">Khoảng Rừng</text>
+          <text x="120" y="347" text-anchor="middle" font-size="10" fill="var(--moss)">Bị Quên</text>
+          <text x="120" y="362" text-anchor="middle" font-size="8" fill="var(--muted-2)" font-family="var(--font-mono)">nhánh phụ · tuỳ chọn</text>
+
+          <!-- connector rung vien -> rung sau -->
+          <line x1="420" y1="460" x2="420" y2="500" stroke="var(--accent)" stroke-width="2.2" marker-end="url(#arrow)"/>
+          <use href="#door2" x="420" y="480" stroke="var(--accent)" fill="none"/>
+          <text x="440" y="483" font-size="10.5" fill="var(--accent)">Đi sâu vào rừng</text>
+
+          <!-- ================= RUNG SAU ================= -->
+          <g>
+            <rect x="305" y="510" width="230" height="360" rx="6" fill="var(--bg-plate-2)" stroke="var(--accent-dim)" stroke-width="1.8"/>
+            <text x="420" y="542" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="16" fill="var(--ink)">RỪNG SÂU</text>
+            <text x="420" y="560" text-anchor="middle" font-family="var(--font-mono)" font-size="9.5" fill="var(--muted-2)">forest_deep.tscn — 520×820 — khó</text>
+
+            <use href="#wall-broken" x="420" y="630" stroke="var(--muted)"/>
+            <text x="420" y="652" text-anchor="middle" font-size="8.5" fill="var(--muted-2)" font-family="var(--font-mono)">móng tường cũ — buộc vòng</text>
+
+            <use href="#enemy-diamond" x="355" y="710"/>
+            <use href="#enemy-diamond" x="480" y="700"/>
+            <use href="#enemy-diamond" x="365" y="790"/>
+            <use href="#enemy-diamond" x="470" y="800"/>
+
+            <!-- bonfire -->
+            <circle cx="420" cy="690" r="20" fill="rgba(255,157,71,0.14)" stroke="var(--accent)" stroke-width="1.6"/>
+            <use href="#flame2" x="420" y="683" fill="var(--accent)"/>
+            <text x="420" y="726" text-anchor="middle" font-size="9.5" fill="var(--ink)" font-weight="600">Bếp Lửa Tro</text>
+            <text x="420" y="738" text-anchor="middle" font-size="8" fill="var(--muted-2)" font-family="var(--font-mono)">P3.2 · checkpoint</text>
+          </g>
+
+          <!-- bonfire shortcut curve, bypasses Rung Vien straight down to Village -->
+          <path d="M 500,690 C 700,650 700,150 550,95" fill="none" stroke="var(--accent-dim)" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+          <text x="705" y="400" font-size="10" fill="var(--accent-dim)" text-anchor="middle" transform="rotate(-90 705 400)">lối tắt — chỉ mở sau khi thắp lửa lần đầu</text>
+
+          <!-- connector rung sau -> hang -->
+          <line x1="420" y1="870" x2="420" y2="910" stroke="var(--accent)" stroke-width="2.2" marker-end="url(#arrow)"/>
+          <use href="#door2" x="420" y="890" stroke="var(--accent)" fill="none"/>
+          <text x="440" y="893" font-size="10.5" fill="var(--accent)">Vào hang sâu</text>
+
+          <!-- ================= HANG VUA RE ================= -->
+          <g>
+            <rect x="290" y="920" width="260" height="230" rx="6" fill="var(--bg-plate-2)" stroke="var(--moss)" stroke-width="1.8"/>
+            <text x="420" y="960" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="16" fill="var(--ink)">HANG HỦ MỘC VƯƠNG</text>
+            <text x="420" y="978" text-anchor="middle" font-family="var(--font-mono)" font-size="9.5" fill="var(--muted-2)">root_cave.tscn — 420×380</text>
+            <text x="420" y="1090" text-anchor="middle" font-size="9.5" fill="var(--moss)" font-style="italic" font-family="var(--font-display)">yên tĩnh — không quái, nhịp nghỉ trước trận</text>
+          </g>
+
+          <!-- connector hang -> arena -->
+          <line x1="420" y1="1150" x2="420" y2="1190" stroke="var(--crack)" stroke-width="2.2" marker-end="url(#arrow-crack)"/>
+          <use href="#door2" x="420" y="1170" stroke="var(--crack)" fill="none"/>
+          <text x="440" y="1173" font-size="10.5" fill="var(--crack)">Bước vào</text>
+
+          <!-- ================= ARENA ================= -->
+          <g>
+            <rect x="270" y="1200" width="300" height="190" rx="6" fill="rgba(193,72,61,0.10)" stroke="var(--crack)" stroke-width="2"/>
+            <use href="#sword-cross2" x="420" y="1250" stroke="var(--ink)" fill="var(--ink)"/>
+            <text x="420" y="1300" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="16" fill="var(--ink)">ĐẤU TRƯỜNG</text>
+            <text x="420" y="1318" text-anchor="middle" font-family="var(--font-mono)" font-size="9.5" fill="var(--muted-2)">arena_ashen.tscn — đã có</text>
+            <text x="420" y="1335" text-anchor="middle" font-size="9.5" fill="var(--crack)">Hiệp Sĩ Tro / Hủ Mộc Vương ?</text>
+          </g>
+        </svg>
+        <figcaption>Cam = lối đi chính, đọc từ trên (Thôn Làng) xuống dưới (Đấu trường). Đỏ = lối vào trận và hai lối khoá gieo trước. Xanh rêu = nhánh phụ không bắt buộc và Hang — trạm duy nhất cố tình không có quái. Đường cong đứt nét bên phải là lối tắt của Bếp Lửa Tro, chỉ hiện sau khi thắp lần đầu.</figcaption>
+      </figure>
+
+      <div class="legend">
+        <div class="item"><svg viewBox="-12 -12 24 24" aria-hidden="true"><path d="M-8,7 v-6 a8,8 0 0 1 16,0 v6 z" fill="none" stroke="var(--accent)" stroke-width="2"/></svg> Cổng (<span style="font-family:var(--font-mono)">ZoneDoor</span>)</div>
+        <div class="item"><svg viewBox="-12 -12 24 24" aria-hidden="true"><circle r="4" fill="var(--accent)"/><circle r="8" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.5"/></svg> Điểm xuất hiện</div>
+        <div class="item"><svg viewBox="-12 -12 24 24" aria-hidden="true"><rect x="-6" y="-6" width="12" height="12" fill="none" stroke="var(--crack)" stroke-width="1.4" stroke-dasharray="2.5 2.5" transform="rotate(45)"/></svg> Quái thường — đặt sẵn, chờ P5.1</div>
+        <div class="item"><svg viewBox="-12 -12 24 24" aria-hidden="true"><path d="M0,-9 C4,-4.5 5,-0.9 2,1.8 C4,0.9 5,-0.9 5,-0.9 C6,2.7 3,6.3 -1,5.85 C-5,5.4 -6,0.9 -3,-1.8 C-4,-3.6 -3,-6.3 0,-9 Z" fill="var(--accent)"/></svg> Bếp Lửa Tro (P3.2)</div>
+        <div class="item"><svg viewBox="-12 -12 24 24" aria-hidden="true"><rect x="-7" y="-1" width="14" height="11" rx="2" fill="none" stroke="var(--crack)" stroke-width="1.6"/><path d="M-4,-1 v-4 a4,4 0 0 1 8,0 v4" fill="none" stroke="var(--crack)" stroke-width="1.6"/></svg> Lối khoá — chỉ thoại, chưa dẫn đi đâu</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
