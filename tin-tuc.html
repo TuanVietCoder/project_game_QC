@@ -306,6 +306,29 @@
     color:var(--crack);
   }
 
+  /* HOT badge */
+  .news-card.hot::before{
+    content:"HOT";
+    position:absolute;
+    top:14px;
+    right:14px;
+    background:var(--crack);
+    color:#1a1208;
+    padding:6px 11px;
+    border-radius:4px;
+    font-family:var(--font-mono);
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    animation:blink 1.2s ease-in-out infinite;
+    z-index:10;
+  }
+  @keyframes blink{
+    0%, 100%{ opacity:1; }
+    50%{ opacity:0.5; }
+  }
+
   /* Music control */
   .music-control{
     position:fixed;
@@ -410,11 +433,11 @@
 <!-- News grid -->
 <div class="news-grid">
   <!-- Card 0 - Boss Analysis -->
-  <div class="news-card category-guide" data-category="guide">
+  <div class="news-card category-guide hot" data-category="guide" style="position:relative;">
     <div class="thumb" style="background-image:url('assets/humocvuong.jpg'); background-size:cover; background-position:center;"></div>
     <div class="content">
       <div class="meta">
-        <span class="date">9/9/2024</span>
+        <span class="date">9/9/2026</span>
         <span class="category">Phân Tích</span>
       </div>
       <h3 class="title"><a href="tin-tuc-1.html">Hủ Mộc Vương: Boss Đầu Tiên Khó Ra Sao?</a></h3>
@@ -428,7 +451,7 @@
     <div class="thumb">🎮</div>
     <div class="content">
       <div class="meta">
-        <span class="date">25/09/2024</span>
+        <span class="date">25/09/2026</span>
         <span class="category">Cập nhật</span>
       </div>
       <h3 class="title">Version 0.2.0 - Thêm Boss Mới</h3>
@@ -442,7 +465,7 @@
     <div class="thumb">🏆</div>
     <div class="content">
       <div class="meta">
-        <span class="date">20/09/2024</span>
+        <span class="date">20/09/2026</span>
         <span class="category">Sự kiện</span>
       </div>
       <h3 class="title">Giải Đấu Speedrun Ashfall</h3>
@@ -456,7 +479,7 @@
     <div class="thumb">📖</div>
     <div class="content">
       <div class="meta">
-        <span class="date">15/09/2024</span>
+        <span class="date">15/09/2026</span>
         <span class="category">Hướng dẫn</span>
       </div>
       <h3 class="title">Cách Đánh Boss Hiệp Sĩ Tro</h3>
@@ -470,7 +493,7 @@
     <div class="thumb">⚔️</div>
     <div class="content">
       <div class="meta">
-        <span class="date">10/09/2024</span>
+        <span class="date">10/09/2026</span>
         <span class="category">Cập nhật</span>
       </div>
       <h3 class="title">Hệ Thống Vũ Khí Cải Tiến</h3>
@@ -484,7 +507,7 @@
     <div class="thumb">🎊</div>
     <div class="content">
       <div class="meta">
-        <span class="date">05/09/2024</span>
+        <span class="date">05/09/2026</span>
         <span class="category">Sự kiện</span>
       </div>
       <h3 class="title">Ashfall Milestone - 100K Tải</h3>
@@ -498,7 +521,7 @@
     <div class="thumb">🛡️</div>
     <div class="content">
       <div class="meta">
-        <span class="date">01/09/2024</span>
+        <span class="date">01/09/2026</span>
         <span class="category">Hướng dẫn</span>
       </div>
       <h3 class="title">Chiến Lược Sống Sót - Beginner Guide</h3>
@@ -510,7 +533,7 @@
 
 <!-- Footer -->
 <footer>
-  <p>&copy; 2024 TuanViet Studio. Made with dark souls energy. 🖤</p>
+  <p>&copy; 2026 TuanViet Studio. Made with dark souls energy. 🖤</p>
   <p><a href="index.html">Trang chủ</a> • <a href="https://github.com/TuanVietCoder">GitHub</a> • <a href="studio.html">Liên hệ</a></p>
 </footer>
 
