@@ -70,6 +70,36 @@
     margin:0 0 18px;
   }
 
+  /* Studio subtitle */
+  .studio-subtitle{
+    margin-top:90px;
+    padding:20px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line-strong);
+    background:linear-gradient(180deg, rgba(255,157,71,0.08), rgba(207,75,62,0.06));
+  }
+  .studio-subtitle span{
+    font-family:var(--font-display);
+    font-size:clamp(1.1rem, 2.5vw, 1.6rem);
+    font-weight:600;
+    color:var(--ink);
+    letter-spacing:.02em;
+  }
+  .studio-subtitle span em{
+    color:var(--ember);
+    font-style:normal;
+    font-weight:700;
+  }
+  @media (max-width:620px){
+    .studio-subtitle{
+      margin-top:80px;
+      padding:16px 26px;
+    }
+    .studio-subtitle span{
+      font-size:1rem;
+    }
+  }
+
   /* ---------------- hero ---------------- */
   .hero{
     min-height:96vh;
@@ -941,6 +971,11 @@
     <button type="button" class="clear" id="qclear" aria-label="Xoá tìm kiếm">×</button>
   </div>
   <button type="button" class="signin" data-en="Sign in">Đăng nhập</button>
+</div>
+
+<!-- Studio Subtitle -->
+<div class="studio-subtitle">
+  <span><em>TuanViet</em> Studio</span>
 </div>
 
 <header class="hero" id="top">
