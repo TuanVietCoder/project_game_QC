@@ -1,0 +1,48 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# OS
+*.log
+.cache/
+
+# Node (if using any build tools in future)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build outputs
+dist/
+build/
+
+# Credentials & Secrets
+*.key
+*.pem
+secrets.json
+credentials.json
+config.private.js
+
+# Dependencies (if any in future)
+vendor/
+composer.lock
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+.temp/
+
+# Don't ignore:
+# - HTML/CSS/JS files (core website)
+# - assets/ (images, fonts, audio)
+# - SVG files
