@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Hủ Mộc Vương - Boss Hủy Diệt của Rừng. Thiết kế pixel art tuyệt đẹp, gameplay khó nhưng công bằng. Khám phá tạo hình boss đầu tiên trong Ashfall.">
+<meta name="keywords" content="Hủ Mộc Vương, boss ashfall, boss design, pixel art boss, soulslike boss, pattern recognition, boss fight, game design, ashfall forest, boss difficulty">
+<meta name="author" content="TuanViet Studio">
+<meta property="og:title" content="Hủ Mộc Vương: Boss Đầu Tiên Của Ashfall Khó Ra Sao?">
+<meta property="og:description" content="Thiết kế tuyệt đẹp, gameplay aggressive. Khám phá boss Hủ Mộc Vương - vị vua đầu tiên bạn phải đối mặt.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ashfall.io.vn/tin-tuc-1.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hủ Mộc Vương: Boss Đầu Tiên Của Ashfall">
+<meta name="twitter:description" content="Boss thiết kế đẹp, gameplay khó. Cách boss này khiến Ashfall trở nên đặc biệt.">
+<title></title>
+<link rel="icon" type="image/png" href="assets/tuanviet-studio-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{
+    --bg:#100d0a;
+    --bg-plate:#1a1510;
+    --bg-plate-2:#221b14;
+    --ink:#efe6d4;
+    --muted:#a99a82;
+    --muted-2:#75695a;
+    --line:rgba(239,230,212,0.14);
+    --line-strong:rgba(239,230,212,0.30);
+    --ember:#ff9d47;
+    --ember-dim:#c97a38;
+    --crack:#cf4b3e;
+    --moss:#8fa87f;
+    --font-display:'Spectral', Georgia, 'Times New Roman', serif;
+    --font-body:'Be Vietnam Pro', -apple-system, 'Segoe UI', sans-serif;
+    --font-mono:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:
+      radial-gradient(ellipse 1100px 620px at 50% -6%, rgba(255,157,71,0.08), transparent 62%),
+      radial-gradient(ellipse 700px 500px at 100% 42%, rgba(207,75,62,0.06), transparent 60%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--crack); color:#1a1208; }
+  a{ color:var(--ember); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  :focus-visible{ outline:2px solid var(--ember); outline-offset:3px; border-radius:2px; }
+
+  nav{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:1000;
+    background:rgba(16,13,10,0.95);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .nav-content{
+    max-width:900px;
+    margin:0 auto;
+    padding:14px 26px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+  }
+  nav .logo{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:1.4rem;
+    color:var(--ember);
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  nav .logo img{ height:35px; width:auto; }
+  nav .nav-links{ display:flex; gap:22px; list-style:none; margin:0; padding:0; }
+  nav .nav-links a{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--muted);
+    transition:color .2s ease;
+  }
+  nav .nav-links a:hover{ color:var(--ember); text-decoration:none; }
+  nav .nav-links a.active{ color:var(--ember); }
+
+  .wrap{ max-width:760px; margin:0 auto; padding:0 26px; }
+  article{ margin-top:100px; padding-bottom:40px; }
+
+  .post-header{ padding:70px 0 32px; border-bottom:1px solid var(--line); margin-bottom:44px; }
+  h1{
+    font-family:var(--font-display);
+    font-size:clamp(1.9rem, 4.4vw, 2.7rem);
+    font-weight:700;
+    line-height:1.22;
+    margin:0 0 18px;
+    color:var(--ink);
+  }
+  h1 em{ color:var(--crack); font-style:normal; }
+  .post-meta{ display:flex; gap:20px; flex-wrap:wrap; font-size:.9rem; color:var(--muted); }
+
+  h2{
+    font-family:var(--font-display);
+    font-size:1.5rem;
+    font-weight:700;
+    margin:46px 0 16px;
+    color:var(--ink);
+  }
+  h3{
+    font-family:var(--font-display);
+    font-size:1.18rem;
+    font-weight:700;
+    margin:30px 0 12px;
+    color:var(--ember);
+  }
+  p{ margin:0 0 18px; color:var(--ink); font-size:1.01rem; }
+  strong{ color:var(--ember); font-weight:600; }
+  ul, ol{ margin:16px 0; padding-left:22px; }
+  li{ margin:9px 0; line-height:1.65; }
+
+  .highlight-box{
+    margin:32px 0;
+    padding:24px;
+    background:var(--bg-plate);
+    border:1px solid var(--line-strong);
+    border-radius:10px;
+    border-left:4px solid var(--crack);
+  }
+  .highlight-box h3{ margin-top:0; }
+
+  .cta-box{
+    background:var(--bg-plate);
+    border:1px solid var(--line-strong);
+    border-radius:12px;
+    padding:32px 28px;
+    margin:48px 0;
+    text-align:center;
+  }
+  .cta-box h3{ margin-top:0; color:var(--ink); font-size:1.3rem; }
+  .cta-box p{ color:var(--muted); }
+  .cta-box a{
+    display:inline-block;
+    background:var(--crack);
+    color:#1a1208;
+    padding:13px 28px;
+    border-radius:6px;
+    font-weight:700;
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    margin-top:8px;
+    transition:background .2s ease;
+  }
+  .cta-box a:hover{ background:var(--ember); text-decoration:none; }
+
+  .tags{
+    margin-top:50px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    color:var(--muted);
+    font-size:.88rem;
+  }
+
+  .music-control{
+    position:fixed; bottom:30px; right:30px; z-index:999;
+    width:50px; height:50px; border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(26,21,16,0.85);
+    backdrop-filter:blur(10px);
+    color:var(--ember); font-size:1.4rem; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:all .3s ease;
+  }
+  .music-control:hover{ border-color:var(--ember); transform:scale(1.1); }
+  .music-control.muted{ color:var(--muted); border-color:var(--line); }
+  @keyframes pulseSound{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.08);} }
+  .music-control.playing{ animation:pulseSound 2s ease-in-out infinite; }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:50px 26px;
+    text-align:center;
+    color:var(--muted-2);
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.08em;
+  }
+  footer a{ color:var(--ember); }
+
+  @media (max-width:620px){
+    nav .nav-links{ display:none; }
+    .post-header{ padding-top:56px; }
+    .music-control{ bottom:20px; right:20px; width:44px; height:44px; font-size:1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-content">
+    <a href="index.html" class="logo"><img src="assets/tuanviet-studio-logo.png" alt="ASHFALL"></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Trang chủ</a></li>
+      <li><a href="map.html">Bản đồ</a></li>
+      <li><a href="studio.html">Studio</a></li>
+      <li><a href="tin-tuc.html">Tin tức</a></li>
+    </ul>
+  </div>
+</nav>
+
+<audio id="bgm" loop><source src="assets/bgm.mp3" type="audio/mpeg"></audio>
+<button id="musicControl" class="music-control playing" title="Tắt nhạc / Mute music" aria-label="Điều khiển nhạc nền">🔊</button>
+
+<div class="wrap">
+  <article>
+    <div class="post-header">
+      <h1>Hủ Mộc Vương: <em>Boss</em> Đầu Tiên Của Ashfall Khó Ra Sao?</h1>
+      <div class="post-meta">
+        <span>9 tháng 9, 2024</span>
+        <span>TuanViet Studio</span>
+        <span>5 phút đọc</span>
+      </div>
+    </div>
+
+    <p>Khi bắt đầu hành trình trong Ashfall, điều đầu tiên bạn sẽ gặp không phải là một kẻ thù bình thường — mà là <strong>Hủ Mộc Vương</strong>, vị vua rừng đã sa ngã vào bóng tối. Không phải boss hút máu ngẫu nhiên, không phải một cuộc chiến quay cuồng. Mà là <strong>một bài tập về sự kiên nhẫn và đọc hiểu</strong>.</p>
+
+    <h2>Tạo Hình: Một Vị Vua Đã Biến Dạng</h2>
+
+    <p>Hủ Mộc Vương không được thiết kế để ghê sợ theo cách truyền thống. Nó là <strong>cái bóng của một vị vua</strong> — một silhouette xứng đôi với rừng sâu, nơi nó cai trị. Pixel art của boss được tỉ mỉ từng chi tiết:</p>
+
+    <ul>
+      <li><strong>Hình thù xoắn vặn:</strong> Từng pixel được sắp xếp để gợi cảm giác một thứ gì đó không còn nguyên vẹn — các chi tiết cơ thể nó thay đổi khi nó di chuyển.</li>
+      <li><strong>Animations mượt mà:</strong> Mỗi hành động của boss đều được hand-drawn, giúp bạn <em>đọc được ý định</em> trước khi nó tấn công.</li>
+      <li><strong>Màu sắc hòa hợp:</strong> Việc boss tôi màu xanh-nâu từ rừng giúp nó không lạc lõng, mà còn tạo cảm giác nó là <strong>một phần của nơi này</strong>.</li>
+    </ul>
+
+    <p>Nhưng đây không phải vấn đề. Vấn đề là <strong>cách nó chiến đấu</strong>.</p>
+
+    <h2>Gameplay: Công Bằng Nhưng Không Tha Thứ</h2>
+
+    <p>Hủ Mộc Vương được thiết kế xung quanh một triết lý đơn giản: <strong>nó sẽ báo trước mỗi cú đấu của nó</strong>.</p>
+
+    <p>Không có sát thương xảy ra từ hư không. Không có pattern invisible. Không có RNG. Mỗi cú tấn công của boss đều bắt đầu bằng một <strong>posture</strong> — tư thế cơ thể — mà bạn có thể nhận ra. Boss sẽ giữ tư thế đó trong một khung hình đủ lâu để bạn phản ứng.</p>
+
+    <p>Nhưng nếu bạn sai lần, boss sẽ <strong>không tha thứ</strong>. Vì đó là điểm của Ashfall — bạn không được quay lại bằng cách nâng cấp. Bạn quay lại bằng cách học.</p>
+
+    <div class="highlight-box">
+      <h3>⚔️ Vì Sao Hủ Mộc Vương Đặc Biệt?</h3>
+      <p>Boss này không phải là <em>test</em> sức mạnh. Nó là <em>test tâm lý</em> — bạn có tin vào cách bạn đọc pattern? Bạn có dám bước vào khi boss tấn công, hay sẽ luôn bị sợ hãi làm mất timing?</p>
+    </div>
+
+    <h2>Một Bước Đệm Hoàn Hảo</h2>
+
+    <p>Hủ Mộc Vương không phải boss khó nhất trong Ashfall. Nhưng nó là <strong>boss dạy bạn cách chơi</strong> — nó buộc bạn phải bỏ đi những thói quen từ những game khác, và học cách <strong>đọc rhythm</strong> của một đối thủ.</p>
+
+    <p>Nó nói với bạn: "Kỹ năng chiến thắng. Không phải stats, không phải gear. Kỹ năng."</p>
+
+    <div class="cta-box">
+      <h3>Sẵn Sàng Đối Mặt Với Vị Vua Rừng?</h3>
+      <p>Hủ Mộc Vương đang chờ. Nhưng chỉ những người dám học mới sống sót.</p>
+      <a href="index.html">Chơi Ashfall Ngay</a>
+    </div>
+
+    <p class="tags"><strong>Tags:</strong> #HủMộcVương #BossDesign #AshfallBoss #PixelArt #Soulslike #GameDesign #PatternRecognition #SkillBased</p>
+  </article>
+</div>
+
+<footer>
+  <p>&copy; 2024 TuanViet Studio. Skill defeats all. 🖤</p>
+  <p><a href="index.html">Trang chủ</a> • <a href="https://github.com/TuanVietCoder">GitHub</a> • <a href="studio.html">Liên hệ</a></p>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": "Hủ Mộc Vương: Boss Đầu Tiên Của Ashfall Khó Ra Sao?",
+  "description": "Thiết kế pixel art tuyệt đẹp, gameplay aggressive nhưng công bằng. Khám phá vị vua rừng đầu tiên.",
+  "image": "https://ashfall.io.vn/assets/tuanviet-studio-logo.png",
+  "datePublished": "2024-09-09",
+  "dateModified": "2024-09-09",
+  "author": { "@type": "Organization", "name": "TuanViet Studio", "url": "https://ashfall.io.vn" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TuanViet Studio",
+    "logo": { "@type": "ImageObject", "url": "https://ashfall.io.vn/assets/tuanviet-studio-logo.png" }
+  }
+}
+</script>
+
+<script>
+  const bgm = document.getElementById('bgm');
+  const musicControl = document.getElementById('musicControl');
+  bgm.volume = 0.3;
+  const bgmPaused = sessionStorage.getItem('bgmPaused');
+  if (bgmPaused === 'true') {
+    bgm.pause();
+    musicControl.classList.remove('playing');
+    musicControl.classList.add('muted');
+    musicControl.textContent = '🔇';
+  } else {
+    bgm.play().catch(() => {});
+  }
+  musicControl.addEventListener('click', function() {
+    if (bgm.paused) {
+      bgm.play();
+      musicControl.classList.remove('muted');
+      musicControl.classList.add('playing');
+      musicControl.textContent = '🔊';
+      sessionStorage.setItem('bgmPaused', 'false');
+    } else {
+      bgm.pause();
+      musicControl.classList.add('muted');
+      musicControl.classList.remove('playing');
+      musicControl.textContent = '🔇';
+      sessionStorage.setItem('bgmPaused', 'true');
+    }
+  });
+</script>
+
+</body>
+</html>
