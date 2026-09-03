@@ -331,8 +331,15 @@
 
   @media (max-width:620px){
     nav .nav-links{
-      display:none;
+      gap:12px;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
     }
+    nav .nav-links::-webkit-scrollbar{ display:none; }
+    nav .nav-links li{ flex:0 0 auto; }
+    nav .nav-links a{ font-size:10px; white-space:nowrap; }
+    nav .nav-content{ gap:12px; }
     .music-control{
       bottom:20px;
       right:20px;
