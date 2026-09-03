@@ -2,6 +2,15 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
+<script>
+(function(){try{
+  var u=new URL(location.href),p=u.searchParams,hit=false;
+  var junk=["fbclid","gclid","dclid","wbraid","gbraid","msclkid","mc_eid","mc_cid","igshid","igsh","twclid","yclid","_hsenc","_hsmi","vero_id","oly_enc_id","oly_anon_id","ref","ref_src","ref_url","spm","scmp"];
+  junk.forEach(function(k){ if(p.has(k)){ p.delete(k); hit=true; } });
+  Array.prototype.slice.call(p.keys()).forEach(function(k){ if(k.lastIndexOf("utm_",0)===0){ p.delete(k); hit=true; } });
+  if(hit){ var q=p.toString(); history.replaceState(null,"",u.pathname+(q?"?"+q:"")+u.hash); }
+}catch(e){}})();
+</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="referrer" content="no-referrer">
 <meta name="description" content="TuanViet Studio - Indie game developer Việt Nam. Tạo Ashfall - soulslike mobile pure skill. Về chúng tôi, liên hệ, career.">
