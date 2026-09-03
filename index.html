@@ -499,7 +499,38 @@
     transition:color .16s ease, border-color .16s ease;
   }
   .nav a:hover{ color:var(--ink); border-color:var(--ember-dim); text-decoration:none; }
-  @media (max-width:1080px){ .nav{ display:none; } }
+
+  /* on smaller screens the top-left nav is dropped; a scrollable strip takes over */
+  .mnav{ display:none; }
+  @media (max-width:1080px){
+    .nav{ display:none; }
+    .mnav{
+      display:flex;
+      gap:8px;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+      padding:10px 16px;
+      border-bottom:1px solid var(--line);
+      background:var(--bg-plate);
+    }
+    .mnav::-webkit-scrollbar{ display:none; }
+    .mnav a{
+      flex:none;
+      font-family:var(--font-mono);
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      color:var(--muted);
+      text-decoration:none;
+      white-space:nowrap;
+      padding:7px 13px;
+      border:1px solid var(--line-strong);
+      border-radius:999px;
+    }
+    .mnav a:active{ color:var(--ember); border-color:var(--ember-dim); }
+  }
 
   /* ---------------- studio section ---------------- */
   .studio-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:44px; }
@@ -987,6 +1018,14 @@
 <div class="studio-subtitle">
   <span><em>Ashfall</em> - Skill-Based Soulslike Mobile Game</span>
 </div>
+
+<nav class="mnav" aria-label="Menu">
+  <a href="tin-tuc.html" data-en="News">Tin tức</a>
+  <a href="#studio-who" data-en="Who we are">Về chúng tôi</a>
+  <a href="#studio-work" data-en="Work with us">Hợp tác</a>
+  <a href="map.html" data-en="World map">Bản đồ thế giới</a>
+  <a href="blog.html" data-en="Blog">Blog</a>
+</nav>
 
 <header class="hero" id="top">
   <div class="ember-field" aria-hidden="true" id="embers"></div>

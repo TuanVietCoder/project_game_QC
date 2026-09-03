@@ -254,7 +254,10 @@
   footer a{ color:var(--ember); }
 
   @media (max-width:620px){
-    nav .nav-links{ display:none; }
+    nav .nav-links{ overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:12px; }
+    nav .nav-links::-webkit-scrollbar{ display:none; }
+    nav .nav-links li{ flex:0 0 auto; }
+    nav .nav-links a{ font-size:10px; white-space:nowrap; }
     .post-header{ padding-top:56px; }
     .music-control{ bottom:20px; right:20px; width:44px; height:44px; font-size:1.2rem; }
   }
