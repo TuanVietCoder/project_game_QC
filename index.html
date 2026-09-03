@@ -2,6 +2,16 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
+<script>
+/* Dọn tham số theo dõi (fbclid, utm_*, gclid…) khỏi URL để địa chỉ luôn gọn */
+(function(){try{
+  var u=new URL(location.href),p=u.searchParams,hit=false;
+  var junk=['fbclid','gclid','dclid','wbraid','gbraid','msclkid','mc_eid','mc_cid','igshid','igsh','twclid','yclid','_hsenc','_hsmi','vero_id','oly_enc_id','oly_anon_id','ref','ref_src','ref_url','spm','scmp'];
+  junk.forEach(function(k){ if(p.has(k)){ p.delete(k); hit=true; } });
+  Array.prototype.slice.call(p.keys()).forEach(function(k){ if(k.lastIndexOf('utm_',0)===0){ p.delete(k); hit=true; } });
+  if(hit){ var q=p.toString(); history.replaceState(null,'',u.pathname+(q?'?'+q:'')+u.hash); }
+}catch(e){}})();
+</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="referrer" content="no-referrer">
 <meta name="description" content="Ashfall - Soulslike pixel art mobile game. Boss patterns, skill-based gameplay, no pay-to-win. Download free iOS & Android. Skill defeats all. TuanViet Studio.">
@@ -13,8 +23,8 @@
 <meta property="og:url" content="https://ashfall.io.vn/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ashfall - Soulslike Pixel Art Mobile Game">
-<meta name="twitter:description" content="Skill-based soulslike mobile: challenging boss fights, pattern recognition, no pay-to-win mechanics. Play free on iOS & Android."
-<title></title>
+<meta name="twitter:description" content="Skill-based soulslike mobile: challenging boss fights, pattern recognition, no pay-to-win mechanics. Play free on iOS & Android.">
+<title>Ashfall — Tro Tàn</title>
 <link rel="icon" type="image/png" href="assets/tuanviet-studio-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
