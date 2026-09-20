@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<script>
+(function(){try{
+  var u=new URL(location.href),p=u.searchParams,hit=false;
+  var junk=["fbclid","gclid","dclid","wbraid","gbraid","msclkid","mc_eid","mc_cid","igshid","igsh","twclid","yclid","_hsenc","_hsmi","vero_id","oly_enc_id","oly_anon_id","ref","ref_src","ref_url","spm","scmp"];
+  junk.forEach(function(k){ if(p.has(k)){ p.delete(k); hit=true; } });
+  Array.prototype.slice.call(p.keys()).forEach(function(k){ if(k.lastIndexOf("utm_",0)===0){ p.delete(k); hit=true; } });
+  if(hit){ var q=p.toString(); history.replaceState(null,"",u.pathname+(q?"?"+q:"")+u.hash); }
+}catch(e){}})();
+</script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Gặp Tuấn Việt — lập trình viên game độc lập ở Việt Nam, người một mình thiết kế, code và dựng công cụ cho Ashfall, soulslike pixel-art trên điện thoại.">
+<meta name="keywords" content="tuấn việt, tuanviet studio, lập trình game indie việt nam, ashfall developer, godot, soulslike pixel art, indie game việt nam, game developer việt nam">
+<meta name="author" content="TuanViet Studio">
+<meta property="og:title" content="Tuấn Việt: Một Người, Một Editor, Cả Một Thế Giới Tro Tàn">
+<meta property="og:description" content="Người đứng sau Ashfall: tự thiết kế, tự code, tự dựng công cụ — và tin rằng người thắng là người đọc được nhịp.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ashfall.io.vn/tin-tuc-3.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tuấn Việt — Người Đứng Sau Ashfall">
+<meta name="twitter:description" content="Một người, một editor, cả một thế giới Tro Tàn.">
+<link rel="canonical" href="https://ashfall.io.vn/tin-tuc-3.html">
+<meta property="og:image" content="https://ashfall.io.vn/assets/avatar.jpg">
+<meta name="twitter:image" content="https://ashfall.io.vn/assets/avatar.jpg">
+<title>Tuấn Việt — Người Đứng Sau Ashfall | Tin Tức Ashfall</title>
+<link rel="icon" type="image/jpeg" href="assets/tuanviet-studio-logo.jpg?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{
+    --bg:#100d0a;
+    --bg-plate:#1a1510;
+    --bg-plate-2:#221b14;
+    --ink:#efe6d4;
+    --muted:#a99a82;
+    --muted-2:#75695a;
+    --line:rgba(239,230,212,0.14);
+    --line-strong:rgba(239,230,212,0.30);
+    --ember:#ff9d47;
+    --ember-dim:#c97a38;
+    --crack:#cf4b3e;
+    --moss:#8fa87f;
+    --font-display:'Spectral', Georgia, 'Times New Roman', serif;
+    --font-body:'Be Vietnam Pro', -apple-system, 'Segoe UI', sans-serif;
+    --font-mono:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:
+      radial-gradient(ellipse 1100px 620px at 50% -6%, rgba(143,168,127,0.08), transparent 62%),
+      radial-gradient(ellipse 700px 500px at 100% 42%, rgba(255,157,71,0.06), transparent 60%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--crack); color:#1a1208; }
+  a{ color:var(--ember); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  :focus-visible{ outline:2px solid var(--ember); outline-offset:3px; border-radius:2px; }
+
+  nav{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:1000;
+    background:rgba(16,13,10,0.95);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .nav-content{
+    max-width:900px;
+    margin:0 auto;
+    padding:14px 26px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+  }
+  nav .logo{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:1.4rem;
+    color:var(--ember);
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  nav .logo img{ height:35px; width:auto; }
+  nav .nav-links{ display:flex; gap:22px; list-style:none; margin:0; padding:0; }
+  nav .nav-links a{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--muted);
+    transition:color .2s ease;
+  }
+  nav .nav-links a:hover{ color:var(--ember); text-decoration:none; }
+  nav .nav-links a.active{ color:var(--ember); }
+
+  .wrap{ max-width:760px; margin:0 auto; padding:0 26px; }
+  article{ margin-top:100px; padding-bottom:40px; }
+
+  .post-header{ padding:70px 0 32px; border-bottom:1px solid var(--line); margin-bottom:44px; }
+  h1{
+    font-family:var(--font-display);
+    font-size:clamp(1.9rem, 4.4vw, 2.7rem);
+    font-weight:700;
+    line-height:1.22;
+    margin:0 0 18px;
+    color:var(--ink);
+  }
+  h1 em{ color:var(--moss); font-style:normal; }
+  .post-meta{ display:flex; gap:20px; flex-wrap:wrap; font-size:.9rem; color:var(--muted); }
+
+  h2{
+    font-family:var(--font-display);
+    font-size:1.5rem;
+    font-weight:700;
+    margin:46px 0 16px;
+    color:var(--ink);
+  }
+  h3{
+    font-family:var(--font-display);
+    font-size:1.18rem;
+    font-weight:700;
+    margin:30px 0 12px;
+    color:var(--ember);
+  }
+  p{ margin:0 0 18px; color:var(--ink); font-size:1.01rem; }
+  strong{ color:var(--ember); font-weight:600; }
+  ul, ol{ margin:16px 0; padding-left:22px; }
+  li{ margin:9px 0; line-height:1.65; }
+
+  .hero-thumb{
+    margin:40px 0;
+    height:280px;
+    border-radius:10px;
+    border:1px solid var(--line-strong);
+    background:linear-gradient(135deg, rgba(143,168,127,0.22), rgba(255,157,71,0.12));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:4.5rem;
+  }
+
+  .highlight-box{
+    margin:32px 0;
+    padding:24px;
+    background:var(--bg-plate);
+    border:1px solid var(--line-strong);
+    border-radius:10px;
+    border-left:4px solid var(--moss);
+  }
+  .highlight-box h3{ margin-top:0; }
+
+  .compare-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    margin:28px 0;
+  }
+  .compare-grid .col{
+    background:var(--bg-plate);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:18px 20px;
+  }
+  .compare-grid .col .label{
+    font-family:var(--font-mono);
+    font-size:10px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--muted-2);
+    margin-bottom:10px;
+    display:block;
+  }
+  .compare-grid .col.old .label{ color:var(--muted-2); }
+  .compare-grid .col.new .label{ color:var(--moss); }
+  .compare-grid .col p{ font-size:.92rem; margin:0; color:var(--muted); }
+  @media (max-width:620px){
+    .compare-grid{ grid-template-columns:1fr; }
+  }
+
+  .cta-box{
+    background:var(--bg-plate);
+    border:1px solid var(--line-strong);
+    border-radius:12px;
+    padding:32px 28px;
+    margin:48px 0;
+    text-align:center;
+  }
+  .cta-box h3{ margin-top:0; color:var(--ink); font-size:1.3rem; }
+  .cta-box p{ color:var(--muted); }
+  .cta-box a{
+    display:inline-block;
+    background:var(--moss);
+    color:#1a1208;
+    padding:13px 28px;
+    border-radius:6px;
+    font-weight:700;
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    margin-top:8px;
+    transition:background .2s ease;
+  }
+  .cta-box a:hover{ background:var(--ember); text-decoration:none; }
+
+  .tags{
+    margin-top:50px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    color:var(--muted);
+    font-size:.88rem;
+  }
+
+  .music-control{
+    position:fixed; bottom:30px; right:30px; z-index:999;
+    width:50px; height:50px; border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(26,21,16,0.85);
+    backdrop-filter:blur(10px);
+    color:var(--ember); font-size:1.4rem; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:all .3s ease;
+  }
+  .music-control:hover{ border-color:var(--ember); transform:scale(1.1); }
+  .music-control.muted{ color:var(--muted); border-color:var(--line); }
+  @keyframes pulseSound{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.08);} }
+  .music-control.playing{ animation:pulseSound 2s ease-in-out infinite; }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:50px 26px;
+    text-align:center;
+    color:var(--muted-2);
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.08em;
+  }
+  footer a{ color:var(--ember); }
+
+  @media (max-width:620px){
+    nav .nav-links{ overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:12px; }
+    nav .nav-links::-webkit-scrollbar{ display:none; }
+    nav .nav-links li{ flex:0 0 auto; }
+    nav .nav-links a{ font-size:10px; white-space:nowrap; }
+    .post-header{ padding-top:56px; }
+    .music-control{ bottom:20px; right:20px; width:44px; height:44px; font-size:1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-content">
+    <a href="index.html" class="logo"><img src="assets/tuanviet-studio-logo.jpg" alt="ASHFALL"></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Trang chủ</a></li>
+      <li><a href="map.html">Bản đồ</a></li>
+      <li><a href="studio.html">Studio</a></li>
+      <li><a href="tin-tuc.html">Tin tức</a></li>
+    </ul>
+  </div>
+</nav>
+
+<audio id="bgm" loop><source src="assets/bgm.mp3" type="audio/mpeg"></audio>
+<button id="musicControl" class="music-control playing" title="Tắt nhạc / Mute music" aria-label="Điều khiển nhạc nền">🔊</button>
+
+<div class="wrap">
+  <article>
+    <div class="post-header">
+      <h1>Tuấn Việt: Một Người, Một Editor, <em>Cả Một Thế Giới</em> Tro Tàn</h1>
+      <div class="post-meta">
+        <span>20 tháng 9, 2026</span>
+        <span>TuanViet Studio</span>
+        <span>4 phút đọc</span>
+      </div>
+    </div>
+
+    <div class="hero-thumb" role="img" aria-label="Tuấn Việt" style="background-image:url('assets/avatar.jpg');background-size:cover;background-position:50% 24%;"></div>
+
+    <p>Đằng sau Ashfall — một soulslike pixel-art nhìn từ trên xuống dành cho điện thoại — không có một studio hàng chục người. Có một người: <strong>Tuấn Việt</strong>, lập trình viên độc lập ở Việt Nam, người tự thiết kế, tự code và tự dựng công cụ cho cả trò chơi.</p>
+
+    <h2>Người Đứng Sau TuanViet Studio</h2>
+
+    <p>Tuấn Việt làm game nhỏ từ đầu đến cuối: từ ý tưởng, thiết kế, viết code cho tới cả những công cụ đi kèm. Điều được quan tâm nhất không phải con số hay đồ họa hào nhoáng, mà là <strong>cảm giác của từng khoảnh khắc</strong> trong một trận đấu — khi nào đòn đánh chạm, khi nào cần lăn, khi nào nên chờ.</p>
+
+    <p>Bên ngoài các dự án game, còn có những thứ nhỏ hơn: đồ chơi desktop, công cụ ghi chú, tiện ích mở rộng cho trình duyệt — những thứ bắt đầu từ câu “thử xem sao” vào một buổi cuối tuần.</p>
+
+    <h2>Vừa Học, Vừa Làm, Vừa Làm Game</h2>
+
+    <p>Ashfall không phải là công việc duy nhất trong lịch của Tuấn Việt. Song song với dự án này là việc học và đi làm:</p>
+
+    <div class="highlight-box">
+      <h3>🎓 Hiện Tại</h3>
+      <p><strong>Học Thạc sĩ Công nghệ thông tin</strong> — Đại học Công Thương TP.HCM (HUIT).</p>
+      <p><strong>Học Nghiệp vụ sư phạm</strong> — Đại học Sư phạm Hà Nội 2.</p>
+      <p><strong>Làm việc tại outsource Viettel</strong> — chi nhánh Tân Phú.</p>
+      <p>Trước đó từng là <strong>thực tập sinh</strong> tại Trung tâm Đào tạo Saigonlab.</p>
+    </div>
+
+    <p>Hai mảng tưởng chừng xa nhau — công nghệ và sư phạm — lại có chung một thứ: cách <em>giải thích cho người khác hiểu</em>. Và đó cũng là điều Ashfall làm mỗi khi một con boss chuẩn bị ra đòn.</p>
+
+    <h2>Ashfall: Vì Sao Không Có Ô Đỏ Dưới Sàn?</h2>
+
+    <p>Ashfall — <em>“Tro Tàn”</em> — lấy cảm hứng từ Dark Souls và Elden Ring, nhưng chọn một hướng riêng cho việc cảnh báo người chơi. Trò chơi <strong>cố tình không vẽ vùng nguy hiểm</strong> dưới sàn. Thay vào đó, boss báo đòn bằng chính cơ thể: kiếm giơ lên, thân khom xuống, hào quang dồn lại. Đó là tất cả những gì người chơi được cho.</p>
+
+    <p>Boss đánh rất đau — ba đòn là chết — nhưng <strong>luôn báo trước</strong>. Vì thế người thắng không phải người có chỉ số cao hơn, mà là người đọc được nhịp. Ba loại vũ khí — Kiếm Dài Tro, Đại Kiếm Vỡ, Thương Xám — không phải ba cấp độ sức mạnh, mà là ba cách khác nhau để trả lời cùng một câu hỏi.</p>
+
+    <div class="highlight-box">
+      <h3>⚔️ Tôn Chỉ Của Dự Án</h3>
+      <p>“Người thắng là người đọc được nhịp — không phải người có chỉ số cao hơn.” Ashfall được xây quanh đúng một câu đó.</p>
+    </div>
+
+    <h2>Bảy Vị Vua, Bảy Nghiệp Ấn</h2>
+
+    <p>Phía sau nhịp chiến đấu là một thế giới có chiều sâu: các vị Thần rời đi và để lại bảy Nghiệp Ấn cho bảy vị vua trấn giữ; hai trăm năm sau, cả bảy đều đã sa ngã. Người chơi được tạo ra để thu đủ bảy cái ấn — và không ai nói cho họ biết vì sao. Thôn làng là nơi duy nhất không có Nghiệp Ấn, cũng là nơi duy nhất còn <strong>người để mà mất</strong>.</p>
+
+    <h2>Làm Game Bằng Godot: Mọi Thứ Là Một Scene</h2>
+
+    <p>Về mặt kỹ thuật, Ashfall được làm bằng <strong>Godot 4.3</strong> và GDScript, theo hướng “ráp ngay trong editor”. Chiêu của boss và vũ khí của người chơi đều là các scene: thêm một chiêu mới nghĩa là thêm một scene, đổi một vũ khí nghĩa là tráo một scene. Không có con số nào bị chôn trong code mà không chỉnh được từ giao diện — cách làm giúp một người có thể quản lý cả một trận đấu phức tạp.</p>
+
+    <h2>Đang Tìm Ai?</h2>
+
+    <p>Ashfall vẫn đang trong quá trình phát triển, và hiện có bản demo một trận đấu chơi được. Tuấn Việt đang mở cửa hợp tác với những ai làm <strong>pixel art, âm thanh hoặc thiết kế màn chơi</strong> — hoặc đơn giản là muốn thử phá con boss và góp ý.</p>
+
+    <div class="cta-box">
+      <h3>Tìm Hiểu Thêm Về Tuấn Việt</h3>
+      <p>Xem hồ sơ đầy đủ, dự án và cách liên hệ.</p>
+      <a href="studio.html">Xem Hồ Sơ</a>
+    </div>
+
+    <p class="tags"><strong>Tags:</strong> #TuanVietStudio #IndieGame #Ashfall #GameDev #Godot #VietnamGameDev #Soulslike</p>
+  </article>
+</div>
+
+<footer>
+  <p>&copy; 2026 TuanViet Studio. Skill defeats all. 🖤</p>
+  <p><a href="index.html">Trang chủ</a> • <a href="https://github.com/TuanVietCoder">GitHub</a> • <a href="studio.html">Liên hệ</a></p>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": "Tuấn Việt: Một Người, Một Editor, Cả Một Thế Giới Tro Tàn",
+  "description": "Gặp Tuấn Việt — lập trình viên game độc lập ở Việt Nam, người một mình thiết kế, code và dựng công cụ cho Ashfall, soulslike pixel-art trên điện thoại.",
+  "image": "https://ashfall.io.vn/assets/avatar.jpg",
+  "datePublished": "2026-09-20",
+  "dateModified": "2026-09-20",
+  "about": { "@type": "Person", "name": "Tuấn Việt" },
+  "author": { "@type": "Organization", "name": "TuanViet Studio", "url": "https://ashfall.io.vn" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TuanViet Studio",
+    "logo": { "@type": "ImageObject", "url": "https://ashfall.io.vn/assets/tuanviet-studio-logo.jpg" }
+  }
+}
+</script>
+
+<script>
+  const bgm = document.getElementById('bgm');
+  const musicControl = document.getElementById('musicControl');
+  bgm.volume = 0.3;
+  const bgmPaused = sessionStorage.getItem('bgmPaused');
+  if (bgmPaused === 'true') {
+    bgm.pause();
+    musicControl.classList.remove('playing');
+    musicControl.classList.add('muted');
+    musicControl.textContent = '🔇';
+  } else {
+    bgm.play().catch(() => {});
+  }
+  musicControl.addEventListener('click', function() {
+    if (bgm.paused) {
+      bgm.play();
+      musicControl.classList.remove('muted');
+      musicControl.classList.add('playing');
+      musicControl.textContent = '🔊';
+      sessionStorage.setItem('bgmPaused', 'false');
+    } else {
+      bgm.pause();
+      musicControl.classList.add('muted');
+      musicControl.classList.remove('playing');
+      musicControl.textContent = '🔇';
+      sessionStorage.setItem('bgmPaused', 'true');
+    }
+  });
+</script>
+
+</body>
+</html>
