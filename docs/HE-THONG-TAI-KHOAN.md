@@ -4,7 +4,7 @@
 > tin nhắn.** Tài liệu ghi lại *vì sao* mọi thứ được làm như vậy, không chỉ *cái gì*
 > đã được làm — phần "vì sao" mới là thứ dễ mất và tốn tiền nhất khi làm lại.
 >
-> Cập nhật lần cuối: 21/09/2026 · Trạng thái: xong đợt 1–3
+> Cập nhật lần cuối: 21/09/2026 · Trạng thái: xong đợt 1–4
 
 ---
 
@@ -49,18 +49,22 @@ Hệ quả bắt buộc:
 | `supabase/hardening.sql` | Siết quyền gọi hàm (xem §6) |
 | `supabase/fix-tim-kiem.sql` | Vá lỗi `NOT NULL` trong tìm kiếm (xem §7.1) |
 | `supabase/chat.sql` | Bảng `messages` + `reports` |
+| `supabase/admin.sql` | Phân quyền kiểm duyệt, nhật ký, các hàm quản trị |
+| `supabase/fix-quyen-admin.sql` | Vá lỗi `NULL` trong kiểm tra quyền (xem §7.4) |
 | `assets/js/auth.js` | Client Supabase, `getProfile()`, gắn trạng thái đăng nhập vào nav |
 | `assets/js/chat.js` | Widget chat nổi, tự gắn vào mọi trang |
 | `assets/css/base.css` | Token màu + reset + nav dùng chung |
 | `dang-nhap.html` | Đăng ký / đăng nhập |
 | `ho-so.html` | Hồ sơ cá nhân, sửa tên hiển thị / ảnh / giới thiệu |
 | `ban-be.html` | Tìm người, gửi/nhận lời mời, chặn |
+| `quan-tri.html` | Trang quản trị: báo cáo, người dùng, nhật ký |
 | `chinh-sach-bao-mat.html` | Bắt buộc theo Nghị định 13/2023/NĐ-CP |
 
 **Thứ tự chạy SQL** (khi dựng lại từ đầu):
 
 ```
 schema.sql → friends.sql → hardening.sql → fix-tim-kiem.sql → chat.sql
+→ admin.sql → fix-quyen-admin.sql
 ```
 
 > `fix-tim-kiem.sql` ghi đè hàm trong `friends.sql`. Nếu gộp file sau này, nhớ giữ
@@ -160,9 +164,7 @@ biến `dangDocCuocNay`. Quay lại tab thì tự đánh dấu đã đọc (`vis
 Lý do: `quay_roi` · `spam` · `lua_dao` · `noi_dung_xau` · `khac`.
 Trạng thái: `moi` → `da_xem` → `da_xu_ly`.
 
-> **Nợ kỹ thuật đang mở:** người dùng gửi báo cáo được rồi nhưng **chưa có trang nào
-> để đọc và xử lý**. Đây là việc của đợt 4 và không còn là tùy chọn — đã có người
-> gửi báo cáo thì phải có người đọc.
+Xử lý ở `quan-tri.html` — xem §4b.
 
 ---
 
@@ -175,6 +177,33 @@ Trạng thái: `moi` → `da_xem` → `da_xu_ly`.
 | `danh_sach_ban()` | Bạn bè + lời mời đến + lời mời đã gửi + đã chặn |
 | `danh_sach_hoi_thoai()` | Danh sách chat kèm tin cuối và số tin chưa đọc |
 | `danh_dau_da_doc(nguoi_gui)` | Đánh dấu đã đọc cả cuộc trò chuyện |
+
+### 4b. Quản trị & kiểm duyệt (`admin.sql`)
+
+| Hàm | Ai gọi được |
+|---|---|
+| `vai_tro_cua_toi()` | mọi người đã đăng nhập |
+| `admin_ds_bao_cao(loc)` | admin, moderator |
+| `admin_ds_nguoi_dung(tu_khoa)` | admin, moderator |
+| `admin_doi_trang_thai(id, trang_thai, ly_do)` | admin, moderator |
+| `admin_an_tin_nhan(id, ly_do)` | admin, moderator |
+| `admin_xu_ly_bao_cao(id, trang_thai, ghi_chu)` | admin, moderator |
+| `admin_nhat_ky()` | admin, moderator |
+| `admin_doi_vai_tro(id, vai_tro)` | **chỉ admin** |
+
+**Phân quyền:**
+
+- `moderator` — đọc báo cáo, ẩn tin nhắn, **tạm khóa** tài khoản
+- `admin` — tất cả những trên + **cấm vĩnh viễn** + **đổi vai trò**
+
+**Ba luật cứng**, cài ở trigger `guard_profile_privileges` chứ không ở giao diện:
+
+1. **Không ai tự đổi vai trò hoặc trạng thái của chính mình** — tránh tự khóa mình
+   ra ngoài, và tránh người dùng thường tự phong admin
+2. **Kiểm duyệt viên không thao tác được trên admin** — tránh nội chiến quyền lực
+3. **Mọi hành động đều ghi vào `admin_actions`** — bảng này **chỉ đọc được**, không
+   có policy insert/update/delete nên không ai sửa hay xoá nhật ký, kể cả admin
+
 
 ---
 
@@ -202,7 +231,6 @@ Chạy trong SQL Editor. Trigger `guard_profile_privileges` có nhánh cho
 
 - [ ] Tắt *"Automatically expose new tables"* trong **Settings → API**
       (Supabase khuyên tắt; bảng mới quên bật RLS là lộ ngay)
-- [ ] Trang admin để xử lý `reports`
 - [ ] Cho phép đổi Riot ID
 
 ---
@@ -292,6 +320,42 @@ ashfall.io.vn. Thêm thư mục mới chứa thứ không nên công khai thì n
 
 ---
 
+### 7.4 `NULL not in (...)` — vẫn là bẫy NULL, lần thứ hai
+
+**Đã mắc lại đúng lỗi §7.1 ở một hình dạng khác.** Trong các hàm quản trị:
+
+```sql
+-- SAI
+if public.vai_tro_cua_toi() not in ('admin','moderator') then
+  raise exception 'Không có quyền';
+end if;
+```
+
+Khi người gọi **không có hàng trong `profiles`**, hàm trả `NULL`:
+
+```
+NULL not in ('admin','moderator')  ->  NULL   (không phải TRUE)
+if NULL then ...                   ->  không chạy
+```
+
+Phần kiểm tra quyền bị bỏ qua hoàn toàn, hàm chạy tiếp như thường.
+
+```sql
+-- ĐÚNG
+if coalesce(public.vai_tro_cua_toi(), '') not in ('admin','moderator') then
+```
+
+> **Quy tắc rút ra:** bất cứ khi nào so sánh một giá trị **có thể là NULL**, phải
+> hoặc bọc `coalesce`, hoặc dùng `is distinct from`. `not in`, `<>`, `not (...)`
+> đều trả `NULL` khi gặp `NULL`, và `if NULL` thì **không chạy**.
+
+Các **policy** dùng `vai_tro_cua_toi() in (...)` thì *không* dính lỗi này, vì policy
+chỉ cho qua khi điều kiện là `TRUE` — `NULL` bị coi như từ chối. Chỉ `if` trong
+plpgsql mới nguy hiểm.
+
+Lỗi này bị bắt nhờ bài test ở §8b, không phải nhờ đọc lại code.
+
+---
 ## 8. Cách kiểm thử bảo mật
 
 Đừng tin là an toàn chỉ vì code trông đúng. **Tấn công thử bằng chính khóa công khai**:
@@ -323,6 +387,45 @@ Mong đợi: `rls_bat = true`, `policy_xoa = 0`, `anon_goi_duoc = false`.
 
 ---
 
+### 8b. Thử vượt quyền bằng cách đóng vai người khác
+
+Cách mạnh nhất: giả lập JWT ngay trong SQL Editor rồi thử phá từng luật.
+Bài test này đã bắt được lỗi §7.4.
+
+```sql
+create temp table ket_qua(stt int, phep_thu text, ket_luan text) on commit drop;
+
+do $$
+declare mod_id uuid := (select id from public.profiles where username='...');
+        r text;
+begin
+  perform set_config('request.jwt.claims', json_build_object('sub', mod_id)::text, true);
+  begin update public.profiles set role='admin' where id=mod_id;
+    r:='LỌT LƯỚI'; exception when others then r:='chặn'; end;
+  insert into ket_qua values (1,'Tự phong admin', r);
+
+  -- người KHÔNG có hồ sơ → vai trò NULL, đây là chỗ hay lọt
+  perform set_config('request.jwt.claims', json_build_object('sub', gen_random_uuid())::text, true);
+  begin perform public.admin_ds_bao_cao('moi');
+    r:='LỌT LƯỚI'; exception when others then r:='chặn'; end;
+  insert into ket_qua values (2,'Không hồ sơ: xem báo cáo', r);
+
+  perform set_config('request.jwt.claims', NULL, true);   -- BỎ ĐÓNG VAI trước khi dọn
+end $$;
+
+select * from ket_qua order by stt;
+```
+
+Ba lưu ý khi viết bài test kiểu này:
+
+- `set_config(..., true)` chỉ sống trong **một giao dịch**; cả script là một giao
+  dịch, nên phải `set_config(..., NULL, true)` **trước** khi dọn dẹp — nếu không,
+  lệnh dọn sẽ bị chính luật vừa test chặn lại và toàn bộ giao dịch bị hủy
+- Dùng bảng tạm để **trả kết quả ra bảng**; `raise notice` không hiện trong SQL Editor
+- Supabase cảnh báo bảng tạm không có RLS — bảng tạm tự xóa khi kết thúc,
+  bấm **Run without RLS** là đúng
+
+---
 ## 9. Lộ trình
 
 | Đợt | Nội dung | Trạng thái |
@@ -330,7 +433,7 @@ Mong đợi: `rls_bat = true`, `policy_xoa = 0`, `anon_goi_duoc = false`.
 | 1 | Đăng nhập, hồ sơ, chính sách bảo mật | ✅ 21/09/2026 |
 | 2 | Kết bạn, tìm theo Riot ID | ✅ 21/09/2026 |
 | 3 | Chat 1-1 realtime, thu hồi, báo cáo | ✅ 21/09/2026 |
-| 4 | Trang admin: danh sách user, xử lý `reports`, cấm tài khoản | ⬜ |
+| 4 | Trang admin: danh sách user, xử lý `reports`, cấm tài khoản | ✅ 21/09/2026 |
 | 5 | Nối Godot: đăng nhập trong game, đồng bộ Nghiệp Ấn / boss đã hạ | ⬜ |
 
 ### Cảnh báo cho đợt 5
