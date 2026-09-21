@@ -1,0 +1,6 @@
+# GitHub Pages (legacy Jekyll build): pages are plain static HTML, nothing is generated.
+# These entries are working files, not part of the public site.
+exclude:
+  - docs
+  - README.md
+  - .github

@@ -27,22 +27,25 @@ Ashfall is a challenging soulslike game where **skill defeats all**. No grinding
 
 ```
 project_game_QC/
-├── index.html          # Homepage
-├── map.html            # World map page
-├── studio.html         # About/studio page
-├── tin-tuc.html        # News hub
-├── tin-tuc-1.html      # News article: Boss analysis
-├── blog.html           # Blog hub
-├── blog-post-*.html    # Blog articles (1-6)
-├── assets/             # Images, logo, BGM
-│   ├── humocvuong.jpg  # Boss artwork
-│   ├── tuanviet-studio-logo.png
-│   ├── bgm.mp3
-│   └── avatar.jpg
-├── README.md           # This file
-├── .gitignore          # Git ignore rules
-├── sitemap.xml         # SEO sitemap
-└── robots.txt          # Search engine directives
+├── index.html             # Trang chủ
+├── map.html               # Bản đồ thế giới
+├── studio.html            # Hồ sơ Lê Đoàn Tuấn Việt / TuanViet Studio
+├── tin-tuc.html           # Trang tin tức
+├── tin-tuc-N.html         # Bài tin tức (1-3)
+├── blog.html              # Trang blog
+├── blog-post-N.html       # Bài blog (1-6)
+├── 404.html               # Trang báo lỗi 404 (noindex)
+├── assets/                # Ảnh, logo, nhạc nền
+│   ├── avatar.jpg         # Ảnh đại diện
+│   ├── humocvuong.jpg     # Ảnh boss Hủ Mộc Vương
+│   ├── tuanviet-studio-logo.jpg
+│   └── bgm.mp3
+├── docs/seo/              # Tài liệu SEO/outreach nội bộ (KHÔNG xuất bản lên web)
+├── sitemap.xml            # Sơ đồ trang cho Google
+├── robots.txt             # Chỉ dẫn cho bot
+├── CNAME                  # Tên miền ashfall.io.vn
+├── _config.yml            # Loại docs/README khỏi bản xuất bản
+└── .github/workflows/     # (deploy.yml đang nghe nhánh master nên không chạy)
 ```
 
 ## 🎨 Design & Style
@@ -85,7 +88,7 @@ project_game_QC/
 
 ## 🚀 Deployment
 
-Hosted on **GitHub Pages** with auto-deployment via GitHub Actions.
+Hosted on **GitHub Pages** (build từ nhánh `main`, thư mục gốc).
 
 **Branch:** `main` → Auto-deploys to https://ashfall.io.vn
 
