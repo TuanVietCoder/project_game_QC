@@ -4,6 +4,10 @@ Official website for **Ashfall** (Tro Tàn) - a skill-based soulslike pixel art 
 
 **Live:** https://ashfall.io.vn
 
+> 🔑 **Có hệ thống tài khoản (đăng nhập, kết bạn, nhắn tin).**
+> Trước khi sửa phần đó, đọc [`docs/HE-THONG-TAI-KHOAN.md`](docs/HE-THONG-TAI-KHOAN.md) —
+> tài liệu ghi lại kiến trúc, các quyết định bảo mật và những bẫy đã dính.
+
 ## 📱 About Ashfall
 
 Ashfall is a challenging soulslike game where **skill defeats all**. No grinding, no pay-to-win mechanics. Every boss fight is a fair test of your pattern recognition and reflexes.
@@ -35,6 +39,14 @@ project_game_QC/
 ├── blog.html              # Trang blog
 ├── blog-post-N.html       # Bài blog (1-6)
 ├── 404.html               # Trang báo lỗi 404 (noindex)
+├── dang-nhap.html         # Đăng nhập / đăng ký
+├── ho-so.html             # Hồ sơ người chơi
+├── ban-be.html            # Tìm người, kết bạn
+├── chinh-sach-bao-mat.html
+├── supabase/              # Lược đồ database (KHÔNG xuất bản lên web)
+├── assets/css/base.css    # Token màu + nav dùng chung
+├── assets/js/auth.js      # Đăng nhập dùng chung
+├── assets/js/chat.js      # Widget chat nổi
 ├── assets/                # Ảnh, logo, nhạc nền
 │   ├── avatar.jpg         # Ảnh đại diện
 │   ├── humocvuong.jpg     # Ảnh boss Hủ Mộc Vương
