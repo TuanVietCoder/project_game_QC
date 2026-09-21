@@ -30,27 +30,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/base.css">
 <style>
-  :root{
-    --bg:#100d0a;
-    --bg-plate:#1a1510;
-    --bg-plate-2:#221b14;
-    --ink:#efe6d4;
-    --muted:#a99a82;
-    --muted-2:#75695a;
-    --line:rgba(239,230,212,0.14);
-    --line-strong:rgba(239,230,212,0.30);
-    --ember:#ff9d47;
-    --ember-dim:#c97a38;
-    --crack:#cf4b3e;
-    --moss:#8fa87f;
-    --font-display:'Spectral', Georgia, 'Times New Roman', serif;
-    --font-body:'Be Vietnam Pro', -apple-system, 'Segoe UI', sans-serif;
-    --font-mono:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  }
-  *{ box-sizing:border-box; }
   html{ scroll-behavior:smooth; }
-  html,body{ margin:0; padding:0; }
   body{
     background:
       radial-gradient(ellipse 1100px 620px at 50% -6%, rgba(255,157,71,0.08), transparent 62%),
@@ -66,52 +48,7 @@
   a{ color:var(--ember); text-decoration:none; }
   a:hover{ text-decoration:underline; }
 
-  .wrap{ max-width:900px; margin:0 auto; padding:60px 26px; }
-
-  nav{
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    z-index:1000;
-    background:rgba(16,13,10,0.95);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
-  }
-  nav .nav-content{
-    max-width:900px;
-    margin:0 auto;
-    padding:14px 26px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-  }
-  nav .logo{
-    font-family:var(--font-display);
-    font-weight:700;
-    font-size:1.4rem;
-    color:var(--ember);
-    text-decoration:none;
-  }
-  nav .nav-links{
-    display:flex;
-    gap:22px;
-    list-style:none;
-    margin:0;
-    padding:0;
-  }
-  nav .nav-links a{
-    font-family:var(--font-mono);
-    font-size:11px;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    color:var(--muted);
-    transition:color .2s ease;
-  }
-  nav .nav-links a:hover{
-    color:var(--ember);
-    text-decoration:none;
-  }
+  .wrap{ max-width:900px; margin:0 auto; padding:60px 26px; }
 
   article{
     margin-top:80px;
@@ -380,5 +317,6 @@
 }
 </script>
 
+<script type="module" src="assets/js/auth.js"></script>
 </body>
 </html>

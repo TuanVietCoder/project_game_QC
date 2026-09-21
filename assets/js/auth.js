@@ -50,6 +50,24 @@ export const dichLoi = (m) =>
  * Gắn trạng thái đăng nhập vào nút .signin ở góc phải.
  * Chưa đăng nhập → "Đăng nhập". Đã đăng nhập → Riot ID, bấm vào ra hồ sơ.
  */
+/**
+ * Gắn mục tài khoản vào cuối thanh nav (các trang tin tức / blog).
+ * Chưa đăng nhập → "Đăng nhập". Đã đăng nhập → Riot ID.
+ */
+export async function mountNavAccount() {
+  const list = document.querySelector('nav .nav-links');
+  if (!list || list.querySelector('.nav-account')) return;
+
+  const p = await getProfile();
+  const li = document.createElement('li');
+  const a = document.createElement('a');
+  a.className = 'nav-account';
+  a.href = p ? 'ho-so.html' : 'dang-nhap.html';
+  a.textContent = p ? riotId(p) : 'Đăng nhập';
+  li.append(a);
+  list.append(li);
+}
+
 export async function mountAuthButton() {
   const btn = document.querySelector('.signin');
   if (!btn) return;
@@ -75,8 +93,10 @@ export async function mountAuthButton() {
   });
 }
 
+const mountAll = () => { mountAuthButton(); mountNavAccount(); };
+
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', mountAuthButton, { once: true });
+  document.addEventListener('DOMContentLoaded', mountAll, { once: true });
 } else {
-  mountAuthButton();
+  mountAll();
 }
