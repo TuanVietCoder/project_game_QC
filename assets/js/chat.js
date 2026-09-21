@@ -141,6 +141,13 @@ const CSS = `
 
 .ash-chat__empty{ padding:40px 24px; text-align:center; color:var(--muted-2,#75695a);
   font-size:12.5px; line-height:1.75; white-space:pre-line; }
+.ash-chat__thulai{
+  display:block; margin:14px auto 0; cursor:pointer;
+  background:none; color:var(--ember,#ff9d47);
+  border:1px solid var(--ember-dim,#c97a38); border-radius:999px; padding:7px 16px;
+  font:700 10px var(--font-mono,monospace); letter-spacing:.1em; text-transform:uppercase;
+}
+.ash-chat__thulai:hover{ background:rgba(255,157,71,.1); }
 .ash-chat__err{
   margin:8px; padding:9px 11px; border-radius:8px; font-size:12px;
   background:rgba(207,75,62,.14); border:1px solid var(--crack,#cf4b3e); color:#f0b3ac;
@@ -326,6 +333,7 @@ async function init() {
   let dsHoiThoai = [];
   let dangMo = null;          // hồ sơ người đang nhắn, null = đang ở danh sách
   let dangXem = false;
+  let phien = 0;              // tăng mỗi khi đổi màn; kết quả cũ về sau sẽ bị bỏ
 
   const loi = (text) => {
     const e = el('div', 'ash-chat__err', text);
@@ -418,6 +426,7 @@ async function init() {
 
   /** Khung xương lúc chờ dữ liệu, để panel không mở ra trống trơn. */
   function veXuong(n = 4) {
+    veHeader('Tin nhắn', false);
     body.replaceChildren(...Array.from({ length: n }, () => {
       const x = el('div', 'ash-chat__xuong');
       const a = el('i', 'a');
@@ -428,9 +437,14 @@ async function init() {
     }));
   }
 
+  /** Nguồn sự thật duy nhất cho thanh tiêu đề. */
+  function veHeader(tieuDe, coBack) {
+    title.textContent = tieuDe;
+    back.hidden = !coBack;
+  }
+
   function veDanhSach() {
-    title.textContent = 'Tin nhắn';
-    back.hidden = true;
+    veHeader('Tin nhắn', false);
     body.replaceChildren();
 
     if (!dsHoiThoai.length) {
@@ -470,8 +484,8 @@ async function init() {
   // ------------------------------------------------- một cuộc trò chuyện ---
   async function moCuocTroChuyen(ban) {
     dangMo = ban;
-    title.textContent = tenHienThi(ban);
-    back.hidden = false;
+    const cua = ++phien;                        // dấu mốc của lần mở này
+    veHeader(tenHienThi(ban), true);
     body.replaceChildren(el('div', 'ash-chat__empty', 'Đang tải…'));
 
     const { data, error } = await supabase
@@ -481,7 +495,17 @@ async function init() {
       .order('created_at', { ascending: true })
       .limit(200);
 
-    if (error) { body.replaceChildren(); loi(dichLoi(error.message)); return; }
+    if (cua !== phien) return;                  // người dùng đã bấm đi chỗ khác
+    if (error) {
+      const hop = el('div', 'ash-chat__empty');
+      hop.append('Không tải được tin nhắn.' + String.fromCharCode(10) + dichLoi(error.message));
+      const lai = el('button', 'ash-chat__thulai', 'Thử lại');
+      lai.type = 'button';
+      lai.onclick = () => moCuocTroChuyen(ban);
+      hop.append(lai);
+      body.replaceChildren(hop);
+      return;
+    }
 
     const list = el('div', 'ash-chat__msgs');
     const form = taoForm(ban);
@@ -650,23 +674,35 @@ async function init() {
     panel.hidden = false;
     // vẽ ngay những gì đã có; chưa có gì thì hiện khung xương
     if (!dangMo) { dsHoiThoai.length ? veDanhSach() : veXuong(); }
+    const cua = phien;
     await taiDanhSach();
-    if (!dangMo) veDanhSach();
+    if (cua === phien && dangXem && !dangMo) veDanhSach();
   };
   const dong = () => {
     dangXem = false;
     dangMo = null;
+    phien++;                                   // bỏ mọi kết quả đang chờ
     panel.hidden = true;
     panel.querySelector('.ash-chat__form')?.remove();
+    veHeader('Tin nhắn', false);               // lần mở sau không còn dính tiêu đề cũ
   };
 
   fab.onclick = () => (panel.hidden ? mo() : dong());
   close.onclick = dong;
   back.onclick = () => {
     dangMo = null;
+    phien++;
     panel.querySelector('.ash-chat__form')?.remove();
     veDanhSach();
   };
+
+  // Thêm lối thoát: phím Esc, và bấm ra ngoài panel
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !panel.hidden) { e.stopPropagation(); dong(); }
+  });
+  document.addEventListener('pointerdown', (e) => {
+    if (!panel.hidden && !root.contains(e.target) && !e.target.closest('.ash-toast')) dong();
+  });
 
   // quay lại tab trong khi đang mở một cuộc trò chuyện → đánh dấu đã đọc
   document.addEventListener('visibilitychange', () => {
