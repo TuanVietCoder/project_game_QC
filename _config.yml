@@ -2,5 +2,6 @@
 # These entries are working files, not part of the public site.
 exclude:
   - docs
+  - supabase
   - README.md
   - .github
