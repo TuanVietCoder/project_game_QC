@@ -137,6 +137,24 @@ Trigger `guard_friendship_block` chặn ba trò gian:
 Realtime bật bằng `alter publication supabase_realtime add table public.messages`.
 RLS vẫn áp dụng cho realtime, nên mỗi người chỉ nhận được tin của chính mình.
 
+#### Thông báo tin nhắn mới (trong `chat.js`)
+
+Bốn lớp, xếp từ chắc chắn nhất tới cần xin phép:
+
+| Lớp | Điều kiện | Ghi chú |
+|---|---|---|
+| Đếm trên **tiêu đề tab** `(2) Ashfall…` | Luôn chạy | Thấy được cả khi ở tab khác |
+| **Thẻ nổi** góc phải, bấm mở thẳng cuộc trò chuyện | Luôn chạy | Tự tắt sau 7 giây, tối đa 3 thẻ |
+| **Tiếng ding** (Web Audio, không cần file âm thanh) | Sau cú bấm chuột đầu tiên | Trình duyệt cấm phát tiếng trước khi người dùng tương tác. Tắt/bật bằng nút 🔊, nhớ trong `localStorage` |
+| **Thông báo hệ điều hành** | Cần cấp quyền **và** tab đang ẩn | Xin quyền bằng nút 🔔 trong khung chat, **không** tự bật lúc tải trang (Chrome phạt hành vi đó) |
+
+Không báo khi người dùng **đang mở đúng cuộc trò chuyện đó và tab đang hiện** —
+biến `dangDocCuocNay`. Quay lại tab thì tự đánh dấu đã đọc (`visibilitychange`).
+
+> **Giới hạn:** chỉ báo được khi **trang web đang mở** trong một tab nào đó.
+> Muốn báo cả khi đã đóng trình duyệt thì cần Service Worker + Web Push API +
+> máy chủ đẩy tin (VAPID) — việc lớn hơn nhiều, chưa làm.
+
 ### `reports` — báo cáo vi phạm
 
 Lý do: `quay_roi` · `spam` · `lua_dao` · `noi_dung_xau` · `khac`.
