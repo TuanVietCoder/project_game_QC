@@ -104,8 +104,37 @@ const CSS = `
   background:rgba(207,75,62,.14); border:1px solid var(--crack,#cf4b3e); color:#f0b3ac;
 }
 .ash-chat[hidden]{ display:none; }
+
+/* ---------------------------------------------------- thông báo nổi --- */
+.ash-toasts{
+  position:fixed; right:18px; bottom:86px; z-index:2001;
+  display:flex; flex-direction:column-reverse; gap:9px;
+  max-width:min(320px, calc(100vw - 36px)); pointer-events:none;
+}
+.ash-toast{
+  display:flex; align-items:center; gap:11px; padding:11px 13px;
+  background:var(--bg-plate,#1a1510); border:1px solid var(--line-strong,#3a332c);
+  border-left:3px solid var(--ember,#ff9d47); border-radius:11px;
+  box-shadow:0 12px 34px rgba(0,0,0,.5); cursor:pointer; pointer-events:auto;
+  animation:ash-toast-in .22s ease-out;
+  font-family:var(--font-body,sans-serif);
+}
+.ash-toast:hover{ border-color:var(--ember-dim,#c97a38); }
+.ash-toast--di{ animation:ash-toast-out .2s ease-in forwards; }
+@keyframes ash-toast-in{ from{ opacity:0; transform:translateX(24px); } to{ opacity:1; transform:none; } }
+@keyframes ash-toast-out{ to{ opacity:0; transform:translateX(24px); } }
+@media (prefers-reduced-motion:reduce){
+  .ash-toast, .ash-toast--di{ animation:none; }
+}
+.ash-toast__x{
+  flex:none; background:none; border:none; cursor:pointer; align-self:flex-start;
+  color:var(--muted-2,#75695a); font-size:14px; line-height:1; padding:2px 3px;
+}
+.ash-toast__x:hover{ color:var(--ink,#efe6d4); }
+
 @media (max-width:480px){
   .ash-chat__panel{ width:calc(100vw - 24px); height:min(72vh,470px); right:-6px; }
+  .ash-toasts{ right:12px; left:12px; max-width:none; bottom:82px; }
 }
 `;
 
@@ -118,6 +147,64 @@ const el = (tag, cls, text) => {
 const gio = (iso) =>
   new Date(iso).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
 const chuCai = (p) => (p.display_name || p.username || '?').charAt(0).toUpperCase();
+
+// =========================================================== thông báo ===
+// Bốn lớp, xếp từ chắc chắn nhất tới cần xin phép:
+//   1. Tiêu đề tab "(2) Ashfall…"  — luôn chạy
+//   2. Thẻ nổi trong trang          — luôn chạy
+//   3. Tiếng "ding"                 — cần người dùng bấm chuột một lần (luật trình duyệt)
+//   4. Thông báo hệ điều hành       — cần cấp quyền, chỉ hiện khi tab đang ẩn
+const KHOA_AM = 'ashfall_chat_am_thanh';
+const amBat = () => localStorage.getItem(KHOA_AM) !== '0';
+const datAm = (bat) => localStorage.setItem(KHOA_AM, bat ? '1' : '0');
+
+const TIEU_DE_GOC = document.title;
+function datTieuDe(n) {
+  document.title = n > 0 ? `(${n}) ${TIEU_DE_GOC}` : TIEU_DE_GOC;
+}
+
+// Trình duyệt chặn phát tiếng trước khi người dùng tương tác, nên chỉ dựng
+// AudioContext sau cú bấm chuột đầu tiên.
+let am = null;
+const dungAm = () => {
+  if (am) { am.resume?.(); return; }
+  try { am = new (window.AudioContext || window.webkitAudioContext)(); } catch { /* không sao */ }
+};
+document.addEventListener('click', dungAm, { once: true });
+document.addEventListener('keydown', dungAm, { once: true });
+
+function keu() {
+  if (!amBat() || !am || am.state !== 'running') return;
+  try {
+    const t = am.currentTime;
+    const o = am.createOscillator();
+    const g = am.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(880, t);
+    o.frequency.setValueAtTime(1175, t + 0.09);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.16, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.3);
+    o.connect(g).connect(am.destination);
+    o.start(t);
+    o.stop(t + 0.32);
+  } catch { /* không sao */ }
+}
+
+const coQuyenThongBao = () =>
+  'Notification' in window && Notification.permission === 'granted';
+
+function thongBaoHeThong(ban, noiDung, khiBam) {
+  if (!coQuyenThongBao() || !document.hidden) return;   // đang xem trang thì thẻ nổi là đủ
+  try {
+    const n = new Notification(`${ban.username}#${ban.tag}`, {
+      body: noiDung,
+      icon: new URL('../tuanviet-studio-logo.jpg', import.meta.url).href,
+      tag: 'ashfall-' + ban.id,                          // tin sau đè tin trước của cùng người
+    });
+    n.onclick = () => { window.focus(); n.close(); khiBam(); };
+  } catch { /* không sao */ }
+}
 
 async function init() {
   const me = await getProfile();
@@ -141,15 +228,45 @@ async function init() {
   const back = el('button', 'ash-chat__icon', '←');
   back.type = 'button'; back.hidden = true; back.title = 'Quay lại';
   const title = el('b', null, 'Tin nhắn');
+
+  const chuong = el('button', 'ash-chat__icon');
+  chuong.type = 'button';
+  const veChuong = () => {
+    if (!('Notification' in window)) { chuong.hidden = true; return; }
+    const p = Notification.permission;
+    chuong.textContent = p === 'granted' ? '🔔' : p === 'denied' ? '🔕' : '🔔';
+    chuong.style.opacity = p === 'granted' ? '1' : '.45';
+    chuong.title = p === 'granted'
+      ? 'Thông báo hệ thống đang bật'
+      : p === 'denied'
+        ? 'Bạn đã chặn thông báo cho trang này — mở cài đặt trình duyệt để bật lại'
+        : 'Bật thông báo khi có tin nhắn mới';
+  };
+  chuong.onclick = async () => {
+    if (Notification.permission === 'default') await Notification.requestPermission();
+    veChuong();
+  };
+  veChuong();
+
+  const loa = el('button', 'ash-chat__icon');
+  loa.type = 'button';
+  const veLoa = () => {
+    loa.textContent = amBat() ? '🔊' : '🔇';
+    loa.title = amBat() ? 'Tắt tiếng báo' : 'Bật tiếng báo';
+  };
+  loa.onclick = () => { datAm(!amBat()); veLoa(); dungAm(); keu(); };
+  veLoa();
+
   const close = el('button', 'ash-chat__icon', '✕');
   close.type = 'button'; close.title = 'Đóng';
-  head.append(back, title, close);
+  head.append(back, title, chuong, loa, close);
   const body = el('div', 'ash-chat__body');
   panel.append(head, body);
 
   fab.append(dot);
   root.append(panel, fab);
-  document.body.append(root);
+  const khayToast = el('div', 'ash-toasts');
+  document.body.append(root, khayToast);
 
   // ------------------------------------------------------------- state ---
   let dsHoiThoai = [];
@@ -175,6 +292,44 @@ async function init() {
     const n = dsHoiThoai.reduce((s, r) => s + Number(r.chua_doc || 0), 0);
     dot.hidden = n === 0;
     dot.textContent = n > 99 ? '99+' : String(n);
+    datTieuDe(n);
+  }
+
+  // --------------------------------------------------- thẻ nổi trong trang ---
+  function hienThe(ban, noiDung) {
+    const t = el('div', 'ash-toast');
+    t.setAttribute('role', 'status');
+
+    const ava = el('div', 'ash-chat__ava');
+    if (ban.avatar_url) ava.style.backgroundImage = `url("${ban.avatar_url.replace(/"/g, '%22')}")`;
+    else ava.textContent = chuCai(ban);
+
+    const meta = el('div', 'ash-chat__meta');
+    meta.append(el('div', 'ash-chat__name', `${ban.username}#${ban.tag}`));
+    meta.append(el('div', 'ash-chat__last', noiDung));
+
+    const x = el('button', 'ash-toast__x', '✕');
+    x.type = 'button';
+    x.title = 'Bỏ qua';
+
+    const di = () => {
+      t.classList.add('ash-toast--di');
+      setTimeout(() => t.remove(), 220);
+    };
+    x.onclick = (e) => { e.stopPropagation(); di(); };
+    t.onclick = () => { di(); mo().then(() => moCuocTroChuyen(ban)); };
+
+    t.append(ava, meta, x);
+    khayToast.append(t);
+    while (khayToast.children.length > 3) khayToast.firstElementChild.remove();
+    setTimeout(di, 7000);
+  }
+
+  /** Gọi khi có tin mới gửi ĐẾN mình mà mình chưa đang đọc cuộc đó. */
+  function baoTinMoi(ban, noiDung) {
+    hienThe(ban, noiDung);
+    keu();
+    thongBaoHeThong(ban, noiDung, () => mo().then(() => moCuocTroChuyen(ban)));
   }
 
   function veDanhSach() {
@@ -340,6 +495,10 @@ async function init() {
         if (m.sender_id !== me.id && m.recipient_id !== me.id) return;
 
         const doiPhuong = m.sender_id === me.id ? m.recipient_id : m.sender_id;
+
+        // đang mở đúng cuộc trò chuyện đó và tab đang hiện → chèn thẳng vào khung
+        const dangDocCuocNay = dangMo && doiPhuong === dangMo.id && dangXem && !document.hidden;
+
         if (dangMo && doiPhuong === dangMo.id && dangXem) {
           const list = body.querySelector('.ash-chat__msgs');
           if (list) {
@@ -347,8 +506,17 @@ async function init() {
             list.append(veTin(m, dangMo));
             body.scrollTop = body.scrollHeight;
           }
-          if (m.recipient_id === me.id) await supabase.rpc('danh_dau_da_doc', { nguoi_gui: dangMo.id });
+          if (m.recipient_id === me.id && !document.hidden) {
+            await supabase.rpc('danh_dau_da_doc', { nguoi_gui: dangMo.id });
+          }
         }
+
+        // tin gửi ĐẾN mình, mà mình không đang đọc đúng cuộc đó → báo
+        if (m.recipient_id === me.id && !dangDocCuocNay) {
+          const ban = dsHoiThoai.find((r) => r.id === m.sender_id);
+          if (ban) baoTinMoi(ban, m.body);
+        }
+
         await taiDanhSach();
       })
     .on('postgres_changes',
@@ -388,6 +556,13 @@ async function init() {
     panel.querySelector('.ash-chat__form')?.remove();
     veDanhSach();
   };
+
+  // quay lại tab trong khi đang mở một cuộc trò chuyện → đánh dấu đã đọc
+  document.addEventListener('visibilitychange', async () => {
+    if (document.hidden || !dangXem || !dangMo) return;
+    await supabase.rpc('danh_dau_da_doc', { nguoi_gui: dangMo.id });
+    await taiDanhSach();
+  });
 
   await taiDanhSach();
   setInterval(taiDanhSach, 60000);      // dự phòng nếu kết nối tức thời rớt
