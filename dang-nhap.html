@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<meta name="description" content="Đăng nhập hoặc tạo tài khoản Ashfall để có hồ sơ người chơi, kết bạn và theo dõi tiến độ.">
+<title>Đăng nhập — Ashfall</title>
+<link rel="icon" type="image/jpeg" href="assets/tuanviet-studio-logo.jpg?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;700&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --bg:#100d0a; --bg-plate:#1a1510; --bg-plate-2:#221b14;
+    --ink:#efe6d4; --muted:#a99a82; --muted-2:#75695a;
+    --line:rgba(239,230,212,0.14); --line-strong:rgba(239,230,212,0.30);
+    --ember:#ff9d47; --ember-dim:#c97a38; --crack:#cf4b3e; --moss:#8fa87f;
+    --font-display:'Spectral', Georgia, serif;
+    --font-body:'Be Vietnam Pro', -apple-system, 'Segoe UI', sans-serif;
+    --font-mono:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    min-height:100vh; display:grid; place-items:center; padding:26px;
+    background:radial-gradient(ellipse 900px 520px at 50% -8%, rgba(255,157,71,.13), transparent 62%), var(--bg);
+    color:var(--ink); font-family:var(--font-body); line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:var(--ember); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  :focus-visible{ outline:2px solid var(--ember); outline-offset:3px; border-radius:3px; }
+
+  .card{ width:100%; max-width:430px; }
+  .brand{ display:flex; align-items:center; gap:12px; justify-content:center; margin-bottom:26px; }
+  .brand img{ width:44px; height:44px; border-radius:50%; border:1.5px solid var(--ember-dim); object-fit:cover; }
+  .brand b{ font-family:var(--font-display); font-size:1.5rem; letter-spacing:.02em; }
+  .brand b em{ color:var(--ember); font-style:normal; }
+
+  .panel{ background:var(--bg-plate); border:1px solid var(--line-strong); border-radius:14px; padding:30px 28px; }
+
+  .tabs{ display:flex; gap:6px; background:var(--bg-plate-2); border-radius:999px; padding:5px; margin-bottom:26px; }
+  .tabs button{
+    flex:1; padding:10px; border:none; border-radius:999px; cursor:pointer;
+    background:transparent; color:var(--muted); font-family:var(--font-mono);
+    font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+    transition:background .16s ease, color .16s ease;
+  }
+  .tabs button[aria-selected="true"]{ background:var(--ember); color:#1a1208; }
+
+  label{ display:block; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted-2); margin:0 0 7px; }
+  input{
+    width:100%; padding:13px 14px; margin-bottom:17px;
+    background:var(--bg-plate-2); color:var(--ink);
+    border:1px solid var(--line-strong); border-radius:7px;
+    font-family:var(--font-body); font-size:.97rem;
+  }
+  input:focus{ outline:none; border-color:var(--ember-dim); }
+  .hint{ margin:-12px 0 17px; font-size:.8rem; color:var(--muted-2); }
+
+  .btn{
+    width:100%; padding:14px; border:none; border-radius:7px; cursor:pointer;
+    background:var(--ember); color:#1a1208;
+    font-family:var(--font-mono); font-size:12px; font-weight:700;
+    letter-spacing:.12em; text-transform:uppercase;
+    transition:filter .16s ease;
+  }
+  .btn:hover:not(:disabled){ filter:brightness(1.1); }
+  .btn:disabled{ opacity:.55; cursor:progress; }
+
+  .msg{ margin-top:18px; padding:13px 15px; border-radius:7px; font-size:.9rem; display:none; }
+  .msg.show{ display:block; }
+  .msg.err{ background:rgba(207,75,62,.12); border:1px solid var(--crack); color:#f0b3ac; }
+  .msg.ok{ background:rgba(143,168,127,.12); border:1px solid var(--moss); color:#cfe0c4; }
+
+  .foot{ margin-top:22px; text-align:center; font-size:.83rem; color:var(--muted-2); line-height:1.7; }
+</style>
+</head>
+<body>
+
+<main class="card">
+  <a class="brand" href="index.html" aria-label="Về trang chủ Ashfall">
+    <img src="assets/tuanviet-studio-logo.jpg" alt="">
+    <b>ASH<em>FALL</em></b>
+  </a>
+
+  <div class="panel">
+    <div class="tabs" role="tablist">
+      <button type="button" id="tab-in" role="tab" aria-selected="true">Đăng nhập</button>
+      <button type="button" id="tab-up" role="tab" aria-selected="false">Tạo tài khoản</button>
+    </div>
+
+    <form id="form" novalidate>
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="email" required placeholder="ban@email.com">
+
+      <label for="pw">Mật khẩu</label>
+      <input id="pw" type="password" autocomplete="current-password" required minlength="6" placeholder="Ít nhất 6 ký tự">
+      <p class="hint" id="hint" hidden>Riot ID sẽ được tạo tự động, bạn đổi tên hiển thị sau được.</p>
+
+      <button class="btn" id="submit" type="submit">Đăng nhập</button>
+    </form>
+
+    <div class="msg" id="msg" role="status" aria-live="polite"></div>
+  </div>
+
+  <p class="foot">
+    Tạo tài khoản nghĩa là bạn đồng ý với <a href="chinh-sach-bao-mat.html">Chính sách bảo mật</a>.<br>
+    <a href="index.html">← Về trang chủ</a>
+  </p>
+</main>
+
+<script type="module">
+import { supabase, dichLoi } from './assets/js/auth.js';
+
+const $ = (id) => document.getElementById(id);
+const tabIn = $('tab-in'), tabUp = $('tab-up'), form = $('form'),
+      submit = $('submit'), msg = $('msg'), pw = $('pw'), hint = $('hint');
+let mode = 'in';
+
+const show = (text, kind) => {
+  msg.textContent = text;
+  msg.className = `msg show ${kind}`;
+};
+
+const setMode = (m) => {
+  mode = m;
+  const dangKy = m === 'up';
+  tabIn.setAttribute('aria-selected', String(!dangKy));
+  tabUp.setAttribute('aria-selected', String(dangKy));
+  submit.textContent = dangKy ? 'Tạo tài khoản' : 'Đăng nhập';
+  pw.autocomplete = dangKy ? 'new-password' : 'current-password';
+  hint.hidden = !dangKy;
+  msg.className = 'msg';
+};
+tabIn.onclick = () => setMode('in');
+tabUp.onclick = () => setMode('up');
+
+// đã đăng nhập rồi thì khỏi ở lại trang này
+const { data: { session } } = await supabase.auth.getSession();
+if (session) location.replace('ho-so.html');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = $('email').value.trim();
+  const password = pw.value;
+
+  if (!email || !password) return show('Nhập đủ email và mật khẩu.', 'err');
+  if (mode === 'up' && password.length < 6) return show('Mật khẩu phải có ít nhất 6 ký tự.', 'err');
+
+  submit.disabled = true;
+  submit.textContent = 'Đang xử lý…';
+  try {
+    if (mode === 'up') {
+      const { data, error } = await supabase.auth.signUp({ email, password });
+      if (error) throw error;
+      if (data.session) {
+        location.href = 'ho-so.html';
+      } else {
+        show('Đã gửi email xác nhận. Mở hộp thư (cả mục spam) và bấm liên kết để kích hoạt tài khoản.', 'ok');
+      }
+    } else {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      location.href = 'ho-so.html';
+    }
+  } catch (err) {
+    show(dichLoi(err.message), 'err');
+  } finally {
+    submit.disabled = false;
+    submit.textContent = mode === 'up' ? 'Tạo tài khoản' : 'Đăng nhập';
+  }
+});
+</script>
+</body>
+</html>
