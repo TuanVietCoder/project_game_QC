@@ -49,7 +49,8 @@
   }
   .idline{ display:flex; align-items:baseline; gap:2px; flex-wrap:wrap; }
   .idline .u{ font-family:var(--font-display); font-weight:700; font-size:clamp(1.6rem,5vw,2.2rem); }
-  .idline .t{ font-family:var(--font-mono); font-size:1.05rem; color:var(--muted-2); }
+  .riot{ margin:5px 0 0; font-family:var(--font-mono); font-size:.88rem; color:var(--muted-2); }
+  .riot b{ color:var(--muted); font-weight:600; }
   .badges{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
   .badge{
     font-family:var(--font-mono); font-size:10px; font-weight:700;
@@ -114,8 +115,9 @@
       <div class="ava" id="ava" role="img" aria-label="Ảnh đại diện"></div>
       <div>
         <div class="idline">
-          <span class="u" id="u"></span><span class="t" id="t"></span>
+          <span class="u" id="u"></span>
         </div>
+        <p class="riot" id="riot" title="Riot ID — người khác dùng cái này để tìm bạn"></p>
         <div class="badges" id="badges"></div>
         <p class="joined" id="joined"></p>
       </div>
@@ -152,7 +154,7 @@
 </div>
 
 <script type="module">
-import { supabase, getProfile, riotId, signOut, dichLoi } from './assets/js/auth.js';
+import { supabase, getProfile, riotId, tenHienThi, quenHoSo, signOut, dichLoi } from './assets/js/auth.js';
 
 const $ = (id) => document.getElementById(id);
 const show = (text, kind) => { const m = $('msg'); m.textContent = text; m.className = `msg show ${kind}`; };
@@ -161,8 +163,9 @@ const p = await getProfile();
 if (!p) { location.replace('dang-nhap.html'); throw new Error('chưa đăng nhập'); }
 
 // ---- thẻ hồ sơ ----
-$('u').textContent = p.username;
-$('t').textContent = '#' + p.tag;
+$('u').textContent = tenHienThi(p);
+$('riot').innerHTML = '';
+$('riot').append('Riot ID: ', Object.assign(document.createElement('b'), { textContent: riotId(p) }));
 $('joined').textContent = 'Tham gia ' + new Date(p.created_at).toLocaleDateString('vi-VN');
 
 const ava = $('ava');
@@ -213,6 +216,8 @@ $('form').addEventListener('submit', async (e) => {
       bio:          $('bio').value.trim() || null,
     }).eq('id', p.id);
     if (error) throw error;
+    quenHoSo();                                   // để nơi khác đọc được tên mới
+    $('u').textContent = $('display_name').value.trim() || riotId(p);
     show('Đã lưu hồ sơ.', 'ok');
   } catch (err) {
     show(dichLoi(err.message), 'err');

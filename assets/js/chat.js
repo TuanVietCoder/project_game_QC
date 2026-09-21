@@ -3,7 +3,7 @@
 // Tự gắn vào mọi trang có nạp file này. Chỉ hiện khi đã đăng nhập.
 // Dùng: <script type="module" src="assets/js/chat.js"></script>
 // =============================================================================
-import { supabase, getProfile, dichLoi } from './auth.js';
+import { supabase, getProfile, tenHienThi, dichLoi } from './auth.js';
 
 const CSS = `
 .ash-chat, .ash-chat * { box-sizing:border-box; }
@@ -251,7 +251,7 @@ const coQuyenThongBao = () =>
 function thongBaoHeThong(ban, noiDung, khiBam) {
   if (!coQuyenThongBao() || !document.hidden) return;   // đang xem trang thì thẻ nổi là đủ
   try {
-    const n = new Notification(`${ban.username}#${ban.tag}`, {
+    const n = new Notification(tenHienThi(ban), {
       body: noiDung,
       icon: new URL('../tuanviet-studio-logo.jpg', import.meta.url).href,
       tag: 'ashfall-' + ban.id,                          // tin sau đè tin trước của cùng người
@@ -389,7 +389,7 @@ async function init() {
     else ava.textContent = chuCai(ban);
 
     const meta = el('div', 'ash-chat__meta');
-    meta.append(el('div', 'ash-chat__name', `${ban.username}#${ban.tag}`));
+    meta.append(el('div', 'ash-chat__name', tenHienThi(ban)));
     meta.append(el('div', 'ash-chat__last', noiDung));
 
     const x = el('button', 'ash-toast__x', '✕');
@@ -451,7 +451,7 @@ async function init() {
 
       const meta = el('div', 'ash-chat__meta');
       const top = el('div', 'ash-chat__top');
-      top.append(el('div', 'ash-chat__name', r.display_name || `${r.username}#${r.tag}`));
+      top.append(el('div', 'ash-chat__name', tenHienThi(r)));
       if (r.thoi_gian) top.append(el('span', 'ash-chat__khi', khiNao(r.thoi_gian)));
       meta.append(top);
 
@@ -470,7 +470,7 @@ async function init() {
   // ------------------------------------------------- một cuộc trò chuyện ---
   async function moCuocTroChuyen(ban) {
     dangMo = ban;
-    title.textContent = `${ban.username}#${ban.tag}`;
+    title.textContent = tenHienThi(ban);
     back.hidden = false;
     body.replaceChildren(el('div', 'ash-chat__empty', 'Đang tải…'));
 

@@ -41,8 +41,11 @@ async function docHoSo() {
 /** Gọi sau khi sửa hồ sơ để lần đọc sau lấy dữ liệu mới. */
 export function quenHoSo() { _hoSo = null; }
 
-/** "TuanViet#0417" */
+/** "TuanViet#0417" — định danh duy nhất, dùng để tìm nhau */
 export const riotId = (p) => (p ? `${p.username}#${p.tag}` : '');
+
+/** Tên để hiển thị cho người đọc. Chưa đặt thì rơi về Riot ID. */
+export const tenHienThi = (p) => (p ? (p.display_name?.trim() || riotId(p)) : '');
 
 export async function signOut() {
   await supabase.auth.signOut();
@@ -63,12 +66,8 @@ export const dichLoi = (m) =>
   LOI[m] || Object.entries(LOI).find(([k]) => m?.includes(k))?.[1] || m || 'Có lỗi xảy ra, thử lại sau.';
 
 /**
- * Gắn trạng thái đăng nhập vào nút .signin ở góc phải.
- * Chưa đăng nhập → "Đăng nhập". Đã đăng nhập → Riot ID, bấm vào ra hồ sơ.
- */
-/**
  * Gắn mục tài khoản vào cuối thanh nav (các trang tin tức / blog).
- * Chưa đăng nhập → "Đăng nhập". Đã đăng nhập → Riot ID.
+ * Chưa đăng nhập → "Đăng nhập". Đã đăng nhập → tên hiển thị.
  */
 export async function mountNavAccount() {
   const list = document.querySelector('nav .nav-links');
@@ -79,11 +78,15 @@ export async function mountNavAccount() {
   const a = document.createElement('a');
   a.className = 'nav-account';
   a.href = p ? 'ho-so.html' : 'dang-nhap.html';
-  a.textContent = p ? riotId(p) : 'Đăng nhập';
+  a.textContent = p ? tenHienThi(p) : 'Đăng nhập';
   li.append(a);
   list.append(li);
 }
 
+/**
+ * Gắn trạng thái đăng nhập vào nút .signin ở góc phải.
+ * Chưa đăng nhập → "Đăng nhập". Đã đăng nhập → tên hiển thị, bấm vào ra hồ sơ.
+ */
 export async function mountAuthButton() {
   const btn = document.querySelector('.signin');
   if (!btn) return;
@@ -94,7 +97,7 @@ export async function mountAuthButton() {
       const a = document.createElement('a');
       a.className = btn.className;
       a.href = 'ho-so.html';
-      a.textContent = riotId(p);
+      a.textContent = tenHienThi(p);
       a.style.textDecoration = 'none';
       a.setAttribute('aria-label', `Hồ sơ của ${riotId(p)}`);
       btn.replaceWith(a);

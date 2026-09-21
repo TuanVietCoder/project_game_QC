@@ -173,18 +173,12 @@ function card(p, actions) {
   who.className = 'who';
   const id = document.createElement('div');
   id.className = 'id';
-  id.textContent = p.username;
-  const t = document.createElement('span');
-  t.className = 't';
-  t.textContent = '#' + p.tag;
-  id.append(t);
+  id.textContent = p.display_name?.trim() || p.username;
   who.append(id);
-  if (p.display_name && p.display_name !== p.username) {
-    const sub = document.createElement('div');
-    sub.className = 'sub';
-    sub.textContent = p.display_name;
-    who.append(sub);
-  }
+  const sub = document.createElement('div');
+  sub.className = 'sub';
+  sub.textContent = `${p.username}#${p.tag}`;
+  who.append(sub);
 
   const acts = document.createElement('div');
   acts.className = 'acts';
