@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<title>Quản trị — Ashfall</title>
+<link rel="icon" type="image/jpeg" href="assets/tuanviet-studio-logo.jpg?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;700&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/base.css">
+<style>
+  body{
+    min-height:100vh;
+    background:radial-gradient(ellipse 1000px 520px at 50% -8%, rgba(207,75,62,.10), transparent 62%), var(--bg);
+    color:var(--ink); font-family:var(--font-body); line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{ max-width:900px; margin:0 auto; padding:26px 26px 80px; }
+
+  .top{ display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:26px; }
+  .top a{ font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+  h1{ font-family:var(--font-display); font-size:clamp(1.7rem,5vw,2.3rem); margin:0; }
+  .me{ font-family:var(--font-mono); font-size:11px; color:var(--muted-2); }
+  .me b{ color:var(--ember); }
+
+  .tabs{ display:flex; gap:6px; background:var(--bg-plate-2); border-radius:999px; padding:5px; margin-bottom:24px; flex-wrap:wrap; }
+  .tabs button{
+    flex:1; min-width:110px; padding:10px 8px; border:none; border-radius:999px; cursor:pointer;
+    background:transparent; color:var(--muted); font-family:var(--font-mono);
+    font-size:10.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  }
+  .tabs button[aria-selected="true"]{ background:var(--ember); color:#1a1208; }
+  .tabs .n{ background:var(--crack); color:#fff; border-radius:999px; padding:0 6px; margin-left:6px; font-size:9.5px; }
+
+  .bar{ display:flex; gap:9px; margin-bottom:18px; flex-wrap:wrap; }
+  .bar input, .bar select{
+    padding:10px 13px; background:var(--bg-plate-2); color:var(--ink);
+    border:1px solid var(--line-strong); border-radius:8px;
+    font-family:var(--font-body); font-size:.92rem;
+  }
+  .bar input{ flex:1; min-width:180px; }
+  .bar input:focus, .bar select:focus{ outline:none; border-color:var(--ember-dim); }
+
+  .card{
+    background:var(--bg-plate); border:1px solid var(--line);
+    border-radius:11px; padding:17px 19px; margin-bottom:12px;
+  }
+  .card.moi{ border-left:3px solid var(--crack); }
+  .card.da_xu_ly{ opacity:.6; }
+
+  .hd{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:11px; }
+  .hd .who{ font-weight:600; font-size:.97rem; }
+  .hd .arrow{ color:var(--muted-2); }
+  .chip{
+    font-family:var(--font-mono); font-size:9.5px; font-weight:700;
+    letter-spacing:.08em; text-transform:uppercase;
+    border:1px solid var(--line-strong); border-radius:999px; padding:3px 9px; color:var(--muted);
+    white-space:nowrap;
+  }
+  .chip.do{ color:var(--crack); border-color:var(--crack); }
+  .chip.cam{ color:#1a1208; background:var(--ember); border-color:var(--ember); }
+  .chip.xanh{ color:var(--moss); border-color:var(--moss); }
+  .when{ margin-left:auto; font-family:var(--font-mono); font-size:10.5px; color:var(--muted-2); }
+
+  .quote{
+    background:var(--bg-plate-2); border-left:2px solid var(--line-strong);
+    border-radius:0 8px 8px 0; padding:11px 14px; margin:11px 0;
+    font-size:.93rem; white-space:pre-wrap; word-break:break-word;
+  }
+  .quote.an{ opacity:.5; font-style:italic; }
+  .ghi{ font-size:.88rem; color:var(--muted); margin:9px 0 0; }
+  .ghi b{ color:var(--ink); }
+
+  .acts{ display:flex; gap:8px; flex-wrap:wrap; margin-top:13px; }
+  .act{
+    border:1px solid var(--line-strong); border-radius:999px; background:transparent;
+    color:var(--muted); cursor:pointer; padding:8px 14px;
+    font-family:var(--font-mono); font-size:10px; font-weight:700;
+    letter-spacing:.08em; text-transform:uppercase; white-space:nowrap;
+  }
+  .act:hover:not(:disabled){ color:var(--ink); border-color:var(--ember-dim); }
+  .act.do:hover:not(:disabled){ color:var(--crack); border-color:var(--crack); }
+  .act.chinh{ background:var(--ember); border-color:var(--ember); color:#1a1208; }
+  .act:disabled{ opacity:.45; cursor:default; }
+
+  table{ width:100%; border-collapse:collapse; font-size:.9rem; }
+  th,td{ text-align:left; padding:11px 10px; border-bottom:1px solid var(--line); vertical-align:middle; }
+  th{ font-family:var(--font-mono); font-size:.66rem; letter-spacing:.1em;
+      text-transform:uppercase; color:var(--muted-2); font-weight:600; }
+  td .sub{ font-size:.79rem; color:var(--muted-2); }
+  .scroll{ overflow-x:auto; }
+
+  .empty{ background:var(--bg-plate); border:1px dashed var(--line-strong);
+    border-radius:11px; padding:30px; text-align:center; color:var(--muted-2); font-size:.92rem; }
+  .msg{ margin:0 0 16px; padding:13px 15px; border-radius:8px; font-size:.9rem; display:none; }
+  .msg.show{ display:block; }
+  .msg.err{ background:rgba(207,75,62,.12); border:1px solid var(--crack); color:#f0b3ac; }
+  .msg.ok{ background:rgba(143,168,127,.12); border:1px solid var(--moss); color:#cfe0c4; }
+  #loading{ padding:80px 0; text-align:center; color:var(--muted-2); font-family:var(--font-mono); font-size:.9rem; }
+  #chan{ padding:70px 20px; text-align:center; }
+  #chan h2{ font-family:var(--font-display); font-size:1.5rem; margin:0 0 10px; }
+  #chan p{ color:var(--muted); }
+  [hidden]{ display:none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p id="loading">Đang kiểm tra quyền…</p>
+
+  <div id="chan" hidden>
+    <h2>Không có quyền truy cập</h2>
+    <p>Trang này chỉ dành cho quản trị viên và kiểm duyệt viên.</p>
+    <p style="margin-top:20px"><a href="index.html">← Về trang chủ</a></p>
+  </div>
+
+  <div id="app" hidden>
+    <div class="top">
+      <h1>Quản trị</h1>
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+        <span class="me" id="me"></span>
+        <a href="index.html">← Trang chủ</a>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button type="button" data-tab="bao-cao" role="tab" aria-selected="true">Báo cáo <span class="n" id="n-moi" hidden></span></button>
+      <button type="button" data-tab="nguoi-dung" role="tab" aria-selected="false">Người dùng</button>
+      <button type="button" data-tab="nhat-ky" role="tab" aria-selected="false">Nhật ký</button>
+    </div>
+
+    <div class="msg" id="msg" role="status" aria-live="polite"></div>
+
+    <!-- BÁO CÁO -->
+    <section id="tab-bao-cao">
+      <div class="bar">
+        <select id="loc">
+          <option value="moi">Chưa xử lý</option>
+          <option value="da_xem">Đã xem</option>
+          <option value="da_xu_ly">Đã xử lý</option>
+          <option value="tat_ca">Tất cả</option>
+        </select>
+      </div>
+      <div id="ds-bao-cao"></div>
+    </section>
+
+    <!-- NGƯỜI DÙNG -->
+    <section id="tab-nguoi-dung" hidden>
+      <form class="bar" id="form-tim">
+        <input id="q" type="search" placeholder="Tìm theo tên hoặc Riot ID…" autocomplete="off" aria-label="Tìm người dùng">
+        <button class="act chinh" type="submit">Tìm</button>
+      </form>
+      <div class="scroll"><div id="ds-nguoi-dung"></div></div>
+    </section>
+
+    <!-- NHẬT KÝ -->
+    <section id="tab-nhat-ky" hidden>
+      <div class="scroll"><div id="ds-nhat-ky"></div></div>
+    </section>
+  </div>
+</div>
+
+<script type="module">
+import { supabase, getProfile, riotId, dichLoi } from './assets/js/auth.js';
+
+const $ = (id) => document.getElementById(id);
+const el = (t, c, x) => { const n = document.createElement(t); if (c) n.className = c; if (x != null) n.textContent = x; return n; };
+const show = (text, kind) => { const m = $('msg'); m.textContent = text; m.className = `msg show ${kind}`; setTimeout(() => { if (m.textContent === text) m.className = 'msg'; }, 6000); };
+const luc = (iso) => new Date(iso).toLocaleString('vi-VN', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+
+// -------------------------------------------------------------- vào cửa ---
+const me = await getProfile();
+if (!me) { location.replace('dang-nhap.html'); throw new Error('chưa đăng nhập'); }
+
+$('loading').hidden = true;
+if (!['admin', 'moderator'].includes(me.role)) {
+  $('chan').hidden = false;
+  throw new Error('không có quyền');
+}
+const laAdmin = me.role === 'admin';
+$('app').hidden = false;
+$('me').innerHTML = '';
+$('me').append(riotId(me) + ' · ', Object.assign(document.createElement('b'),
+  { textContent: laAdmin ? 'Quản trị viên' : 'Kiểm duyệt viên' }));
+
+// ------------------------------------------------------------- nhãn ---
+const LY_DO = { quay_roi:'Quấy rối', spam:'Spam', lua_dao:'Lừa đảo', noi_dung_xau:'Nội dung xấu', khac:'Khác' };
+const TRANG_THAI_BC = { moi:'Chưa xử lý', da_xem:'Đã xem', da_xu_ly:'Đã xử lý' };
+const TRANG_THAI_TK = { active:'Hoạt động', suspended:'Tạm khóa', banned:'Bị cấm' };
+const VAI_TRO = { user:'Người chơi', moderator:'Kiểm duyệt viên', admin:'Quản trị viên' };
+
+async function goi(ten, tham_so, thanh_cong) {
+  const { data, error } = await supabase.rpc(ten, tham_so);
+  if (error) { show(dichLoi(error.message), 'err'); return null; }
+  if (thanh_cong) show(thanh_cong, 'ok');
+  return data;
+}
+
+function nut(nhan, cls, chay) {
+  const b = el('button', 'act' + (cls ? ' ' + cls : ''), nhan);
+  b.type = 'button';
+  b.onclick = async () => {
+    const hang = b.closest('.acts');
+    hang?.querySelectorAll('button').forEach((x) => (x.disabled = true));
+    try { await chay(); } finally { hang?.querySelectorAll('button').forEach((x) => (x.disabled = false)); }
+  };
+  return b;
+}
+
+// ====================================================== TAB BÁO CÁO ======
+async function taiBaoCao() {
+  const data = await goi('admin_ds_bao_cao', { loc: $('loc').value });
+  if (!data) return;
+
+  const host = $('ds-bao-cao');
+  host.replaceChildren();
+
+  // đếm số báo cáo chưa xử lý (luôn đếm trên toàn bộ)
+  const tatCa = await goi('admin_ds_bao_cao', { loc: 'tat_ca' });
+  const soMoi = (tatCa || []).filter((r) => r.status === 'moi').length;
+  $('n-moi').hidden = soMoi === 0;
+  $('n-moi').textContent = soMoi;
+
+  if (!data.length) {
+    host.append(el('div', 'empty', 'Không có báo cáo nào ở mục này.'));
+    return;
+  }
+
+  for (const r of data) {
+    const c = el('div', 'card ' + r.status);
+
+    const hd = el('div', 'hd');
+    hd.append(el('span', 'who', r.nguoi_bao_cao), el('span', 'arrow', 'báo cáo'), el('span', 'who', r.nguoi_bi_bao_cao));
+    hd.append(el('span', 'chip do', LY_DO[r.reason] || r.reason));
+    hd.append(el('span', 'chip' + (r.status === 'moi' ? ' cam' : ''), TRANG_THAI_BC[r.status]));
+    if (r.trang_thai_bi_bao_cao !== 'active') hd.append(el('span', 'chip do', TRANG_THAI_TK[r.trang_thai_bi_bao_cao]));
+    if (r.vai_tro_bi_bao_cao !== 'user') hd.append(el('span', 'chip xanh', VAI_TRO[r.vai_tro_bi_bao_cao]));
+    hd.append(el('span', 'when', luc(r.created_at)));
+    c.append(hd);
+
+    if (r.message_id) {
+      const q = el('div', 'quote' + (r.da_an ? ' an' : ''), r.da_an ? '(tin nhắn đã bị ẩn)' : r.noi_dung);
+      c.append(q);
+    } else {
+      c.append(el('p', 'ghi', 'Báo cáo về người dùng, không gắn với tin nhắn cụ thể.'));
+    }
+    if (r.note) { const n = el('p', 'ghi'); n.append(el('b', null, 'Ghi chú: '), document.createTextNode(r.note)); c.append(n); }
+
+    const acts = el('div', 'acts');
+
+    if (r.message_id && !r.da_an) {
+      acts.append(nut('Ẩn tin nhắn', 'do', async () => {
+        const ly_do = prompt('Lý do ẩn tin nhắn này? (để trống cũng được)') ?? null;
+        await goi('admin_an_tin_nhan', { tin_id: r.message_id, ly_do }, 'Đã ẩn tin nhắn.');
+        await taiBaoCao();
+      }));
+    }
+
+    if (r.trang_thai_bi_bao_cao === 'active') {
+      acts.append(nut('Tạm khóa', 'do', async () => {
+        const ly_do = prompt(`Tạm khóa ${r.nguoi_bi_bao_cao}. Lý do?`) ?? null;
+        await goi('admin_doi_trang_thai', { nguoi_dung: r.bi_bao_cao_id, trang_thai: 'suspended', ly_do }, 'Đã tạm khóa.');
+        await taiBaoCao();
+      }));
+      if (laAdmin) {
+        acts.append(nut('Cấm vĩnh viễn', 'do', async () => {
+          if (!confirm(`Cấm vĩnh viễn ${r.nguoi_bi_bao_cao}?\n\nHọ sẽ không nhận được tin nhắn nào nữa.`)) return;
+          const ly_do = prompt('Lý do cấm?') ?? null;
+          await goi('admin_doi_trang_thai', { nguoi_dung: r.bi_bao_cao_id, trang_thai: 'banned', ly_do }, 'Đã cấm tài khoản.');
+          await taiBaoCao();
+        }));
+      }
+    } else {
+      acts.append(nut('Mở khóa', null, async () => {
+        await goi('admin_doi_trang_thai', { nguoi_dung: r.bi_bao_cao_id, trang_thai: 'active', ly_do: 'gỡ khóa' }, 'Đã mở khóa.');
+        await taiBaoCao();
+      }));
+    }
+
+    if (r.status !== 'da_xu_ly') {
+      acts.append(nut('Đánh dấu đã xử lý', 'chinh', async () => {
+        const ghi_chu = prompt('Ghi chú xử lý? (không bắt buộc)') ?? null;
+        await goi('admin_xu_ly_bao_cao', { bao_cao_id: r.id, trang_thai: 'da_xu_ly', ghi_chu }, 'Đã đánh dấu.');
+        await taiBaoCao();
+      }));
+    }
+    if (r.status === 'moi') {
+      acts.append(nut('Đã xem', null, async () => {
+        await goi('admin_xu_ly_bao_cao', { bao_cao_id: r.id, trang_thai: 'da_xem', ghi_chu: null });
+        await taiBaoCao();
+      }));
+    }
+
+    c.append(acts);
+    host.append(c);
+  }
+}
+$('loc').onchange = taiBaoCao;
+
+// =================================================== TAB NGƯỜI DÙNG ======
+async function taiNguoiDung(tu_khoa = '') {
+  const data = await goi('admin_ds_nguoi_dung', { tu_khoa });
+  if (!data) return;
+
+  const host = $('ds-nguoi-dung');
+  if (!data.length) { host.replaceChildren(el('div', 'empty', 'Không tìm thấy ai.')); return; }
+
+  const t = el('table');
+  const thead = el('thead');
+  const trh = el('tr');
+  for (const h of ['Riot ID', 'Vai trò', 'Trạng thái', 'Báo cáo', 'Tin nhắn', 'Thao tác']) trh.append(el('th', null, h));
+  thead.append(trh);
+  const tb = el('tbody');
+
+  for (const u of data) {
+    const tr = el('tr');
+
+    const td1 = el('td');
+    td1.append(el('div', null, `${u.username}#${u.tag}`));
+    td1.append(el('div', 'sub', u.display_name || '—'));
+    tr.append(td1);
+
+    tr.append(el('td', null, VAI_TRO[u.role] || u.role));
+
+    const td3 = el('td');
+    td3.append(el('span', 'chip' + (u.status === 'active' ? ' xanh' : ' do'), TRANG_THAI_TK[u.status]));
+    tr.append(td3);
+
+    tr.append(el('td', null, String(u.so_bao_cao)), el('td', null, String(u.so_tin_nhan)));
+
+    const td6 = el('td');
+    const acts = el('div', 'acts');
+    const laChinhMinh = u.id === me.id;
+    const laAdminKhac = u.role === 'admin' && !laChinhMinh;
+
+    if (laChinhMinh) {
+      acts.append(el('span', 'chip', 'Chính bạn'));
+    } else if (laAdminKhac && !laAdmin) {
+      acts.append(el('span', 'chip', 'Không đụng được'));
+    } else {
+      if (u.status === 'active') {
+        acts.append(nut('Tạm khóa', 'do', async () => {
+          const ly_do = prompt(`Tạm khóa ${u.username}#${u.tag}. Lý do?`) ?? null;
+          await goi('admin_doi_trang_thai', { nguoi_dung: u.id, trang_thai: 'suspended', ly_do }, 'Đã tạm khóa.');
+          await taiNguoiDung($('q').value.trim());
+        }));
+      } else {
+        acts.append(nut('Mở khóa', null, async () => {
+          await goi('admin_doi_trang_thai', { nguoi_dung: u.id, trang_thai: 'active', ly_do: 'gỡ khóa' }, 'Đã mở khóa.');
+          await taiNguoiDung($('q').value.trim());
+        }));
+      }
+      if (laAdmin) {
+        const moi = u.role === 'moderator' ? 'user' : 'moderator';
+        acts.append(nut(u.role === 'moderator' ? 'Hạ về người chơi' : 'Cho làm kiểm duyệt', null, async () => {
+          if (!confirm(`Đổi vai trò của ${u.username}#${u.tag} thành "${VAI_TRO[moi]}"?`)) return;
+          await goi('admin_doi_vai_tro', { nguoi_dung: u.id, vai_tro: moi }, 'Đã đổi vai trò.');
+          await taiNguoiDung($('q').value.trim());
+        }));
+      }
+    }
+    td6.append(acts);
+    tr.append(td6);
+    tb.append(tr);
+  }
+
+  t.append(thead, tb);
+  host.replaceChildren(t);
+}
+$('form-tim').addEventListener('submit', (e) => { e.preventDefault(); taiNguoiDung($('q').value.trim()); });
+
+// ====================================================== TAB NHẬT KÝ ======
+const TEN_HD = {
+  an_tin_nhan:'Ẩn tin nhắn', tam_khoa:'Tạm khóa', cam:'Cấm vĩnh viễn',
+  go_khoa:'Mở khóa', doi_vai_tro:'Đổi vai trò', xu_ly_bao_cao:'Xử lý báo cáo',
+};
+async function taiNhatKy() {
+  const data = await goi('admin_nhat_ky');
+  if (!data) return;
+  const host = $('ds-nhat-ky');
+  if (!data.length) { host.replaceChildren(el('div', 'empty', 'Chưa có hành động nào được ghi.')); return; }
+
+  const t = el('table');
+  const thead = el('thead'); const trh = el('tr');
+  for (const h of ['Thời điểm', 'Người làm', 'Hành động', 'Đối tượng', 'Chi tiết']) trh.append(el('th', null, h));
+  thead.append(trh);
+  const tb = el('tbody');
+  for (const a of data) {
+    const tr = el('tr');
+    tr.append(el('td', null, luc(a.created_at)), el('td', null, a.nguoi_lam),
+              el('td', null, TEN_HD[a.action] || a.action),
+              el('td', null, a.doi_tuong || '—'), el('td', null, a.chi_tiet || '—'));
+    tb.append(tr);
+  }
+  t.append(thead, tb);
+  host.replaceChildren(t);
+}
+
+// ---------------------------------------------------------------- tab ---
+const TAI = { 'bao-cao': taiBaoCao, 'nguoi-dung': () => taiNguoiDung(), 'nhat-ky': taiNhatKy };
+for (const b of document.querySelectorAll('.tabs button')) {
+  b.onclick = () => {
+    for (const x of document.querySelectorAll('.tabs button')) x.setAttribute('aria-selected', String(x === b));
+    for (const k of Object.keys(TAI)) $('tab-' + k).hidden = k !== b.dataset.tab;
+    TAI[b.dataset.tab]();
+  };
+}
+
+await taiBaoCao();
+</script>
+<script type="module" src="assets/js/chat.js"></script>
+</body>
+</html>
