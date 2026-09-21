@@ -12,10 +12,23 @@ const SUPABASE_ANON_KEY =
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-/** Hồ sơ của người đang đăng nhập, hoặc null. */
-export async function getProfile() {
-  const { data: { user } } = await supabase.auth.getUser();
+// Nhiều chỗ cùng cần hồ sơ (nút đăng nhập, mục nav, widget chat). Nếu mỗi chỗ tự
+// gọi thì mỗi lần tải trang tốn 8 lượt mạng. Dùng chung MỘT lời hứa cho tất cả.
+let _hoSo = null;
+
+/** Hồ sơ của người đang đăng nhập, hoặc null. Kết quả được nhớ lại. */
+export function getProfile() {
+  if (!_hoSo) _hoSo = docHoSo();
+  return _hoSo;
+}
+
+async function docHoSo() {
+  // getSession() đọc từ bộ nhớ trình duyệt (tức thì);
+  // getUser() phải hỏi máy chủ nên chỉ dùng khi không có sẵn phiên.
+  const { data: { session } } = await supabase.auth.getSession();
+  const user = session?.user;
   if (!user) return null;
+
   const { data, error } = await supabase
     .from('profiles')
     .select('id, username, tag, display_name, avatar_url, bio, role, status, created_at')
@@ -24,6 +37,9 @@ export async function getProfile() {
   if (error) { console.error('Không đọc được hồ sơ:', error.message); return null; }
   return data ? { ...data, email: user.email } : null;
 }
+
+/** Gọi sau khi sửa hồ sơ để lần đọc sau lấy dữ liệu mới. */
+export function quenHoSo() { _hoSo = null; }
 
 /** "TuanViet#0417" */
 export const riotId = (p) => (p ? `${p.username}#${p.tag}` : '');
@@ -89,7 +105,7 @@ export async function mountAuthButton() {
 
   await render();
   supabase.auth.onAuthStateChange((event) => {
-    if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') location.reload();
+    if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') { quenHoSo(); location.reload(); }
   });
 }
 

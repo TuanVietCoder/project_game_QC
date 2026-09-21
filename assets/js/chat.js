@@ -25,47 +25,88 @@ const CSS = `
   border:2px solid var(--bg,#100d0a);
 }
 .ash-chat__panel{
-  position:absolute; right:0; bottom:70px; width:340px; height:460px;
+  position:absolute; right:0; bottom:68px; width:344px; height:min(72vh,486px);
   display:flex; flex-direction:column; overflow:hidden;
   background:var(--bg-plate,#1a1510); border:1px solid var(--line-strong,#3a332c);
-  border-radius:14px; box-shadow:0 18px 50px rgba(0,0,0,.6);
+  border-radius:16px; box-shadow:0 20px 56px rgba(0,0,0,.62);
+  transform-origin:bottom right;
 }
+@media (prefers-reduced-motion:no-preference){
+  .ash-chat__panel{ animation:ash-panel-in .18s cubic-bezier(.16,1,.3,1); }
+}
+@keyframes ash-panel-in{
+  from{ opacity:0; transform:translateY(10px) scale(.97); }
+  to{ opacity:1; transform:none; }
+}
+
 .ash-chat__head{
-  display:flex; align-items:center; gap:10px; padding:13px 14px;
+  display:flex; align-items:center; gap:2px; padding:12px 8px 12px 16px;
   border-bottom:1px solid var(--line,#2a241f); flex:none;
+  background:linear-gradient(180deg, rgba(255,157,71,.06), transparent);
 }
-.ash-chat__head b{ flex:1; font-size:14px; color:var(--ink,#efe6d4); font-weight:600;
-  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ash-chat__head b{
+  flex:1; font-size:14.5px; color:var(--ink,#efe6d4); font-weight:600;
+  letter-spacing:.01em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
 .ash-chat__icon{
   background:none; border:none; cursor:pointer; color:var(--muted,#a99a82);
-  font-size:17px; line-height:1; padding:4px 6px; border-radius:6px;
+  font-size:15px; line-height:1; width:30px; height:30px; border-radius:8px;
+  display:grid; place-items:center; flex:none;
+  transition:background .14s ease, color .14s ease;
 }
-.ash-chat__icon:hover{ color:var(--ink,#efe6d4); background:rgba(255,255,255,.06); }
-.ash-chat__body{ flex:1; overflow-y:auto; padding:8px; }
+.ash-chat__icon:hover{ color:var(--ink,#efe6d4); background:rgba(255,255,255,.07); }
+
+.ash-chat__body{ flex:1; overflow-y:auto; padding:6px; scrollbar-width:thin;
+  scrollbar-color:var(--line-strong,#3a332c) transparent; }
+.ash-chat__body::-webkit-scrollbar{ width:8px; }
+.ash-chat__body::-webkit-scrollbar-thumb{
+  background:var(--line-strong,#3a332c); border-radius:99px;
+  border:2px solid var(--bg-plate,#1a1510);
+}
 
 .ash-chat__row{
   display:flex; align-items:center; gap:11px; width:100%; text-align:left;
-  background:none; border:none; cursor:pointer; padding:10px; border-radius:9px; color:inherit;
+  background:none; border:none; cursor:pointer; padding:9px 10px; border-radius:11px;
+  color:inherit; transition:background .14s ease;
 }
-.ash-chat__row:hover{ background:rgba(255,255,255,.05); }
+.ash-chat__row:hover{ background:rgba(255,255,255,.055); }
 .ash-chat__ava{
-  width:38px; height:38px; flex:none; border-radius:50%;
+  width:40px; height:40px; flex:none; border-radius:50%;
   border:1.5px solid var(--ember-dim,#c97a38);
   background:var(--bg-plate-2,#221b14) center/cover no-repeat;
   display:grid; place-items:center;
-  font:700 14px var(--font-display,serif); color:var(--ember,#ff9d47);
+  font:700 15px var(--font-display,serif); color:var(--ember,#ff9d47);
 }
 .ash-chat__meta{ flex:1; min-width:0; }
-.ash-chat__name{ font-size:13.5px; color:var(--ink,#efe6d4); font-weight:600;
-  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.ash-chat__last{ font-size:12px; color:var(--muted-2,#75695a);
-  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ash-chat__top{ display:flex; align-items:baseline; gap:8px; }
+.ash-chat__name{
+  flex:1; min-width:0; font-size:13.5px; color:var(--ink,#efe6d4); font-weight:600;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.ash-chat__khi{ flex:none; font:500 10.5px var(--font-mono,monospace); color:var(--muted-2,#75695a); }
+.ash-chat__last{
+  font-size:12.5px; color:var(--muted-2,#75695a); margin-top:1px;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
 .ash-chat__row[data-unread="1"] .ash-chat__last{ color:var(--ink,#efe6d4); font-weight:600; }
+.ash-chat__row[data-unread="1"] .ash-chat__khi{ color:var(--ember,#ff9d47); }
 .ash-chat__n{
   flex:none; min-width:19px; height:19px; padding:0 5px; border-radius:999px;
   background:var(--crack,#cf4b3e); color:#fff; font:700 10px/19px var(--font-mono,monospace);
   text-align:center;
 }
+
+/* khung xương lúc đang tải — để panel không mở ra trống trơn */
+.ash-chat__xuong{ display:flex; align-items:center; gap:11px; padding:9px 10px; }
+.ash-chat__xuong i{ display:block; border-radius:99px; background:rgba(255,255,255,.055); }
+.ash-chat__xuong .a{ width:40px; height:40px; border-radius:50%; flex:none; }
+.ash-chat__xuong .b{ flex:1; }
+.ash-chat__xuong .b i:first-child{ height:11px; width:58%; margin-bottom:7px; }
+.ash-chat__xuong .b i:last-child{ height:9px; width:82%; }
+@media (prefers-reduced-motion:no-preference){
+  .ash-chat__xuong i{ animation:ash-tho 1.3s ease-in-out infinite; }
+}
+@keyframes ash-tho{ 0%,100%{ opacity:.5; } 50%{ opacity:1; } }
 
 .ash-chat__msgs{ display:flex; flex-direction:column; gap:7px; padding:12px; }
 .ash-chat__b{
@@ -98,7 +139,8 @@ const CSS = `
 }
 .ash-chat__send:disabled{ opacity:.45; cursor:default; }
 
-.ash-chat__empty{ padding:34px 20px; text-align:center; color:var(--muted-2,#75695a); font-size:12.5px; line-height:1.7; }
+.ash-chat__empty{ padding:40px 24px; text-align:center; color:var(--muted-2,#75695a);
+  font-size:12.5px; line-height:1.75; white-space:pre-line; }
 .ash-chat__err{
   margin:8px; padding:9px 11px; border-radius:8px; font-size:12px;
   background:rgba(207,75,62,.14); border:1px solid var(--crack,#cf4b3e); color:#f0b3ac;
@@ -146,6 +188,18 @@ const el = (tag, cls, text) => {
 };
 const gio = (iso) =>
   new Date(iso).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+
+/** "14:32" nếu hôm nay, "Hôm qua", "T3", rồi "12/9" — kiểu Facebook. */
+function khiNao(iso) {
+  const d = new Date(iso);
+  const nay = new Date();
+  const ngay = (x) => new Date(x.getFullYear(), x.getMonth(), x.getDate());
+  const lech = Math.round((ngay(nay) - ngay(d)) / 86400000);
+  if (lech === 0) return gio(iso);
+  if (lech === 1) return 'Hôm qua';
+  if (lech < 7) return ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'][d.getDay()];
+  return d.toLocaleDateString('vi-VN', { day: 'numeric', month: 'numeric' });
+}
 const chuCai = (p) => (p.display_name || p.username || '?').charAt(0).toUpperCase();
 
 // =========================================================== thông báo ===
@@ -280,12 +334,42 @@ async function init() {
   };
 
   // --------------------------------------------------- danh sách bạn ---
-  async function taiDanhSach() {
-    const { data, error } = await supabase.rpc('danh_sach_hoi_thoai');
-    if (error) { loi(dichLoi(error.message)); return; }
-    dsHoiThoai = data || [];
+  // Gộp các lời gọi trùng nhau: nếu đang tải dở thì dùng chung kết quả đó,
+  // tránh việc mỗi tin nhắn đến lại bắn thêm một lượt mạng.
+  let _dangTai = null;
+  function taiDanhSach() {
+    if (_dangTai) return _dangTai;
+    _dangTai = (async () => {
+      try {
+        const { data, error } = await supabase.rpc('danh_sach_hoi_thoai');
+        if (error) { loi(dichLoi(error.message)); return; }
+        dsHoiThoai = data || [];
+        capNhatChuongBao();
+        if (dangXem && !dangMo) veDanhSach();
+      } finally { _dangTai = null; }
+    })();
+    return _dangTai;
+  }
+
+  /** Cập nhật tại chỗ khi có tin mới — khỏi phải hỏi lại máy chủ. */
+  function vaDanhSach(m, cuaToi) {
+    const doiPhuong = cuaToi ? m.recipient_id : m.sender_id;
+    const i = dsHoiThoai.findIndex((r) => r.id === doiPhuong);
+    if (i < 0) { taiDanhSach(); return; }          // bạn mới, đành tải lại
+    const r = dsHoiThoai[i];
+    r.tin_cuoi = m.body;
+    r.tin_cuoi_cua_toi = cuaToi;
+    r.thoi_gian = m.created_at;
+    if (!cuaToi) r.chua_doc = Number(r.chua_doc || 0) + 1;
+    dsHoiThoai.splice(i, 1);
+    dsHoiThoai.unshift(r);                         // đẩy lên đầu như Facebook
     capNhatChuongBao();
     if (dangXem && !dangMo) veDanhSach();
+  }
+
+  function xoaChuaDoc(banId) {
+    const r = dsHoiThoai.find((x) => x.id === banId);
+    if (r && Number(r.chua_doc) > 0) { r.chua_doc = 0; capNhatChuongBao(); }
   }
 
   function capNhatChuongBao() {
@@ -332,6 +416,18 @@ async function init() {
     thongBaoHeThong(ban, noiDung, () => mo().then(() => moCuocTroChuyen(ban)));
   }
 
+  /** Khung xương lúc chờ dữ liệu, để panel không mở ra trống trơn. */
+  function veXuong(n = 4) {
+    body.replaceChildren(...Array.from({ length: n }, () => {
+      const x = el('div', 'ash-chat__xuong');
+      const a = el('i', 'a');
+      const b = el('div', 'b');
+      b.append(el('i'), el('i'));
+      x.append(a, b);
+      return x;
+    }));
+  }
+
   function veDanhSach() {
     title.textContent = 'Tin nhắn';
     back.hidden = true;
@@ -339,28 +435,33 @@ async function init() {
 
     if (!dsHoiThoai.length) {
       body.append(el('div', 'ash-chat__empty',
-        'Chưa có bạn nào để nhắn tin. Vào trang Bạn bè để kết bạn trước.'));
+        'Chưa có bạn nào để nhắn tin.\nVào trang Bạn bè để kết bạn trước.'));
       return;
     }
 
     for (const r of dsHoiThoai) {
       const row = el('button', 'ash-chat__row');
       row.type = 'button';
-      if (Number(r.chua_doc) > 0) row.dataset.unread = '1';
+      const chuaDoc = Number(r.chua_doc || 0);
+      if (chuaDoc > 0) row.dataset.unread = '1';
 
       const ava = el('div', 'ash-chat__ava');
       if (r.avatar_url) ava.style.backgroundImage = `url("${r.avatar_url.replace(/"/g, '%22')}")`;
       else ava.textContent = chuCai(r);
 
       const meta = el('div', 'ash-chat__meta');
-      meta.append(el('div', 'ash-chat__name', `${r.username}#${r.tag}`));
-      const xem = r.tin_cuoi === null && r.thoi_gian
+      const top = el('div', 'ash-chat__top');
+      top.append(el('div', 'ash-chat__name', r.display_name || `${r.username}#${r.tag}`));
+      if (r.thoi_gian) top.append(el('span', 'ash-chat__khi', khiNao(r.thoi_gian)));
+      meta.append(top);
+
+      const xem = r.thoi_gian && r.tin_cuoi === null
         ? 'Tin nhắn đã thu hồi'
         : (r.tin_cuoi ? (r.tin_cuoi_cua_toi ? 'Bạn: ' : '') + r.tin_cuoi : 'Chưa có tin nhắn');
       meta.append(el('div', 'ash-chat__last', xem));
 
       row.append(ava, meta);
-      if (Number(r.chua_doc) > 0) row.append(el('span', 'ash-chat__n', String(r.chua_doc)));
+      if (chuaDoc > 0) row.append(el('span', 'ash-chat__n', chuaDoc > 9 ? '9+' : String(chuaDoc)));
       row.onclick = () => moCuocTroChuyen(r);
       body.append(row);
     }
@@ -387,12 +488,19 @@ async function init() {
     body.replaceChildren(list);
     panel.append(form);
 
-    for (const m of data) list.append(veTin(m, ban));
-    if (!data.length) list.append(el('div', 'ash-chat__empty', 'Chưa có tin nhắn nào. Nói câu đầu tiên đi.'));
+    const manh = document.createDocumentFragment();     // dựng ngoài DOM rồi gắn một lần
+    for (const m of data) manh.append(veTin(m, ban));
+    list.append(manh);
+    if (!data.length) list.append(el('div', 'ash-chat__empty', 'Chưa có tin nhắn nào.\nNói câu đầu tiên đi.'));
 
     body.scrollTop = body.scrollHeight;
-    await supabase.rpc('danh_dau_da_doc', { nguoi_gui: ban.id });
-    await taiDanhSach();
+    form.querySelector('textarea')?.focus();
+
+    // đánh dấu đã đọc: cập nhật ngay ở máy, gửi lên máy chủ trong nền
+    if (Number(ban.chua_doc || 0) > 0) {
+      xoaChuaDoc(ban.id);
+      supabase.rpc('danh_dau_da_doc', { nguoi_gui: ban.id });
+    }
   }
 
   function veTin(m, ban) {
@@ -503,21 +611,24 @@ async function init() {
           const list = body.querySelector('.ash-chat__msgs');
           if (list) {
             list.querySelector('.ash-chat__empty')?.remove();
+            const oDay = body.scrollHeight - body.scrollTop - body.clientHeight < 80;
             list.append(veTin(m, dangMo));
-            body.scrollTop = body.scrollHeight;
+            if (oDay) body.scrollTop = body.scrollHeight;   // chỉ cuộn nếu đang ở cuối
           }
           if (m.recipient_id === me.id && !document.hidden) {
-            await supabase.rpc('danh_dau_da_doc', { nguoi_gui: dangMo.id });
+            supabase.rpc('danh_dau_da_doc', { nguoi_gui: dangMo.id });
           }
         }
+
+        // cập nhật danh sách tại chỗ — không hỏi lại máy chủ
+        vaDanhSach(m, m.sender_id === me.id);
+        if (dangDocCuocNay) xoaChuaDoc(doiPhuong);
 
         // tin gửi ĐẾN mình, mà mình không đang đọc đúng cuộc đó → báo
         if (m.recipient_id === me.id && !dangDocCuocNay) {
           const ban = dsHoiThoai.find((r) => r.id === m.sender_id);
           if (ban) baoTinMoi(ban, m.body);
         }
-
-        await taiDanhSach();
       })
     .on('postgres_changes',
       { event: 'UPDATE', schema: 'public', table: 'messages' },
@@ -537,8 +648,8 @@ async function init() {
   const mo = async () => {
     dangXem = true;
     panel.hidden = false;
-    fab.textContent = '💬';
-    fab.append(dot);
+    // vẽ ngay những gì đã có; chưa có gì thì hiện khung xương
+    if (!dangMo) { dsHoiThoai.length ? veDanhSach() : veXuong(); }
     await taiDanhSach();
     if (!dangMo) veDanhSach();
   };
@@ -558,14 +669,14 @@ async function init() {
   };
 
   // quay lại tab trong khi đang mở một cuộc trò chuyện → đánh dấu đã đọc
-  document.addEventListener('visibilitychange', async () => {
+  document.addEventListener('visibilitychange', () => {
     if (document.hidden || !dangXem || !dangMo) return;
-    await supabase.rpc('danh_dau_da_doc', { nguoi_gui: dangMo.id });
-    await taiDanhSach();
+    xoaChuaDoc(dangMo.id);                                    // cập nhật ngay ở máy
+    supabase.rpc('danh_dau_da_doc', { nguoi_gui: dangMo.id }); // gửi lên trong nền
   });
 
   await taiDanhSach();
-  setInterval(taiDanhSach, 60000);      // dự phòng nếu kết nối tức thời rớt
+  setInterval(() => { if (!document.hidden) taiDanhSach(); }, 180000); // dự phòng nếu realtime rớt
 }
 
 init().catch((e) => console.error('Chat lỗi:', e));
