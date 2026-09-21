@@ -45,7 +45,6 @@ project_game_QC/
 ├── robots.txt             # Chỉ dẫn cho bot
 ├── CNAME                  # Tên miền ashfall.io.vn
 ├── _config.yml            # Loại docs/README khỏi bản xuất bản
-└── .github/workflows/     # (deploy.yml đang nghe nhánh master nên không chạy)
 ```
 
 ## 🎨 Design & Style
