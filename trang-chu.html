@@ -11,8 +11,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;700&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="assets/css/base.css?v=4">
-<link rel="stylesheet" href="assets/css/app.css?v=4">
+<link rel="stylesheet" href="assets/css/base.css?v=5">
+<link rel="stylesheet" href="assets/css/app.css?v=5">
 <style>
   /* thẻ chào ở đầu cột giữa */
   .chao{
@@ -63,10 +63,18 @@
 </head>
 <body>
 <p id="loading" style="padding:70px 16px;text-align:center;color:#75695a;font-family:ui-monospace,monospace">Đang tải…</p>
+<script>
+  // Nếu 8 giây nữa mà #loading vẫn còn thì module đã chết lúc nạp (thường do
+  // trình duyệt giữ bản JS cũ). Nói thẳng ra, đừng treo mãi ở "Đang tải…".
+  setTimeout(function () {
+    var l = document.getElementById("loading");
+    if (l && !l.hidden) l.textContent = "Không tải được trang. Bấm Ctrl+Shift+R để nạp lại.";
+  }, 8000);
+</script>
 
 <script type="module">
-import { supabase, vietId, tenHienThi } from './assets/js/auth.js';
-import { dungKhung, el, veAva, veXuong, hangNguoi, khiNao, moChat } from './assets/js/app.js';
+import { supabase, vietId, tenHienThi } from './assets/js/auth.js?v=5';
+import { dungKhung, el, veAva, veXuong, hangNguoi, khiNao, moChat } from './assets/js/app.js?v=5';
 
 const { main, me } = await dungKhung('trang-chu');
 document.getElementById('loading').remove();
@@ -155,6 +163,6 @@ if (error) {
   }
 }
 </script>
-<script type="module" src="assets/js/chat.js"></script>
+<script type="module" src="assets/js/chat.js?v=5"></script>
 </body>
 </html>

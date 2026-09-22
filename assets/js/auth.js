@@ -1,6 +1,6 @@
 // =============================================================================
 // Ashfall — module tài khoản dùng chung
-// Dùng: <script type="module" src="assets/js/auth.js"></script>
+// Nạp bằng thẻ <script type="module"> trỏ tới file này, nhớ kèm ?v= giống các trang khác.
 // Khóa dưới đây là khóa CÔNG KHAI (anon). Mọi lớp bảo vệ nằm ở Row Level
 // Security trong supabase/schema.sql, không nằm ở file này.
 // =============================================================================

@@ -3,5 +3,6 @@
 exclude:
   - docs
   - supabase
+  - tools
   - README.md
   - .github

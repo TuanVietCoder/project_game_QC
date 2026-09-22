@@ -58,6 +58,7 @@ Hệ quả bắt buộc:
 | `assets/css/app.css` | Phần nhìn của khung đăng nhập (xem §2b) |
 | `dang-nhap.html` | Đăng ký / đăng nhập → vào thẳng `trang-chu.html` |
 | `trang-chu.html` | Trang chính sau khi đăng nhập |
+| `tools/phienban.js` | Đánh số phiên bản cho JS/CSS (xem §2c) |
 | `ho-so.html` | Hồ sơ cá nhân, sửa tên hiển thị / ảnh / giới thiệu |
 | `ban-be.html` | Tìm người, gửi/nhận lời mời, chặn |
 | `quan-tri.html` | Trang quản trị: báo cáo, người dùng, nhật ký |
@@ -115,6 +116,38 @@ Trang khác muốn mở khung chat với ai thì gọi `moChat(banId)`; nó bắ
 
 Trang `quan-tri.html` giữ nguyên ruột cũ: nó gọi `dungKhung()` rồi chuyển
 `.wrap` của mình vào cột giữa, nên mọi thao tác kiểm duyệt không đổi.
+
+---
+
+## 2c. Đánh số phiên bản file tĩnh — CHẠY SAU MỖI LẦN SỬA JS/CSS
+
+GitHub Pages trả `Cache-Control: max-age=600`. Trong 10 phút sau khi đẩy code,
+trình duyệt người dùng vẫn dùng bản cũ. Nếu HTML mới gặp JS cũ thì trang **chết
+câm**: đã xảy ra thật khi đổi `riotId` thành `vietId` — `app.js` mới import
+`vietId`, `auth.js` cũ trong cache không có export đó, module ném lỗi lúc nạp,
+trang treo mãi ở "Đang tải…" (mà widget chat vẫn chạy vì nó chỉ dùng export cũ).
+
+Cách chặn: mọi đường dẫn tới JS/CSS đều mang `?v=<số>`. Sau khi sửa
+`auth.js` / `app.js` / `chat.js` / `base.css` / `app.css`, tăng số rồi chạy:
+
+```bash
+node tools/phienban.js 6
+```
+
+**Bắt buộc đồng bộ tuyệt đối.** Trình duyệt coi `auth.js` và `auth.js?v=6` là
+hai module KHÁC NHAU: nó sẽ nạp file hai lần, thành hai client Supabase, hai
+websocket realtime, hai bộ nhớ đệm hồ sơ. Vì vậy script sửa cả:
+
+- `<script type="module" src="assets/js/....js?v=6">` trong HTML
+- `import ... from './assets/js/....js?v=6'` trong script nội tuyến của HTML
+- `import ... from './auth.js?v=6'` **bên trong** `app.js` và `chat.js`
+
+Đừng đánh số thủ công từng chỗ — sót một nơi là sinh lỗi nạp đôi, rất khó thấy.
+
+Bốn trang cần đăng nhập còn có một cái chốt: sau 8 giây mà `#loading` vẫn hiện
+thì đổi chữ thành "Không tải được trang. Bấm Ctrl+Shift+R để nạp lại." Lỗi nạp
+module không bắt bằng try/catch được, nên đây là cách duy nhất để trang nói ra
+thay vì treo im.
 
 ---
 

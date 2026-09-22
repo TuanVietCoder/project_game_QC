@@ -1,9 +1,9 @@
 // =============================================================================
 // Ashfall — hộp chat nổi (kiểu Facebook)
 // Tự gắn vào mọi trang có nạp file này. Chỉ hiện khi đã đăng nhập.
-// Dùng: <script type="module" src="assets/js/chat.js"></script>
+// Nạp bằng thẻ <script type="module"> trỏ tới file này, nhớ kèm ?v= giống các trang khác.
 // =============================================================================
-import { supabase, getProfile, tenHienThi, dichLoi } from './auth.js';
+import { supabase, getProfile, tenHienThi, dichLoi } from './auth.js?v=5';
 
 const CSS = `
 .ash-chat, .ash-chat * { box-sizing:border-box; }
