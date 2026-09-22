@@ -145,37 +145,6 @@
     transform:translateY(-2px);
   }
 
-  .music-control{
-    position:fixed;
-    bottom:30px;
-    right:30px;
-    z-index:999;
-    width:50px;
-    height:50px;
-    border-radius:50%;
-    border:1px solid var(--line);
-    background:rgba(26,21,16,0.85);
-    backdrop-filter:blur(10px);
-    color:var(--ember);
-    font-size:1.4rem;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:all .3s ease;
-  }
-  .music-control:hover{
-    border-color:var(--ember);
-    transform:scale(1.1);
-  }
-  @keyframes pulseSound{
-    0%, 100%{ transform:scale(1); }
-    50%{ transform:scale(1.08); }
-  }
-  .music-control.playing{
-    animation:pulseSound 2s ease-in-out infinite;
-  }
-
   footer{
     border-top:1px solid var(--line);
     padding:50px 26px;
@@ -192,7 +161,6 @@
     nav .nav-links::-webkit-scrollbar{ display:none; }
     nav .nav-links li{ flex:0 0 auto; }
     nav .nav-links a{ font-size:10px; white-space:nowrap; }
-    .music-control{ width:44px; height:44px; font-size:1.2rem; }
   }
 </style>
 </head>
@@ -208,9 +176,6 @@
     </ul>
   </div>
 </nav>
-
-<audio id="bgm" loop><source src="assets/bgm.mp3" type="audio/mpeg"></audio>
-<button id="musicControl" class="music-control playing" title="Tắt nhạc">🔊</button>
 
 <div class="wrap">
   <article>
@@ -285,22 +250,6 @@
 <footer>
   <p>&copy; 2026 TuanViet Studio. <a href="index.html">Trang chủ</a> • <a href="blog.html">Blog</a> • <a href="studio.html">Studio</a></p>
 </footer>
-
-<script>
-  const bgm = document.getElementById('bgm');
-  const musicControl = document.getElementById('musicControl');
-  bgm.volume = 0.3;
-  bgm.play().catch(() => {});
-  musicControl.addEventListener('click', function() {
-    if (bgm.paused) {
-      bgm.play();
-      musicControl.textContent = '🔊';
-    } else {
-      bgm.pause();
-      musicControl.textContent = '🔇';
-    }
-  });
-</script>
 
 <script type="application/ld+json">
 {
