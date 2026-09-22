@@ -34,7 +34,9 @@ a:hover{ text-decoration:underline; }
 ::selection{ background:var(--ember); color:#1a1208; }
 
 /* ------------------------------------------------- thanh điều hướng chung --- */
-nav{
+/* Chỉ áp cho thanh nav dùng chung của các trang con. Trang chủ tự lo hai thẻ
+   <nav> riêng (.nav ở góc trái, .mnav là dải cuộn ngang trên điện thoại). */
+nav:not(.nav):not(.mnav){
   position:fixed;
   top:0; left:0; right:0;
   z-index:1000;

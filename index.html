@@ -490,6 +490,27 @@
   .mnav{ display:none; }
   @media (max-width:1080px){
     .nav{ display:none; }
+
+    /* trên điện thoại hai thanh cố định chồng lên nhau và che mất nút đăng nhập,
+       nên cho cả hai về dòng chảy và xếp chung một hàng dính ở đỉnh màn hình */
+    .mtop{
+      position:sticky; top:0; z-index:60;
+      display:flex; align-items:center; gap:8px;
+      padding:8px 12px;
+      background:rgba(16,13,10,.96);
+      backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    .mtop .topleft, .mtop .topbar{ position:static; max-width:none; }
+    .topleft{ flex:none; }
+    .topbar{ flex:1 1 auto; min-width:0; flex-wrap:nowrap; gap:7px; }
+    .search{ min-width:0; flex:1 1 52px; padding:6px 10px; }
+    .search input{ width:100%; min-width:0; max-width:none; font-size:14px; }
+    .search .count{ display:none; }
+    .lang button{ padding:7px 10px; }
+    .signin{ flex:none; }
+    /* khoảng chừa 80px này là để tránh thanh cố định cũ — nay không cần nữa */
+    .studio-subtitle{ margin-top:0; }
     .mnav{
       display:flex;
       gap:8px;
@@ -565,7 +586,7 @@
     .brand .mark{ width:28px; height:28px; }
     .brand .bt b, .brand .bt span{ font-size:11px; }
   }
-  @media (max-width:440px){
+  @media (max-width:760px){
     .brand .bt{ display:none; }
   }
 
@@ -1058,6 +1079,7 @@
   });
 </script>
 
+<div class="mtop">
 <div class="topleft">
   <a class="brand" href="studio.html" aria-label="TuanViet Studio — trang giới thiệu">
     <span class="mark" role="img" aria-label="Lê Đoàn Tuấn Việt — TuanViet Studio"></span>
@@ -1082,6 +1104,7 @@
     <button type="button" class="clear" id="qclear" aria-label="Xoá tìm kiếm">×</button>
   </div>
   <button type="button" class="signin" data-en="Sign in">Đăng nhập</button>
+</div>
 </div>
 
 <!-- Studio Subtitle -->

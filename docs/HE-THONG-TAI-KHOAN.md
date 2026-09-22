@@ -355,6 +355,48 @@ plpgsql mới nguy hiểm.
 
 Lỗi này bị bắt nhờ bài test ở §8b, không phải nhờ đọc lại code.
 
+### 7.5 Thuộc tính `hidden` bị CSS của chính widget vô hiệu hóa
+
+`element.hidden = true` chỉ có tác dụng nhờ luật mặc định của trình duyệt
+`[hidden]{ display:none }`. **Mọi luật `display` do mình viết đều thắng luật đó**,
+bất kể độ cụ thể, vì stylesheet của tác giả luôn đứng trên stylesheet trình duyệt.
+
+Trong `assets/js/chat.js` có:
+
+```css
+.ash-chat__panel{ display:flex; ... }   /* khung chat  */
+.ash-chat__icon{  display:grid; ... }   /* nút ← ✕ 🔔 */
+```
+
+Hậu quả: `panel.hidden = true` (nút ✕, phím Esc, bấm ra ngoài) **không đóng được
+khung chat**, và `back.hidden = true` không giấu được mũi tên quay lại. Người dùng
+thấy khung chat mở thường trực với mũi tên ← thừa ở màn hình danh sách.
+
+Cách vá — một dòng, đặt cuối khối CSS của widget:
+
+```css
+.ash-chat[hidden], .ash-chat [hidden]{ display:none !important; }
+```
+
+> **Quy tắc rút ra:** widget nào tự bơm CSS và dùng `.hidden` để bật/tắt thì phải
+> kèm một luật `[hidden]{ display:none !important }` trong phạm vi của nó. Đây là
+> một trong số rất ít chỗ `!important` là đúng.
+
+### 7.6 `nav{}` trong base.css áp cho **mọi** thẻ `<nav>`
+
+`assets/css/base.css` dựng thanh điều hướng của các trang con bằng selector trần:
+
+```css
+nav{ position:fixed; top:0; left:0; right:0; z-index:1000; ... }
+```
+
+Trang chủ có **hai** thẻ `<nav>` không liên quan (`.nav` ở góc trái, `.mnav` là dải
+cuộn ngang cho điện thoại). Cả hai bị ghim lên đỉnh màn hình ở `z-index:1000`, đè
+lên logo, ô tìm kiếm và nút **Đăng nhập** — trên điện thoại nút đăng nhập biến mất.
+
+Đã thu hẹp thành `nav:not(.nav):not(.mnav){ ... }`. Nếu sau này thêm thẻ `<nav>`
+mới ở trang chủ, nhớ thêm class đó vào danh sách loại trừ.
+
 ---
 ## 8. Cách kiểm thử bảo mật
 

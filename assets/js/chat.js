@@ -152,7 +152,10 @@ const CSS = `
   margin:8px; padding:9px 11px; border-radius:8px; font-size:12px;
   background:rgba(207,75,62,.14); border:1px solid var(--crack,#cf4b3e); color:#f0b3ac;
 }
-.ash-chat[hidden]{ display:none; }
+/* GỐC RỄ của lỗi khung chat không tắt được: .ash-chat__panel đặt display:flex và
+   .ash-chat__icon đặt display:grid — cả hai đè lên [hidden] của trình duyệt, nên
+   panel.hidden = true chẳng có tác dụng gì. Bắt buộc phải !important. */
+.ash-chat[hidden], .ash-chat [hidden]{ display:none !important; }
 
 /* ---------------------------------------------------- thông báo nổi --- */
 .ash-toasts{
@@ -181,8 +184,28 @@ const CSS = `
 }
 .ash-toast__x:hover{ color:var(--ink,#efe6d4); }
 
-@media (max-width:480px){
-  .ash-chat__panel{ width:calc(100vw - 24px); height:min(72vh,470px); right:-6px; }
+@media (max-width:600px){
+  /* trên điện thoại khung nổi quá chật — cho chiếm trọn màn hình như Messenger */
+  .ash-chat__panel{
+    position:fixed; left:0; right:0; top:0; bottom:auto;
+    width:auto; height:100dvh; border-radius:0; border:none;
+    padding-top:env(safe-area-inset-top);
+    padding-bottom:env(safe-area-inset-bottom);
+    transform-origin:center;
+  }
+  .ash-chat__panel:not([hidden]) ~ .ash-chat__fab{ display:none; }
+  .ash-chat__head{ padding:10px 6px 10px 12px; }
+  .ash-chat__head b{ font-size:16px; }
+  .ash-chat__icon{ width:40px; height:40px; font-size:17px; }
+  .ash-chat__body{ padding:4px; }
+  .ash-chat__row{ padding:11px 12px; }
+  .ash-chat__name{ font-size:15px; }
+  .ash-chat__last{ font-size:13px; }
+  .ash-chat__b{ max-width:85%; font-size:15px; }
+  .ash-chat__form{ padding:8px 10px; }
+  /* dưới 16px thì Safari iOS tự phóng to trang mỗi lần bấm vào ô nhập */
+  .ash-chat__form textarea{ font-size:16px; max-height:120px; }
+  .ash-chat__send{ width:42px; height:42px; }
   .ash-toasts{ right:12px; left:12px; max-width:none; bottom:82px; }
 }
 `;
@@ -492,8 +515,8 @@ async function init() {
       .from('messages')
       .select('id, sender_id, body, created_at, deleted_at')
       .or(`and(sender_id.eq.${me.id},recipient_id.eq.${ban.id}),and(sender_id.eq.${ban.id},recipient_id.eq.${me.id})`)
-      .order('created_at', { ascending: true })
-      .limit(200);
+      .order('created_at', { ascending: false })   // mới nhất trước…
+      .limit(50);                                  // …rồi lật lại khi vẽ
 
     if (cua !== phien) return;                  // người dùng đã bấm đi chỗ khác
     if (error) {
@@ -513,7 +536,7 @@ async function init() {
     panel.append(form);
 
     const manh = document.createDocumentFragment();     // dựng ngoài DOM rồi gắn một lần
-    for (const m of data) manh.append(veTin(m, ban));
+    for (const m of data.slice().reverse()) manh.append(veTin(m, ban));
     list.append(manh);
     if (!data.length) list.append(el('div', 'ash-chat__empty', 'Chưa có tin nhắn nào.\nNói câu đầu tiên đi.'));
 
@@ -618,7 +641,7 @@ async function init() {
   }
 
   // --------------------------------------------------------- cập nhật ---
-  supabase
+  const ngheRealtime = () => supabase
     .channel('ash-messages')
     .on('postgres_changes',
       { event: 'INSERT', schema: 'public', table: 'messages' },
@@ -711,7 +734,12 @@ async function init() {
     supabase.rpc('danh_dau_da_doc', { nguoi_gui: dangMo.id }); // gửi lên trong nền
   });
 
-  await taiDanhSach();
+  // Mở websocket và hỏi danh sách ngay lúc tải trang làm máy yếu giật một nhịp.
+  // Đợi trình duyệt vẽ xong đã — chậm nửa giây không ai thấy.
+  const ranh = (fn) => ('requestIdleCallback' in window
+    ? requestIdleCallback(fn, { timeout: 2500 })
+    : setTimeout(fn, 500));
+  ranh(() => { ngheRealtime(); taiDanhSach(); });
   setInterval(() => { if (!document.hidden) taiDanhSach(); }, 180000); // dự phòng nếu realtime rớt
 }
 
