@@ -75,7 +75,16 @@ a:hover{ text-decoration:underline; }
   gap:22px; align-items:start;
   max-width:1180px; margin:0 auto; padding:22px 16px 90px;
 }
-.ash-side, .ash-rail{ position:sticky; top:72px; }
+/* base.css có luật riêng cho thẻ <nav> của các trang con. Menu này cũng là thẻ
+   <nav>, nên đã ba lần bị luật đó ghim lên đỉnh màn hình và che hết nội dung
+   (xem §7.6 trong docs/HE-THONG-TAI-KHOAN.md). Viết đủ cụ thể để thắng chắc,
+   và đặt lại luôn những thuộc tính mà luật kia hay kèm theo.
+   ĐỪNG rút gọn thành .ash-side{...} — nó sẽ thua lại. */
+.ash-layout > nav.ash-side{
+  position:sticky; top:72px; left:auto; right:auto; bottom:auto;
+  z-index:auto; background:none; border:none; backdrop-filter:none;
+}
+.ash-rail{ position:sticky; top:72px; }
 
 /* menu cột trái */
 .ash-nav{ display:flex; flex-direction:column; gap:3px; }
@@ -181,7 +190,7 @@ a.ash-nguoi:hover, button.ash-nguoi:hover{ background:rgba(255,255,255,.055); te
   .ash-the{ padding:16px 15px; border-radius:12px; }
 
   /* menu rơi xuống đáy thành thanh tab như ứng dụng điện thoại */
-  .ash-side{ position:fixed; inset:auto 0 0 0; top:auto; z-index:100; }
+  .ash-layout > nav.ash-side{ position:fixed; inset:auto 0 0 0; top:auto; z-index:100; }
   .ash-nav{
     flex-direction:row; justify-content:space-around;
     padding:5px 4px calc(5px + env(safe-area-inset-bottom));
