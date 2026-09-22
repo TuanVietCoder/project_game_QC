@@ -11,8 +11,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;700&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="assets/css/base.css?v=5">
-<link rel="stylesheet" href="assets/css/app.css?v=5">
+<link rel="stylesheet" href="assets/css/base.css?v=6">
+<link rel="stylesheet" href="assets/css/app.css?v=6">
 <style>
   .hero{
     display:flex; align-items:center; gap:20px; flex-wrap:wrap;
@@ -46,6 +46,13 @@
   input:focus, textarea:focus{ outline:none; border-color:var(--ember-dim); }
   input:disabled{ color:var(--muted-2); cursor:not-allowed; }
   .dem-chu{ font-family:var(--font-mono); font-size:.78rem; color:var(--muted-2); margin:-11px 0 17px; }
+  /* khối đổi ảnh đại diện */
+  .anh{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+  .anh__nut{ display:flex; gap:9px; flex-wrap:wrap; }
+  .anh__y{ font-size:.82rem; color:var(--muted-2); margin:9px 0 0; flex-basis:100%; }
+  .anh input[type=file]{ display:none; }
+  .ash-ava--to.dang-tai{ opacity:.45; }
+
   .an{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
   .an span{
     width:34px; height:34px; border-radius:9px; display:grid; place-items:center;
@@ -73,8 +80,8 @@
 </script>
 
 <script type="module">
-import { supabase, vietId, tenHienThi, quenHoSo, dichLoi } from './assets/js/auth.js?v=5';
-import { dungKhung, el, veAva } from './assets/js/app.js?v=5';
+import { supabase, vietId, tenHienThi, quenHoSo, dichLoi } from './assets/js/auth.js?v=6';
+import { dungKhung, el, veAva } from './assets/js/app.js?v=6';
 
 const { main, me } = await dungKhung('ho-so');
 document.getElementById('loading').remove();
@@ -109,7 +116,7 @@ form.innerHTML = `
   <label for="display_name">Tên hiển thị</label>
   <input id="display_name" type="text" maxlength="32" placeholder="Tên người khác nhìn thấy">
 
-  <label for="avatar_url">Đường dẫn ảnh đại diện</label>
+  <label for="avatar_url">Hoặc dán đường dẫn ảnh</label>
   <input id="avatar_url" type="url" placeholder="https://..." inputmode="url">
 
   <label for="bio">Giới thiệu</label>
@@ -123,6 +130,30 @@ bao.setAttribute('role', 'status');
 bao.setAttribute('aria-live', 'polite');
 hopSua.append(form, bao);
 main.append(hopSua);
+
+// --------------------------------------------------------- ảnh đại diện ---
+const hopAnh = el('section', 'ash-the');
+hopAnh.append(el('h2', null, 'Ảnh đại diện'));
+const khungAnh = el('div', 'anh');
+const avaNho = veAva(me, 'ash-ava ash-ava--to');
+const chonFile = el('input');
+chonFile.type = 'file';
+chonFile.accept = 'image/jpeg,image/png,image/webp,image/gif';
+const nutChon = el('button', 'ash-nut', 'Chọn ảnh');
+nutChon.type = 'button';
+const nutGo = el('button', 'ash-nut ash-nut--vien', 'Gỡ ảnh');
+nutGo.type = 'button';
+nutGo.hidden = !me.avatar_url;
+const cumNut = el('div', 'anh__nut');
+cumNut.append(nutChon, nutGo);
+khungAnh.append(avaNho, cumNut, chonFile,
+  el('p', 'anh__y', 'Ảnh vuông đẹp nhất. Nhận JPG, PNG, WEBP hoặc GIF, tối đa 2 MB.'));
+hopAnh.append(khungAnh);
+const baoAnh = el('div', 'ash-bao');
+baoAnh.setAttribute('role', 'status');
+baoAnh.setAttribute('aria-live', 'polite');
+hopAnh.append(baoAnh);
+main.append(hopAnh);
 
 // ------------------------------------------------- tiến độ trong game ---
 const td = el('section', 'ash-the');
@@ -144,6 +175,82 @@ $('bio').value = me.bio ?? '';
 $('bio-dem').textContent = (me.bio ?? '').length;
 $('bio').addEventListener('input', (e) => { $('bio-dem').textContent = e.target.value.length; });
 
+// --------------------------------------------------- đổi ảnh đại diện ---
+const noiAnh = (text, kieu) => { baoAnh.textContent = text; baoAnh.className = `ash-bao hien ${kieu}`; };
+
+/** Vẽ lại cả hai chỗ đang hiện ảnh: thẻ hồ sơ trên đầu và ô xem trước. */
+function datAnh(url) {
+  me.avatar_url = url || null;
+  for (const e of [ava, avaNho]) {
+    if (url) { e.textContent = ''; e.style.backgroundImage = `url("${url.replace(/"/g, '%22')}")`; }
+    else { e.style.backgroundImage = ''; e.textContent = (me.display_name || me.username).charAt(0).toUpperCase(); }
+  }
+  $('avatar_url').value = url || '';
+  nutGo.hidden = !url;
+}
+
+async function luuAnh(url) {
+  const { error } = await supabase.from('profiles').update({ avatar_url: url }).eq('id', me.id);
+  if (error) throw error;
+  quenHoSo();                                   // thanh trên và khung chat đọc lại
+  datAnh(url);
+}
+
+nutChon.onclick = () => chonFile.click();
+
+chonFile.onchange = async () => {
+  const file = chonFile.files?.[0];
+  chonFile.value = '';                          // chọn lại cùng file vẫn kêu onchange
+  if (!file) return;
+
+  // Hai lượt kiểm dưới đây CHỈ để báo sớm cho dễ chịu. Chặn thật nằm ở bucket
+  // (file_size_limit + allowed_mime_types) trong supabase/anh-dai-dien.sql.
+  if (!/^image\/(jpeg|png|webp|gif)$/.test(file.type)) {
+    return noiAnh('Chỉ nhận ảnh JPG, PNG, WEBP hoặc GIF.', 'loi');
+  }
+  if (file.size > 2 * 1024 * 1024) {
+    return noiAnh(`Ảnh nặng ${(file.size / 1048576).toFixed(1)} MB, tối đa 2 MB.`, 'loi');
+  }
+
+  nutChon.disabled = true;
+  nutChon.textContent = 'Đang tải lên…';
+  avaNho.classList.add('dang-tai');
+  try {
+    // Một người một file, ghi đè lên chính nó — khỏi để lại rác trong bucket.
+    // Không đặt đuôi file: trình duyệt đọc Content-Type chứ không đọc đuôi.
+    const duong = `${me.id}/avatar`;
+    const { error: loiTai } = await supabase.storage.from('avatars')
+      .upload(duong, file, { upsert: true, contentType: file.type, cacheControl: '3600' });
+    if (loiTai) throw loiTai;
+
+    const { data } = supabase.storage.from('avatars').getPublicUrl(duong);
+    // Cùng một đường dẫn nên phải thêm mốc thời gian, không thì trình duyệt
+    // hiện lại ảnh cũ trong cache.
+    const noi_ = data.publicUrl.includes('?') ? '&' : '?';
+    await luuAnh(`${data.publicUrl}${noi_}t=${Date.now()}`);
+    noiAnh('Đã đổi ảnh đại diện.', 'xong');
+  } catch (err) {
+    noiAnh(dichLoi(err.message), 'loi');
+  } finally {
+    nutChon.disabled = false;
+    nutChon.textContent = 'Chọn ảnh';
+    avaNho.classList.remove('dang-tai');
+  }
+};
+
+nutGo.onclick = async () => {
+  nutGo.disabled = true;
+  try {
+    await supabase.storage.from('avatars').remove([`${me.id}/avatar`]);
+    await luuAnh(null);
+    noiAnh('Đã gỡ ảnh đại diện.', 'xong');
+  } catch (err) {
+    noiAnh(dichLoi(err.message), 'loi');
+  } finally {
+    nutGo.disabled = false;
+  }
+};
+
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const avatar_url = $('avatar_url').value.trim();
@@ -164,15 +271,8 @@ form.addEventListener('submit', async (e) => {
 
     quenHoSo();                                   // để nơi khác đọc được tên mới
     me.display_name = $('display_name').value.trim() || null;
-    me.avatar_url = avatar_url || null;
     ten.textContent = tenHienThi(me);
-    if (me.avatar_url) {
-      ava.textContent = '';
-      ava.style.backgroundImage = `url("${me.avatar_url.replace(/"/g, '%22')}")`;
-    } else {
-      ava.style.backgroundImage = '';
-      ava.textContent = (me.display_name || me.username).charAt(0).toUpperCase();
-    }
+    datAnh(avatar_url || null);
     noi('Đã lưu hồ sơ.', 'xong');
   } catch (err) {
     noi(dichLoi(err.message), 'loi');
@@ -182,6 +282,6 @@ form.addEventListener('submit', async (e) => {
   }
 });
 </script>
-<script type="module" src="assets/js/chat.js?v=5"></script>
+<script type="module" src="assets/js/chat.js?v=6"></script>
 </body>
 </html>

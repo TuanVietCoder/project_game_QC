@@ -51,6 +51,7 @@ Hệ quả bắt buộc:
 | `supabase/chat.sql` | Bảng `messages` + `reports` |
 | `supabase/admin.sql` | Phân quyền kiểm duyệt, nhật ký, các hàm quản trị |
 | `supabase/fix-quyen-admin.sql` | Vá lỗi `NULL` trong kiểm tra quyền (xem §7.4) |
+| `supabase/anh-dai-dien.sql` | Bucket `avatars` + quyền ghi vào thư mục của chính mình |
 | `assets/js/auth.js` | Client Supabase, `getProfile()`, gắn trạng thái đăng nhập vào nav |
 | `assets/js/chat.js` | Widget chat nổi, tự gắn vào mọi trang |
 | `assets/js/app.js` | Khung khu vực đăng nhập: `dungKhung()`, thanh trên, menu, cột bạn bè |
@@ -68,7 +69,7 @@ Hệ quả bắt buộc:
 
 ```
 schema.sql → friends.sql → hardening.sql → fix-tim-kiem.sql → chat.sql
-→ admin.sql → fix-quyen-admin.sql
+→ admin.sql → fix-quyen-admin.sql → anh-dai-dien.sql
 ```
 
 > `fix-tim-kiem.sql` ghi đè hàm trong `friends.sql`. Nếu gộp file sau này, nhớ giữ

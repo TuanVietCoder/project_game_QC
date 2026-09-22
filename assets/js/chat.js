@@ -3,7 +3,7 @@
 // Tự gắn vào mọi trang có nạp file này. Chỉ hiện khi đã đăng nhập.
 // Nạp bằng thẻ <script type="module"> trỏ tới file này, nhớ kèm ?v= giống các trang khác.
 // =============================================================================
-import { supabase, getProfile, tenHienThi, dichLoi } from './auth.js?v=5';
+import { supabase, getProfile, tenHienThi, dichLoi } from './auth.js?v=6';
 
 const CSS = `
 .ash-chat, .ash-chat * { box-sizing:border-box; }
@@ -403,11 +403,15 @@ async function init() {
     if (r && Number(r.chua_doc) > 0) { r.chua_doc = 0; capNhatChuongBao(); }
   }
 
+  // Mọi chỗ làm dsHoiThoai đổi đều chạy qua đây, nên đây là chỗ duy nhất cần
+  // báo ra ngoài. Trang chủ nghe sự kiện này để vẽ lại mục Tin nhắn của nó —
+  // khỏi phải tự hỏi máy chủ hay tự nối realtime lần hai.
   function capNhatChuongBao() {
     const n = dsHoiThoai.reduce((s, r) => s + Number(r.chua_doc || 0), 0);
     dot.hidden = n === 0;
     dot.textContent = n > 99 ? '99+' : String(n);
     datTieuDe(n);
+    window.dispatchEvent(new CustomEvent('ashfall:hoi-thoai', { detail: { ds: dsHoiThoai } }));
   }
 
   // --------------------------------------------------- thẻ nổi trong trang ---

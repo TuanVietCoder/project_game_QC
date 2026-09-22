@@ -11,8 +11,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;700&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="assets/css/base.css?v=5">
-<link rel="stylesheet" href="assets/css/app.css?v=5">
+<link rel="stylesheet" href="assets/css/base.css?v=6">
+<link rel="stylesheet" href="assets/css/app.css?v=6">
 <style>
   /* thẻ chào ở đầu cột giữa */
   .chao{
@@ -73,8 +73,8 @@
 </script>
 
 <script type="module">
-import { supabase, vietId, tenHienThi } from './assets/js/auth.js?v=5';
-import { dungKhung, el, veAva, veXuong, hangNguoi, khiNao, moChat } from './assets/js/app.js?v=5';
+import { supabase, vietId, tenHienThi } from './assets/js/auth.js?v=6';
+import { dungKhung, el, veAva, veXuong, hangNguoi, khiNao, moChat } from './assets/js/app.js?v=6';
 
 const { main, me } = await dungKhung('trang-chu');
 document.getElementById('loading').remove();
@@ -133,36 +133,50 @@ td.append(an);
 main.append(td);
 
 // --------------------------------------------------------------- dữ liệu ---
-const { data, error } = await supabase.rpc('danh_sach_hoi_thoai');
-if (error) {
-  dsTin.replaceChildren(el('div', 'ash-trong', 'Không tải được tin nhắn. Tải lại trang giúp mình.'));
-} else {
-  const ds = data || [];
+let rong = null;                       // chỗ treo link "Tìm người chơi →"
+
+function veTinNhan(ds) {
   const chuaDoc = ds.reduce((s, r) => s + Number(r.chua_doc || 0), 0);
+  tieuTin.querySelector('.dem')?.remove();
   if (chuaDoc) tieuTin.append(el('span', 'dem', String(chuaDoc)));
 
   if (!ds.length) {
     dsTin.replaceChildren(el('div', 'ash-trong', 'Chưa có cuộc trò chuyện nào. Kết bạn trước rồi nhắn tin nhé.'));
-    hopTin.append(Object.assign(el('a', 'ash-the__more', 'Tìm người chơi →'), { href: 'ban-be.html' }));
-  } else {
-    const manh = document.createDocumentFragment();
-    for (const r of ds.slice(0, 6)) {
-      const xem = r.thoi_gian && r.tin_cuoi === null
-        ? 'Tin nhắn đã thu hồi'
-        : (r.tin_cuoi ? (r.tin_cuoi_cua_toi ? 'Bạn: ' : '') + r.tin_cuoi : 'Chưa có tin nhắn');
-      const row = hangNguoi(r, () => moChat(r.id), xem);
-      if (Number(r.chua_doc || 0) > 0) row.querySelector('.ash-nguoi__phu').classList.add('dam');
-      if (r.thoi_gian) {
-        const khi = el('span', 'ash-nguoi__phu', khiNao(r.thoi_gian));
-        khi.style.flex = 'none';
-        row.append(khi);
-      }
-      manh.append(row);
+    if (!rong) {
+      rong = Object.assign(el('a', 'ash-the__more', 'Tìm người chơi →'), { href: 'ban-be.html' });
+      hopTin.append(rong);
     }
-    dsTin.replaceChildren(manh);
+    return;
   }
+  rong?.remove();
+  rong = null;
+
+  const manh = document.createDocumentFragment();
+  for (const r of ds.slice(0, 6)) {
+    const xem = r.thoi_gian && r.tin_cuoi === null
+      ? 'Tin nhắn đã thu hồi'
+      : (r.tin_cuoi ? (r.tin_cuoi_cua_toi ? 'Bạn: ' : '') + r.tin_cuoi : 'Chưa có tin nhắn');
+    const row = hangNguoi(r, () => moChat(r.id), xem);
+    if (Number(r.chua_doc || 0) > 0) row.querySelector('.ash-nguoi__phu').classList.add('dam');
+    if (r.thoi_gian) {
+      const khi = el('span', 'ash-nguoi__phu', khiNao(r.thoi_gian));
+      khi.style.flex = 'none';
+      row.append(khi);
+    }
+    manh.append(row);
+  }
+  dsTin.replaceChildren(manh);
 }
+
+// chat.js giữ danh sách này và cập nhật nó theo realtime. Nghe nó thay vì tự
+// hỏi lại máy chủ, để mục Tin nhắn ở đây luôn khớp với khung chat.
+window.addEventListener('ashfall:hoi-thoai', (e) => veTinNhan(e.detail.ds || []));
+
+// Lần vẽ đầu thì tự hỏi, vì chat.js hoãn lượt tải của nó tới lúc trình duyệt rảnh.
+const { data, error } = await supabase.rpc('danh_sach_hoi_thoai');
+if (error) dsTin.replaceChildren(el('div', 'ash-trong', 'Không tải được tin nhắn. Tải lại trang giúp mình.'));
+else veTinNhan(data || []);
 </script>
-<script type="module" src="assets/js/chat.js?v=5"></script>
+<script type="module" src="assets/js/chat.js?v=6"></script>
 </body>
 </html>
