@@ -2,7 +2,7 @@
 // Ashfall — khung dùng chung cho khu vực đã đăng nhập
 // Mỗi trang gọi `const main = await dungKhung('ten-trang')`, nhận lại phần tử
 // cột giữa rồi tự đổ nội dung vào. Thanh trên, menu và cột phải do đây lo.
-// Phần nhìn nằm ở assets/css/app.css?v=7.
+// Phần nhìn nằm ở file app.css cạnh bên (thư mục assets/css).
 // =============================================================================
 import { supabase, getProfile, vietId, tenHienThi, signOut } from './auth.js?v=7';
 
