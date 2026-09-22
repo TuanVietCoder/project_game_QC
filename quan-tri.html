@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;700&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="assets/css/base.css?v=3">
-<link rel="stylesheet" href="assets/css/app.css?v=3">
+<link rel="stylesheet" href="assets/css/base.css?v=4">
+<link rel="stylesheet" href="assets/css/app.css?v=4">
 <style>
   body{
     min-height:100vh;
@@ -147,7 +147,7 @@
     <!-- NGƯỜI DÙNG -->
     <section id="tab-nguoi-dung" hidden>
       <form class="bar" id="form-tim">
-        <input id="q" type="search" placeholder="Tìm theo tên hoặc Riot ID…" autocomplete="off" aria-label="Tìm người dùng">
+        <input id="q" type="search" placeholder="Tìm theo tên hoặc Viet ID…" autocomplete="off" aria-label="Tìm người dùng">
         <button class="act chinh" type="submit">Tìm</button>
       </form>
       <div class="scroll"><div id="ds-nguoi-dung"></div></div>
@@ -161,7 +161,7 @@
 </div>
 
 <script type="module">
-import { supabase, riotId, dichLoi } from './assets/js/auth.js';
+import { supabase, vietId, dichLoi } from './assets/js/auth.js';
 import { dungKhung } from './assets/js/app.js';
 
 const $ = (id) => document.getElementById(id);
@@ -181,7 +181,7 @@ if (!['admin', 'moderator'].includes(me.role)) {
 const laAdmin = me.role === 'admin';
 $('app').hidden = false;
 $('me').innerHTML = '';
-$('me').append(riotId(me) + ' · ', Object.assign(document.createElement('b'),
+$('me').append(vietId(me) + ' · ', Object.assign(document.createElement('b'),
   { textContent: laAdmin ? 'Quản trị viên' : 'Kiểm duyệt viên' }));
 
 // ------------------------------------------------------------- nhãn ---
@@ -309,7 +309,7 @@ async function taiNguoiDung(tu_khoa = '') {
   const t = el('table');
   const thead = el('thead');
   const trh = el('tr');
-  for (const h of ['Riot ID', 'Vai trò', 'Trạng thái', 'Báo cáo', 'Tin nhắn', 'Thao tác']) trh.append(el('th', null, h));
+  for (const h of ['Viet ID', 'Vai trò', 'Trạng thái', 'Báo cáo', 'Tin nhắn', 'Thao tác']) trh.append(el('th', null, h));
   thead.append(trh);
   const tb = el('tbody');
 

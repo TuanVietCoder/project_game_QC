@@ -126,18 +126,18 @@ Khóa chính trỏ thẳng tới `auth.users(id)`, `on delete cascade`.
 
 | Cột | Ghi chú |
 |---|---|
-| `username` + `tag` | **Riot ID**, ví dụ `TuanViet#0417`. Cặp này là duy nhất |
+| `username` + `tag` | **Viet ID**, ví dụ `TuanViet#0417`. Cặp này là duy nhất |
 | `display_name`, `avatar_url`, `bio` | Người dùng tự nhập, không bắt buộc |
 | `role` | `user` / `moderator` / `admin` |
 | `status` | `active` / `suspended` / `banned` |
 
-**Vì sao dùng Riot ID thay vì tên duy nhất:** nhiều người trùng tên vẫn đăng ký
+**Vì sao dùng Viet ID thay vì tên duy nhất:** nhiều người trùng tên vẫn đăng ký
 được, không phải tranh nhau tên đẹp. Thẻ số 4 chữ số sinh ngẫu nhiên, có vòng lặp
 kiểm tra trùng.
 
 **Cảnh báo:** `username` bị cắt còn **16 ký tự** từ phần trước `@` của email
 (`left(base, 16)`). Email `thienpham12112003@gmail.com` cho ra `thienpham1211200`
-— mất chữ số cuối. **Hiện chưa có cách đổi Riot ID.** Nếu muốn thêm, làm sớm
+— mất chữ số cuối. **Hiện chưa có cách đổi Viet ID.** Nếu muốn thêm, làm sớm
 trước khi có nhiều người dùng.
 
 ### `friendships` — quan hệ hai chiều
@@ -204,7 +204,7 @@ Xử lý ở `quan-tri.html` — xem §4b.
 | Hàm | Dùng làm gì |
 |---|---|
 | `gui_loi_moi(ban_id)` | Gửi lời mời, tự lo việc sắp xếp `user_a < user_b` |
-| `tim_nguoi_choi(tu_khoa)` | Tìm theo Riot ID. Gõ `Ten` tìm gần đúng, `Ten#1234` tìm chính xác |
+| `tim_nguoi_choi(tu_khoa)` | Tìm theo Viet ID. Gõ `Ten` tìm gần đúng, `Ten#1234` tìm chính xác |
 | `danh_sach_ban()` | Bạn bè + lời mời đến + lời mời đã gửi + đã chặn |
 | `danh_sach_hoi_thoai()` | Danh sách chat kèm tin cuối và số tin chưa đọc |
 | `danh_dau_da_doc(nguoi_gui)` | Đánh dấu đã đọc cả cuộc trò chuyện |
@@ -262,7 +262,7 @@ Chạy trong SQL Editor. Trigger `guard_profile_privileges` có nhánh cho
 
 - [ ] Tắt *"Automatically expose new tables"* trong **Settings → API**
       (Supabase khuyên tắt; bảng mới quên bật RLS là lộ ngay)
-- [ ] Cho phép đổi Riot ID
+- [ ] Cho phép đổi Viet ID
 
 ---
 
@@ -504,7 +504,7 @@ Ba lưu ý khi viết bài test kiểu này:
 | Đợt | Nội dung | Trạng thái |
 |---|---|---|
 | 1 | Đăng nhập, hồ sơ, chính sách bảo mật | ✅ 21/09/2026 |
-| 2 | Kết bạn, tìm theo Riot ID | ✅ 21/09/2026 |
+| 2 | Kết bạn, tìm theo Viet ID | ✅ 21/09/2026 |
 | 3 | Chat 1-1 realtime, thu hồi, báo cáo | ✅ 21/09/2026 |
 | 4 | Trang admin: danh sách user, xử lý `reports`, cấm tài khoản | ✅ 21/09/2026 |
 | 5 | Nối Godot: đăng nhập trong game, đồng bộ Nghiệp Ấn / boss đã hạ | ⬜ |

@@ -19,7 +19,7 @@ create table if not exists public.profiles (
   unique (username, tag)
 );
 
-comment on table  public.profiles is 'Hồ sơ công khai. Riot ID = username#tag, ví dụ TuanViet#0417';
+comment on table  public.profiles is 'Hồ sơ công khai. Viet ID = username#tag, ví dụ TuanViet#0417';
 comment on column public.profiles.role is 'user | moderator | admin — chỉ admin đổi được (xem trigger guard_profile_privileges)';
 
 create index if not exists profiles_username_lower_idx on public.profiles (lower(username));

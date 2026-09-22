@@ -138,7 +138,7 @@ begin
 end;
 $$;
 
--- --------------------------------------------- tìm người theo Riot ID ----
+-- --------------------------------------------- tìm người theo Viet ID ----
 -- Trả về tối đa 20 người, bỏ chính mình và người đã chặn mình.
 create or replace function public.tim_nguoi_choi(tu_khoa text)
 returns table (

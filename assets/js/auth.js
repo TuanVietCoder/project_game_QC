@@ -42,10 +42,10 @@ async function docHoSo() {
 export function quenHoSo() { _hoSo = null; }
 
 /** "TuanViet#0417" — định danh duy nhất, dùng để tìm nhau */
-export const riotId = (p) => (p ? `${p.username}#${p.tag}` : '');
+export const vietId = (p) => (p ? `${p.username}#${p.tag}` : '');
 
-/** Tên để hiển thị cho người đọc. Chưa đặt thì rơi về Riot ID. */
-export const tenHienThi = (p) => (p ? (p.display_name?.trim() || riotId(p)) : '');
+/** Tên để hiển thị cho người đọc. Chưa đặt thì rơi về Viet ID. */
+export const tenHienThi = (p) => (p ? (p.display_name?.trim() || vietId(p)) : '');
 
 export async function signOut() {
   await supabase.auth.signOut();
@@ -99,7 +99,7 @@ export async function mountAuthButton() {
       a.href = 'trang-chu.html';
       a.textContent = tenHienThi(p);
       a.style.textDecoration = 'none';
-      a.setAttribute('aria-label', `Hồ sơ của ${riotId(p)}`);
+      a.setAttribute('aria-label', `Hồ sơ của ${vietId(p)}`);
       btn.replaceWith(a);
     } else {
       btn.addEventListener('click', () => { location.href = 'dang-nhap.html'; });

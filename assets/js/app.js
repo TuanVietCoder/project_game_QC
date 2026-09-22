@@ -4,7 +4,7 @@
 // cột giữa rồi tự đổ nội dung vào. Thanh trên, menu và cột phải do đây lo.
 // Phần nhìn nằm ở assets/css/app.css.
 // =============================================================================
-import { supabase, getProfile, riotId, tenHienThi, signOut } from './auth.js';
+import { supabase, getProfile, vietId, tenHienThi, signOut } from './auth.js';
 
 export const el = (tag, cls, text) => {
   const e = document.createElement(tag);
@@ -68,7 +68,7 @@ export async function dungKhung(trangHienTai) {
   menu.setAttribute('role', 'menu');
   menu.hidden = true;
   const who = el('div', 'ash-menu__who');
-  who.append(el('div', 'ash-menu__ten', tenHienThi(me)), el('div', 'ash-menu__id', riotId(me)));
+  who.append(el('div', 'ash-menu__ten', tenHienThi(me)), el('div', 'ash-menu__id', vietId(me)));
   menu.append(who);
   const mucHoSo = el('a', null, 'Hồ sơ của tôi'); mucHoSo.href = 'ho-so.html';
   const mucTrang = el('a', null, 'Trang giới thiệu game'); mucTrang.href = 'index.html';
@@ -170,7 +170,7 @@ export function hangNguoi(p, khiBam, phu) {
   const ten = tenHienThi(p);
   const duoi = phu ?? `${p.username}#${p.tag}`;
   meta.append(el('div', 'ash-nguoi__ten', ten));
-  // chưa đặt tên hiển thị thì tenHienThi() rơi về Riot ID — khỏi in lại lần hai
+  // chưa đặt tên hiển thị thì tenHienThi() rơi về Viet ID — khỏi in lại lần hai
   if (duoi !== ten) meta.append(el('div', 'ash-nguoi__phu', duoi));
   row.append(veAva(p), meta);
   return row;
