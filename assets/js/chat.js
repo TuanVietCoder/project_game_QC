@@ -727,6 +727,18 @@ async function init() {
     if (!panel.hidden && !root.contains(e.target) && !e.target.closest('.ash-toast')) dong();
   });
 
+  // Trang khác (app.js) xin mở thẳng một cuộc trò chuyện.
+  window.addEventListener('ashfall:mo-chat', async (e) => {
+    const banId = e.detail?.banId;
+    if (!banId) return;
+    dangXem = true;
+    panel.hidden = false;
+    await taiDanhSach();
+    const ban = dsHoiThoai.find((r) => r.id === banId);
+    if (ban) moCuocTroChuyen(ban);
+    else veDanhSach();
+  });
+
   // quay lại tab trong khi đang mở một cuộc trò chuyện → đánh dấu đã đọc
   document.addEventListener('visibilitychange', () => {
     if (document.hidden || !dangXem || !dangMo) return;

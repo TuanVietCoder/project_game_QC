@@ -34,9 +34,11 @@ a:hover{ text-decoration:underline; }
 ::selection{ background:var(--ember); color:#1a1208; }
 
 /* ------------------------------------------------- thanh điều hướng chung --- */
-/* Chỉ áp cho thanh nav dùng chung của các trang con. Trang chủ tự lo hai thẻ
-   <nav> riêng (.nav ở góc trái, .mnav là dải cuộn ngang trên điện thoại). */
-nav:not(.nav):not(.mnav){
+/* CHỈ áp cho thanh nav dùng chung của các trang con — nhận ra nhờ .nav-content
+   bên trong. Đừng đổi lại thành `nav{}` trần: trang chủ và khu vực đăng nhập còn
+   vài thẻ <nav> khác (.nav, .mnav, .ash-side) và chúng từng bị ghim lên đỉnh màn
+   hình vì luật này. Xem §7.6 trong docs/HE-THONG-TAI-KHOAN.md. */
+nav:has(> .nav-content){
   position:fixed;
   top:0; left:0; right:0;
   z-index:1000;

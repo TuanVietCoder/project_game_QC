@@ -131,7 +131,7 @@ tabUp.onclick = () => setMode('up');
 
 // đã đăng nhập rồi thì khỏi ở lại trang này
 const { data: { session } } = await supabase.auth.getSession();
-if (session) location.replace('ho-so.html');
+if (session) location.replace('trang-chu.html');
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -148,14 +148,14 @@ form.addEventListener('submit', async (e) => {
       const { data, error } = await supabase.auth.signUp({ email, password });
       if (error) throw error;
       if (data.session) {
-        location.href = 'ho-so.html';
+        location.href = 'trang-chu.html';
       } else {
         show('Đã gửi email xác nhận. Mở hộp thư (cả mục spam) và bấm liên kết để kích hoạt tài khoản.', 'ok');
       }
     } else {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-      location.href = 'ho-so.html';
+      location.href = 'trang-chu.html';
     }
   } catch (err) {
     show(dichLoi(err.message), 'err');

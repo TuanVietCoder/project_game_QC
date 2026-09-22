@@ -1,0 +1,210 @@
+/* =============================================================================
+   Ashfall — khung giao diện cho khu vực đã đăng nhập
+   Nạp SAU assets/css/base.css. Dùng cho trang-chu, ho-so, ban-be, quan-tri.
+   Khung do assets/js/app.js dựng ra, file này chỉ lo phần nhìn.
+
+   Bố cục kiểu Facebook: thanh trên cùng dính, cột trái là menu, cột giữa là
+   nội dung, cột phải là danh sách bạn. Xuống điện thoại thì menu rơi xuống
+   thành thanh tab dưới đáy và cột phải bị ẩn.
+   ============================================================================= */
+
+body{
+  min-height:100vh; margin:0;
+  background:var(--bg); color:var(--ink);
+  font-family:var(--font-body); line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{ color:var(--ember); text-decoration:none; }
+a:hover{ text-decoration:underline; }
+:focus-visible{ outline:2px solid var(--ember); outline-offset:3px; border-radius:4px; }
+[hidden]{ display:none !important; }
+
+/* --------------------------------------------------------- thanh trên cùng --- */
+.ash-top{
+  position:sticky; top:0; z-index:100;
+  display:flex; align-items:center; gap:12px;
+  padding:9px 16px;
+  background:rgba(16,13,10,.96);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.ash-top__brand{ display:flex; align-items:center; gap:9px; flex:none; text-decoration:none; }
+.ash-top__brand:hover{ text-decoration:none; }
+.ash-top__mark{
+  width:34px; height:34px; border-radius:9px; flex:none;
+  background:url('../tuanviet-studio-logo.jpg') center/cover no-repeat;
+  border:1px solid var(--line-strong);
+}
+.ash-top__name{
+  font-family:var(--font-display); font-weight:700; font-size:1.1rem;
+  color:var(--ink); letter-spacing:.01em;
+}
+.ash-top__sp{ flex:1; }
+
+.ash-top__ava{
+  width:36px; height:36px; flex:none; border-radius:50%;
+  border:1.5px solid var(--ember-dim); background:var(--bg-plate-2) center/cover no-repeat;
+  display:grid; place-items:center; cursor:pointer;
+  font-family:var(--font-display); font-weight:700; font-size:1rem; color:var(--ember);
+  padding:0;
+}
+.ash-top__ava:hover{ border-color:var(--ember); }
+
+/* thực đơn thả xuống khi bấm ảnh đại diện */
+.ash-menu{
+  position:absolute; top:52px; right:16px; z-index:101;
+  min-width:210px; padding:6px;
+  background:var(--bg-plate); border:1px solid var(--line-strong);
+  border-radius:12px; box-shadow:0 18px 44px rgba(0,0,0,.55);
+}
+.ash-menu__who{ padding:10px 12px 12px; border-bottom:1px solid var(--line); margin-bottom:6px; }
+.ash-menu__ten{ font-weight:600; }
+.ash-menu__id{ font-family:var(--font-mono); font-size:.78rem; color:var(--muted-2); margin-top:2px; }
+.ash-menu a, .ash-menu button{
+  display:block; width:100%; text-align:left;
+  padding:10px 12px; border:none; border-radius:8px;
+  background:none; color:var(--ink); cursor:pointer;
+  font:inherit; font-size:.92rem; text-decoration:none;
+}
+.ash-menu a:hover, .ash-menu button:hover{ background:rgba(255,255,255,.06); text-decoration:none; }
+.ash-menu button.thoat{ color:var(--crack); }
+
+/* ------------------------------------------------------------- bố cục 3 cột --- */
+.ash-layout{
+  display:grid; grid-template-columns:216px minmax(0,1fr) 290px;
+  gap:22px; align-items:start;
+  max-width:1180px; margin:0 auto; padding:22px 16px 90px;
+}
+.ash-side, .ash-rail{ position:sticky; top:72px; }
+
+/* menu cột trái */
+.ash-nav{ display:flex; flex-direction:column; gap:3px; }
+.ash-nav a{
+  display:flex; align-items:center; gap:12px;
+  padding:11px 13px; border-radius:10px;
+  color:var(--muted); text-decoration:none; font-weight:500; font-size:.95rem;
+}
+.ash-nav a:hover{ background:rgba(255,255,255,.055); color:var(--ink); text-decoration:none; }
+.ash-nav a[aria-current="page"]{ background:rgba(255,157,71,.12); color:var(--ember); font-weight:600; }
+.ash-nav .bieu{ font-size:1.15rem; width:24px; text-align:center; flex:none; }
+.ash-nav .dem{
+  margin-left:auto; min-width:20px; height:20px; padding:0 6px; flex:none;
+  border-radius:999px; background:var(--crack); color:#fff;
+  font:700 11px/20px var(--font-mono); text-align:center;
+}
+
+/* ------------------------------------------------------------------ thẻ chung --- */
+.ash-the{
+  background:var(--bg-plate); border:1px solid var(--line);
+  border-radius:14px; padding:20px 22px; margin-bottom:16px;
+}
+.ash-the > h2, .ash-tieu{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--muted-2); margin:0 0 15px;
+  display:flex; align-items:center; gap:9px;
+}
+.ash-tieu .dem{
+  min-width:19px; height:19px; padding:0 6px; border-radius:999px;
+  background:var(--ember); color:#1a1208;
+  font:700 11px/19px var(--font-mono); text-align:center; letter-spacing:0;
+}
+.ash-the__more{ display:block; margin-top:13px; font-size:.86rem; }
+.ash-trong{ color:var(--muted-2); font-size:.9rem; padding:6px 0; }
+
+/* hàng người chơi — dùng lại ở nhiều trang */
+.ash-nguoi{
+  display:flex; align-items:center; gap:12px;
+  padding:9px 10px; border-radius:11px;
+  width:100%; text-align:left; border:none; background:none;
+  color:inherit; font:inherit; text-decoration:none;
+}
+a.ash-nguoi:hover, button.ash-nguoi:hover{ background:rgba(255,255,255,.055); text-decoration:none; cursor:pointer; }
+.ash-ava{
+  width:42px; height:42px; flex:none; border-radius:50%;
+  border:1.5px solid var(--ember-dim); background:var(--bg-plate-2) center/cover no-repeat;
+  display:grid; place-items:center;
+  font-family:var(--font-display); font-weight:700; font-size:1.05rem; color:var(--ember);
+}
+.ash-ava--to{ width:92px; height:92px; font-size:2.1rem; border-width:2px; }
+.ash-nguoi__meta{ flex:1; min-width:0; }
+.ash-nguoi__ten{ font-weight:600; font-size:.95rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ash-nguoi__phu{
+  font-size:.83rem; color:var(--muted-2); margin-top:1px;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.ash-nguoi__phu.dam{ color:var(--ink); font-weight:600; }
+
+/* --------------------------------------------------------------------- nút --- */
+.ash-nut{
+  padding:11px 22px; border:none; border-radius:9px; cursor:pointer;
+  background:var(--ember); color:#1a1208; text-decoration:none;
+  font-family:var(--font-mono); font-size:11px; font-weight:700;
+  letter-spacing:.11em; text-transform:uppercase; display:inline-block;
+}
+.ash-nut:hover{ filter:brightness(1.1); text-decoration:none; }
+.ash-nut:disabled{ opacity:.55; cursor:progress; }
+.ash-nut--vien{
+  background:transparent; color:var(--muted);
+  border:1px solid var(--line-strong);
+}
+.ash-nut--vien:hover{ color:var(--ink); border-color:var(--ember-dim); filter:none; }
+.ash-nut--nho{ padding:8px 15px; font-size:10px; }
+
+/* ------------------------------------------------------------------- báo lỗi --- */
+.ash-bao{ margin-top:14px; padding:12px 15px; border-radius:9px; font-size:.9rem; display:none; }
+.ash-bao.hien{ display:block; }
+.ash-bao.loi{ background:rgba(207,75,62,.12); border:1px solid var(--crack); color:#f0b3ac; }
+.ash-bao.xong{ background:rgba(143,168,127,.12); border:1px solid var(--moss); color:#cfe0c4; }
+
+/* --------------------------------------------------------- khung xương tải --- */
+.ash-xuong{ display:flex; align-items:center; gap:12px; padding:9px 10px; }
+.ash-xuong i{ display:block; border-radius:99px; background:rgba(255,255,255,.055); }
+.ash-xuong .a{ width:42px; height:42px; border-radius:50%; flex:none; }
+.ash-xuong .b{ flex:1; }
+.ash-xuong .b i:first-child{ height:11px; width:54%; margin-bottom:8px; }
+.ash-xuong .b i:last-child{ height:9px; width:78%; }
+@media (prefers-reduced-motion:no-preference){
+  .ash-xuong i{ animation:ash-tho 1.3s ease-in-out infinite; }
+  @keyframes ash-tho{ 0%,100%{ opacity:.45; } 50%{ opacity:.9; } }
+}
+
+/* ------------------------------------------------------------------ đáp ứng --- */
+@media (max-width:1080px){
+  .ash-layout{ grid-template-columns:200px minmax(0,1fr); }
+  .ash-rail{ display:none; }
+}
+
+@media (max-width:760px){
+  .ash-layout{ grid-template-columns:minmax(0,1fr); gap:0; padding:16px 12px 84px; }
+  .ash-top{ padding:8px 12px; }
+  .ash-top__name{ display:none; }
+  .ash-the{ padding:16px 15px; border-radius:12px; }
+
+  /* menu rơi xuống đáy thành thanh tab như ứng dụng điện thoại */
+  .ash-side{ position:fixed; inset:auto 0 0 0; top:auto; z-index:100; }
+  .ash-nav{
+    flex-direction:row; justify-content:space-around;
+    padding:5px 4px calc(5px + env(safe-area-inset-bottom));
+    background:rgba(16,13,10,.97);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);
+  }
+  .ash-nav a{
+    flex-direction:column; gap:2px; padding:7px 4px; flex:1;
+    font-size:10px; letter-spacing:.02em; border-radius:9px; position:relative;
+  }
+  .ash-nav a[aria-current="page"]{ background:none; }
+  .ash-nav .bieu{ font-size:1.3rem; width:auto; }
+  .ash-nav .dem{
+    position:absolute; top:2px; left:50%; margin-left:4px;
+    min-width:17px; height:17px; font-size:10px; line-height:17px;
+  }
+}
+
+/* Widget chat (assets/js/chat.js) bơm CSS lúc chạy nên nó đứng sau file này.
+   Thêm `body ` phía trước để giành lại quyền: trên điện thoại nút chat phải
+   nhường chỗ cho thanh tab dưới đáy, không thì nó đè lên mục cuối. */
+@media (max-width:760px){
+  body .ash-chat{ bottom:calc(70px + env(safe-area-inset-bottom)); }
+  body .ash-toasts{ bottom:calc(136px + env(safe-area-inset-bottom)); }
+}

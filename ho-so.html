@@ -2,211 +2,148 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <meta name="description" content="Hồ sơ người chơi Ashfall: Riot ID, tên hiển thị, giới thiệu và tiến độ.">
-<title>Hồ sơ người chơi — Ashfall</title>
+<title>Hồ sơ — Ashfall</title>
 <link rel="icon" type="image/jpeg" href="assets/tuanviet-studio-logo.jpg?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;700&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/app.css">
 <style>
-  body{
-    min-height:100vh;
-    background:radial-gradient(ellipse 900px 520px at 50% -8%, rgba(255,157,71,.12), transparent 62%), var(--bg);
-    color:var(--ink); font-family:var(--font-body); line-height:1.65;
-    -webkit-font-smoothing:antialiased;
-  }
-  a{ color:var(--ember); text-decoration:none; }
-  a:hover{ text-decoration:underline; }
-  :focus-visible{ outline:2px solid var(--ember); outline-offset:3px; border-radius:3px; }
-  .wrap{ max-width:720px; margin:0 auto; padding:26px 26px 70px; }
-
-  .top{ display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:34px; }
-  .top a.back{ font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
-  .ghost{
-    background:transparent; color:var(--muted); cursor:pointer;
-    border:1px solid var(--line-strong); border-radius:999px; padding:9px 17px;
-    font-family:var(--font-mono); font-size:10.5px; font-weight:700;
-    letter-spacing:.12em; text-transform:uppercase;
-  }
-  .ghost:hover{ color:var(--crack); border-color:var(--crack); }
-
-  /* thẻ hồ sơ kiểu Riot */
   .hero{
-    display:flex; gap:24px; align-items:center; flex-wrap:wrap;
-    background:linear-gradient(180deg, rgba(255,157,71,.10), rgba(207,75,62,.05)), var(--bg-plate);
-    border:1px solid var(--line-strong); border-radius:14px; padding:28px;
+    display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+    background:linear-gradient(180deg, rgba(255,157,71,.10), rgba(207,75,62,.04)), var(--bg-plate);
   }
-  .ava{
-    width:104px; height:104px; flex:none; border-radius:50%;
-    border:2px solid var(--ember-dim); background:var(--bg-plate-2) center/cover no-repeat;
-    display:grid; place-items:center;
-    font-family:var(--font-display); font-size:2.3rem; font-weight:700; color:var(--ember);
-    box-shadow:0 8px 30px rgba(207,75,62,.28);
-  }
-  .idline{ display:flex; align-items:baseline; gap:2px; flex-wrap:wrap; }
-  .idline .u{ font-family:var(--font-display); font-weight:700; font-size:clamp(1.6rem,5vw,2.2rem); }
-  .riot{ margin:5px 0 0; font-family:var(--font-mono); font-size:.88rem; color:var(--muted-2); }
-  .riot b{ color:var(--muted); font-weight:600; }
-  .badges{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
-  .badge{
+  .hero__meta{ flex:1; min-width:180px; }
+  .hero__ten{ font-family:var(--font-display); font-weight:700; font-size:clamp(1.4rem,4.5vw,1.9rem); line-height:1.25; }
+  .hero__id{ font-family:var(--font-mono); font-size:.85rem; color:var(--muted-2); margin-top:4px; }
+  .hero__id b{ color:var(--muted); font-weight:600; }
+  .the-vai{
+    display:inline-block; margin:9px 7px 0 0;
     font-family:var(--font-mono); font-size:10px; font-weight:700;
     letter-spacing:.1em; text-transform:uppercase;
     border:1px solid var(--line-strong); border-radius:999px; padding:4px 11px; color:var(--muted);
   }
-  .badge.admin{ color:#1a1208; background:var(--ember); border-color:var(--ember); }
-  .badge.mod{ color:var(--moss); border-color:var(--moss); }
-  .badge.warn{ color:var(--crack); border-color:var(--crack); }
-  .joined{ margin:10px 0 0; font-size:.85rem; color:var(--muted-2); }
+  .the-vai.admin{ color:#1a1208; background:var(--ember); border-color:var(--ember); }
+  .the-vai.mod{ color:var(--moss); border-color:var(--moss); }
+  .the-vai.canh{ color:var(--crack); border-color:var(--crack); }
+  .hero__tham{ font-size:.85rem; color:var(--muted-2); margin-top:9px; }
 
-  section{ margin-top:34px; }
-  h2{
-    font-family:var(--font-mono); font-size:11px; letter-spacing:.18em;
-    text-transform:uppercase; color:var(--muted-2); margin:0 0 16px;
+  label{
+    display:block; font-family:var(--font-mono); font-size:10.5px;
+    letter-spacing:.13em; text-transform:uppercase; color:var(--muted-2); margin:0 0 7px;
   }
-  label{ display:block; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.14em;
-    text-transform:uppercase; color:var(--muted-2); margin:0 0 7px; }
-  input,textarea{
-    width:100%; padding:12px 14px; margin-bottom:16px;
+  input, textarea{
+    width:100%; padding:12px 14px; margin-bottom:17px;
     background:var(--bg-plate-2); color:var(--ink);
-    border:1px solid var(--line-strong); border-radius:7px;
+    border:1px solid var(--line-strong); border-radius:8px;
     font-family:var(--font-body); font-size:.95rem; resize:vertical;
   }
-  input:focus,textarea:focus{ outline:none; border-color:var(--ember-dim); }
+  input:focus, textarea:focus{ outline:none; border-color:var(--ember-dim); }
   input:disabled{ color:var(--muted-2); cursor:not-allowed; }
-  .row{ display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
-  .btn{
-    padding:13px 26px; border:none; border-radius:7px; cursor:pointer;
-    background:var(--ember); color:#1a1208;
-    font-family:var(--font-mono); font-size:11.5px; font-weight:700;
-    letter-spacing:.12em; text-transform:uppercase;
+  .dem-chu{ font-family:var(--font-mono); font-size:.78rem; color:var(--muted-2); margin:-11px 0 17px; }
+  .an{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+  .an span{
+    width:34px; height:34px; border-radius:9px; display:grid; place-items:center;
+    border:1px dashed var(--line-strong); color:var(--muted-2);
+    font-family:var(--font-mono); font-size:11px;
   }
-  .btn:hover:not(:disabled){ filter:brightness(1.1); }
-  .btn:disabled{ opacity:.55; cursor:progress; }
-  .count{ font-family:var(--font-mono); font-size:.78rem; color:var(--muted-2); margin:-10px 0 16px; }
 
-  .msg{ margin-top:16px; padding:13px 15px; border-radius:7px; font-size:.9rem; display:none; }
-  .msg.show{ display:block; }
-  .msg.err{ background:rgba(207,75,62,.12); border:1px solid var(--crack); color:#f0b3ac; }
-  .msg.ok{ background:rgba(143,168,127,.12); border:1px solid var(--moss); color:#cfe0c4; }
-
-  .soon{ background:var(--bg-plate); border:1px dashed var(--line-strong); border-radius:11px;
-    padding:22px; color:var(--muted-2); font-size:.92rem; }
-  #loading{ padding:70px 0; text-align:center; color:var(--muted-2); font-family:var(--font-mono); font-size:.9rem; }
-  [hidden]{ display:none !important; }
+  @media (max-width:520px){
+    /* màn hẹp: xếp dọc, căn giữa cho đỡ lệch */
+    .hero{ flex-direction:column; text-align:center; gap:14px; }
+    .hero__meta{ min-width:0; }
+    .ash-ava--to{ width:76px; height:76px; font-size:1.8rem; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <p id="loading">Đang tải hồ sơ…</p>
-
-  <div id="app" hidden>
-    <div class="top">
-      <a class="back" href="index.html">← Về trang chủ</a>
-      <a class="back" href="ban-be.html" style="color:var(--ember)">Bạn bè →</a>
-      <a class="back" href="quan-tri.html" id="link-admin" style="color:var(--crack)" hidden>Quản trị →</a>
-      <button class="ghost" id="logout" type="button">Đăng xuất</button>
-    </div>
-
-    <div class="hero">
-      <div class="ava" id="ava" role="img" aria-label="Ảnh đại diện"></div>
-      <div>
-        <div class="idline">
-          <span class="u" id="u"></span>
-        </div>
-        <p class="riot" id="riot" title="Riot ID — người khác dùng cái này để tìm bạn"></p>
-        <div class="badges" id="badges"></div>
-        <p class="joined" id="joined"></p>
-      </div>
-    </div>
-
-    <section>
-      <h2>Chỉnh sửa hồ sơ</h2>
-      <form id="form">
-        <label for="email">Email (không đổi được ở đây)</label>
-        <input id="email" type="email" disabled>
-
-        <label for="display_name">Tên hiển thị</label>
-        <input id="display_name" type="text" maxlength="32" placeholder="Tên người khác nhìn thấy">
-
-        <label for="avatar_url">Đường dẫn ảnh đại diện</label>
-        <input id="avatar_url" type="url" placeholder="https://..." inputmode="url">
-
-        <label for="bio">Giới thiệu</label>
-        <textarea id="bio" rows="4" maxlength="300" placeholder="Vài dòng về bạn…"></textarea>
-        <p class="count"><span id="bio-count">0</span>/300</p>
-
-        <div class="row">
-          <button class="btn" id="save" type="submit">Lưu thay đổi</button>
-        </div>
-      </form>
-      <div class="msg" id="msg" role="status" aria-live="polite"></div>
-    </section>
-
-    <section>
-      <h2>Tiến độ trong game</h2>
-      <div class="soon">Chưa có dữ liệu. Phần này sẽ hiện Nghiệp Ấn đã thu và boss đã hạ khi game kết nối với tài khoản.</div>
-    </section>
-  </div>
-</div>
+<p id="loading" style="padding:70px 16px;text-align:center;color:#75695a;font-family:ui-monospace,monospace">Đang tải…</p>
 
 <script type="module">
-import { supabase, getProfile, riotId, tenHienThi, quenHoSo, signOut, dichLoi } from './assets/js/auth.js';
+import { supabase, riotId, tenHienThi, quenHoSo, dichLoi } from './assets/js/auth.js';
+import { dungKhung, el, veAva } from './assets/js/app.js';
 
+const { main, me } = await dungKhung('ho-so');
+document.getElementById('loading').remove();
+
+// --------------------------------------------------------------- thẻ hồ sơ ---
+const hero = el('section', 'ash-the hero');
+const meta = el('div', 'hero__meta');
+const ten = el('div', 'hero__ten', tenHienThi(me));
+const idline = el('div', 'hero__id');
+idline.append('Riot ID: ', el('b', null, riotId(me)));
+meta.append(ten, idline);
+
+if (me.role === 'admin') meta.append(el('span', 'the-vai admin', 'Quản trị viên'));
+else if (me.role === 'moderator') meta.append(el('span', 'the-vai mod', 'Kiểm duyệt viên'));
+else meta.append(el('span', 'the-vai', 'Người chơi'));
+if (me.status === 'suspended') meta.append(el('span', 'the-vai canh', 'Tạm khóa'));
+if (me.status === 'banned') meta.append(el('span', 'the-vai canh', 'Bị cấm'));
+
+meta.append(el('div', 'hero__tham', 'Tham gia ' + new Date(me.created_at).toLocaleDateString('vi-VN')));
+const ava = veAva(me, 'ash-ava ash-ava--to');
+hero.append(ava, meta);
+main.append(hero);
+
+// ------------------------------------------------------------------ biểu mẫu ---
+const hopSua = el('section', 'ash-the');
+hopSua.append(el('h2', null, 'Chỉnh sửa hồ sơ'));
+const form = el('form');
+form.innerHTML = `
+  <label for="email">Email (không đổi được ở đây)</label>
+  <input id="email" type="email" disabled>
+
+  <label for="display_name">Tên hiển thị</label>
+  <input id="display_name" type="text" maxlength="32" placeholder="Tên người khác nhìn thấy">
+
+  <label for="avatar_url">Đường dẫn ảnh đại diện</label>
+  <input id="avatar_url" type="url" placeholder="https://..." inputmode="url">
+
+  <label for="bio">Giới thiệu</label>
+  <textarea id="bio" rows="4" maxlength="300" placeholder="Vài dòng về bạn…"></textarea>
+  <p class="dem-chu"><span id="bio-dem">0</span>/300</p>
+
+  <button class="ash-nut" id="luu" type="submit">Lưu thay đổi</button>
+`;
+const bao = el('div', 'ash-bao');
+bao.setAttribute('role', 'status');
+bao.setAttribute('aria-live', 'polite');
+hopSua.append(form, bao);
+main.append(hopSua);
+
+// ------------------------------------------------- tiến độ trong game ---
+const td = el('section', 'ash-the');
+td.append(el('h2', null, 'Tiến độ trong game'));
+td.append(el('div', 'ash-trong', 'Chưa có dữ liệu. Phần này sẽ hiện Nghiệp Ấn đã thu và boss đã hạ khi game nối với tài khoản.'));
+const an = el('div', 'an');
+for (let i = 1; i <= 7; i++) an.append(el('span', null, String(i).padStart(2, '0')));
+td.append(an);
+main.append(td);
+
+// ---------------------------------------------------------------- xử lý ---
 const $ = (id) => document.getElementById(id);
-const show = (text, kind) => { const m = $('msg'); m.textContent = text; m.className = `msg show ${kind}`; };
+const noi = (text, kieu) => { bao.textContent = text; bao.className = `ash-bao hien ${kieu}`; };
 
-const p = await getProfile();
-if (!p) { location.replace('dang-nhap.html'); throw new Error('chưa đăng nhập'); }
+$('email').value = me.email ?? '';
+$('display_name').value = me.display_name ?? '';
+$('avatar_url').value = me.avatar_url ?? '';
+$('bio').value = me.bio ?? '';
+$('bio-dem').textContent = (me.bio ?? '').length;
+$('bio').addEventListener('input', (e) => { $('bio-dem').textContent = e.target.value.length; });
 
-// ---- thẻ hồ sơ ----
-$('u').textContent = tenHienThi(p);
-$('riot').innerHTML = '';
-$('riot').append('Riot ID: ', Object.assign(document.createElement('b'), { textContent: riotId(p) }));
-$('joined').textContent = 'Tham gia ' + new Date(p.created_at).toLocaleDateString('vi-VN');
-
-const ava = $('ava');
-if (p.avatar_url) ava.style.backgroundImage = `url("${CSS.escape(p.avatar_url).replace(/\\/g, '')}")`;
-else ava.textContent = (p.display_name || p.username).charAt(0).toUpperCase();
-
-const badges = $('badges');
-const addBadge = (text, cls = '') => {
-  const s = document.createElement('span');
-  s.className = 'badge ' + cls;
-  s.textContent = text;
-  badges.append(s);
-};
-if (['admin', 'moderator'].includes(p.role)) $('link-admin').hidden = false;
-if (p.role === 'admin') addBadge('Quản trị viên', 'admin');
-else if (p.role === 'moderator') addBadge('Kiểm duyệt viên', 'mod');
-else addBadge('Người chơi');
-if (p.status === 'suspended') addBadge('Tạm khóa', 'warn');
-if (p.status === 'banned') addBadge('Bị cấm', 'warn');
-
-// ---- biểu mẫu ----
-$('email').value = p.email ?? '';
-$('display_name').value = p.display_name ?? '';
-$('avatar_url').value = p.avatar_url ?? '';
-$('bio').value = p.bio ?? '';
-$('bio-count').textContent = (p.bio ?? '').length;
-$('bio').addEventListener('input', (e) => { $('bio-count').textContent = e.target.value.length; });
-
-$('loading').hidden = true;
-$('app').hidden = false;
-
-$('logout').addEventListener('click', signOut);
-
-$('form').addEventListener('submit', async (e) => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const avatar_url = $('avatar_url').value.trim();
   if (avatar_url && !/^https:\/\//i.test(avatar_url)) {
-    return show('Đường dẫn ảnh phải bắt đầu bằng https://', 'err');
+    return noi('Đường dẫn ảnh phải bắt đầu bằng https://', 'loi');
   }
 
-  const btn = $('save');
+  const btn = $('luu');
   btn.disabled = true;
   btn.textContent = 'Đang lưu…';
   try {
@@ -214,13 +151,23 @@ $('form').addEventListener('submit', async (e) => {
       display_name: $('display_name').value.trim() || null,
       avatar_url:   avatar_url || null,
       bio:          $('bio').value.trim() || null,
-    }).eq('id', p.id);
+    }).eq('id', me.id);
     if (error) throw error;
+
     quenHoSo();                                   // để nơi khác đọc được tên mới
-    $('u').textContent = $('display_name').value.trim() || riotId(p);
-    show('Đã lưu hồ sơ.', 'ok');
+    me.display_name = $('display_name').value.trim() || null;
+    me.avatar_url = avatar_url || null;
+    ten.textContent = tenHienThi(me);
+    if (me.avatar_url) {
+      ava.textContent = '';
+      ava.style.backgroundImage = `url("${me.avatar_url.replace(/"/g, '%22')}")`;
+    } else {
+      ava.style.backgroundImage = '';
+      ava.textContent = (me.display_name || me.username).charAt(0).toUpperCase();
+    }
+    noi('Đã lưu hồ sơ.', 'xong');
   } catch (err) {
-    show(dichLoi(err.message), 'err');
+    noi(dichLoi(err.message), 'loi');
   } finally {
     btn.disabled = false;
     btn.textContent = 'Lưu thay đổi';

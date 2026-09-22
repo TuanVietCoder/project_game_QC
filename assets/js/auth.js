@@ -77,7 +77,7 @@ export async function mountNavAccount() {
   const li = document.createElement('li');
   const a = document.createElement('a');
   a.className = 'nav-account';
-  a.href = p ? 'ho-so.html' : 'dang-nhap.html';
+  a.href = p ? 'trang-chu.html' : 'dang-nhap.html';
   a.textContent = p ? tenHienThi(p) : 'Đăng nhập';
   li.append(a);
   list.append(li);
@@ -96,7 +96,7 @@ export async function mountAuthButton() {
     if (p) {
       const a = document.createElement('a');
       a.className = btn.className;
-      a.href = 'ho-so.html';
+      a.href = 'trang-chu.html';
       a.textContent = tenHienThi(p);
       a.style.textDecoration = 'none';
       a.setAttribute('aria-label', `Hồ sơ của ${riotId(p)}`);

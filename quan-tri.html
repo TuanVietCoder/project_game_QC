@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex, nofollow">
 <title>Quản trị — Ashfall</title>
@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;700&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/app.css">
 <style>
   body{
     min-height:100vh;
@@ -18,7 +19,7 @@
     color:var(--ink); font-family:var(--font-body); line-height:1.6;
     -webkit-font-smoothing:antialiased;
   }
-  .wrap{ max-width:900px; margin:0 auto; padding:26px 26px 80px; }
+  .wrap{ max-width:none; margin:0; padding:0; }
 
   .top{ display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:26px; }
   .top a{ font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
@@ -113,16 +114,13 @@
   <div id="chan" hidden>
     <h2>Không có quyền truy cập</h2>
     <p>Trang này chỉ dành cho quản trị viên và kiểm duyệt viên.</p>
-    <p style="margin-top:20px"><a href="index.html">← Về trang chủ</a></p>
+    <p style="margin-top:20px"><a href="trang-chu.html">← Về trang chủ</a></p>
   </div>
 
   <div id="app" hidden>
     <div class="top">
       <h1>Quản trị</h1>
-      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
-        <span class="me" id="me"></span>
-        <a href="index.html">← Trang chủ</a>
-      </div>
+      <span class="me" id="me"></span>
     </div>
 
     <div class="tabs" role="tablist">
@@ -163,7 +161,8 @@
 </div>
 
 <script type="module">
-import { supabase, getProfile, riotId, dichLoi } from './assets/js/auth.js';
+import { supabase, riotId, dichLoi } from './assets/js/auth.js';
+import { dungKhung } from './assets/js/app.js';
 
 const $ = (id) => document.getElementById(id);
 const el = (t, c, x) => { const n = document.createElement(t); if (c) n.className = c; if (x != null) n.textContent = x; return n; };
@@ -171,8 +170,8 @@ const show = (text, kind) => { const m = $('msg'); m.textContent = text; m.class
 const luc = (iso) => new Date(iso).toLocaleString('vi-VN', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
 
 // -------------------------------------------------------------- vào cửa ---
-const me = await getProfile();
-if (!me) { location.replace('dang-nhap.html'); throw new Error('chưa đăng nhập'); }
+const { main, me } = await dungKhung('quan-tri');
+main.append(document.querySelector('.wrap'));        // nội dung cũ vào cột giữa
 
 $('loading').hidden = true;
 if (!['admin', 'moderator'].includes(me.role)) {

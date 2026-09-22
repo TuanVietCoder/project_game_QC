@@ -53,8 +53,11 @@ Hệ quả bắt buộc:
 | `supabase/fix-quyen-admin.sql` | Vá lỗi `NULL` trong kiểm tra quyền (xem §7.4) |
 | `assets/js/auth.js` | Client Supabase, `getProfile()`, gắn trạng thái đăng nhập vào nav |
 | `assets/js/chat.js` | Widget chat nổi, tự gắn vào mọi trang |
+| `assets/js/app.js` | Khung khu vực đăng nhập: `dungKhung()`, thanh trên, menu, cột bạn bè |
 | `assets/css/base.css` | Token màu + reset + nav dùng chung |
-| `dang-nhap.html` | Đăng ký / đăng nhập |
+| `assets/css/app.css` | Phần nhìn của khung đăng nhập (xem §2b) |
+| `dang-nhap.html` | Đăng ký / đăng nhập → vào thẳng `trang-chu.html` |
+| `trang-chu.html` | Trang chính sau khi đăng nhập |
 | `ho-so.html` | Hồ sơ cá nhân, sửa tên hiển thị / ảnh / giới thiệu |
 | `ban-be.html` | Tìm người, gửi/nhận lời mời, chặn |
 | `quan-tri.html` | Trang quản trị: báo cáo, người dùng, nhật ký |
@@ -84,6 +87,34 @@ monaco.editor.getModels()[0].setValue(sql);
 Bấm Run. Supabase sẽ cảnh báo *"Potential issue detected"* vì các file có
 `drop ... if exists` — đó chỉ là phần dọn dẹp để chạy lại được nhiều lần, bấm
 **Run query** là an toàn.
+
+---
+
+## 2b. Khung khu vực đăng nhập
+
+Bốn trang cần đăng nhập — `trang-chu`, `ho-so`, `ban-be`, `quan-tri` — dùng chung
+một khung kiểu Facebook. Trang không tự viết lại thanh điều hướng, mà gọi:
+
+```js
+import { dungKhung, el, hangNguoi, moChat } from './assets/js/app.js';
+const { main, me } = await dungKhung('ban-be');   // mã trang, để tô sáng mục menu
+```
+
+`dungKhung()` lo hết: chưa đăng nhập thì tự chuyển sang `dang-nhap.html`, dựng
+thanh trên (logo + ảnh đại diện có thực đơn thả xuống), menu bên trái, cột bạn bè
+bên phải, rồi trả về phần tử cột giữa để trang tự đổ nội dung vào.
+
+Ba cột ở màn rộng; ≤1080px bỏ cột phải; ≤760px menu rơi xuống thành thanh tab
+dưới đáy như ứng dụng điện thoại.
+
+**Chỉ gọi `danh_sach_ban()` MỘT lần** cho cả cột phải lẫn con số lời mời trên
+menu. Nếu thêm thứ khác cần danh sách bạn, dùng lại kết quả đó, đừng gọi thêm.
+
+Trang khác muốn mở khung chat với ai thì gọi `moChat(banId)`; nó bắn sự kiện
+`ashfall:mo-chat` mà `chat.js` đang lắng nghe. Hai file không nhập lẫn nhau.
+
+Trang `quan-tri.html` giữ nguyên ruột cũ: nó gọi `dungKhung()` rồi chuyển
+`.wrap` của mình vào cột giữa, nên mọi thao tác kiểm duyệt không đổi.
 
 ---
 

@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <meta name="description" content="Tìm người chơi Ashfall theo Riot ID, gửi lời mời kết bạn và quản lý danh sách bạn bè.">
@@ -12,225 +12,133 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;700&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/app.css">
 <style>
-  body{
-    min-height:100vh;
-    background:radial-gradient(ellipse 900px 520px at 50% -8%, rgba(255,157,71,.12), transparent 62%), var(--bg);
-    color:var(--ink); font-family:var(--font-body); line-height:1.65;
-    -webkit-font-smoothing:antialiased;
-  }
-  .wrap{ max-width:720px; margin:0 auto; padding:26px 26px 70px; }
-
-  .top{ display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:30px; }
-  .top a{ font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
-  h1{ font-family:var(--font-display); font-size:clamp(1.7rem,5vw,2.3rem); margin:0 0 26px; }
-
-  /* ô tìm kiếm */
-  .search{ display:flex; gap:10px; margin-bottom:10px; }
-  .search input{
-    flex:1; padding:13px 15px;
+  .tim{ display:flex; gap:9px; }
+  .tim input{
+    flex:1; min-width:0; padding:12px 14px;
     background:var(--bg-plate-2); color:var(--ink);
-    border:1px solid var(--line-strong); border-radius:8px;
-    font-family:var(--font-body); font-size:.97rem;
+    border:1px solid var(--line-strong); border-radius:9px;
+    font-family:var(--font-body); font-size:16px;   /* 16px để iOS không tự phóng to trang */
   }
-  .search input:focus{ outline:none; border-color:var(--ember-dim); }
-  .search button{
-    padding:13px 22px; border:none; border-radius:8px; cursor:pointer;
-    background:var(--ember); color:#1a1208;
-    font-family:var(--font-mono); font-size:11.5px; font-weight:700;
-    letter-spacing:.1em; text-transform:uppercase;
-  }
-  .search button:disabled{ opacity:.55; cursor:progress; }
-  .tip{ font-size:.82rem; color:var(--muted-2); margin:0 0 28px; }
+  .tim input:focus{ outline:none; border-color:var(--ember-dim); }
+  .goi-y{ font-size:.82rem; color:var(--muted-2); margin:11px 0 0; }
 
-  /* thẻ người chơi */
-  .list{ display:flex; flex-direction:column; gap:10px; }
-  .person{
-    display:flex; align-items:center; gap:14px;
-    background:var(--bg-plate); border:1px solid var(--line);
-    border-radius:11px; padding:14px 16px;
-  }
-  .ava{
-    width:46px; height:46px; flex:none; border-radius:50%;
-    border:1.5px solid var(--ember-dim); background:var(--bg-plate-2) center/cover no-repeat;
-    display:grid; place-items:center;
-    font-family:var(--font-display); font-weight:700; font-size:1.15rem; color:var(--ember);
-  }
-  .who{ flex:1; min-width:0; }
-  .who .id{ font-weight:600; }
-  .who .id .t{ font-family:var(--font-mono); font-size:.85rem; color:var(--muted-2); }
-  .who .sub{ font-size:.83rem; color:var(--muted-2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .acts{ display:flex; gap:8px; flex-wrap:wrap; }
-  .act{
-    border:1px solid var(--line-strong); border-radius:999px; background:transparent;
-    color:var(--muted); cursor:pointer; padding:8px 14px;
+  /* hàng người chơi có thêm cụm nút bên phải */
+  .ash-nguoi{ flex-wrap:wrap; }
+  .viec{ display:flex; gap:7px; flex-wrap:wrap; margin-left:auto; }
+  .viec .trang-thai{
     font-family:var(--font-mono); font-size:10px; font-weight:700;
-    letter-spacing:.09em; text-transform:uppercase; white-space:nowrap;
+    letter-spacing:.09em; text-transform:uppercase; color:var(--muted-2);
+    align-self:center; padding:0 4px;
   }
-  .act:hover:not(:disabled){ color:var(--ink); border-color:var(--ember-dim); }
-  .act.primary{ background:var(--ember); border-color:var(--ember); color:#1a1208; }
-  .act.danger:hover:not(:disabled){ color:var(--crack); border-color:var(--crack); }
-  .act:disabled{ opacity:.5; cursor:default; }
-  .state{
-    font-family:var(--font-mono); font-size:10px; letter-spacing:.09em;
-    text-transform:uppercase; color:var(--muted-2); white-space:nowrap;
+  .ash-nut--do{ background:transparent; color:var(--crack); border:1px solid rgba(207,75,62,.45); }
+  .ash-nut--do:hover{ background:rgba(207,75,62,.12); filter:none; }
+  @media (max-width:560px){
+    .viec{ margin-left:0; width:100%; padding-left:54px; }
   }
-
-  section{ margin-top:38px; }
-  h2{
-    font-family:var(--font-mono); font-size:11px; letter-spacing:.18em;
-    text-transform:uppercase; color:var(--muted-2); margin:0 0 15px;
-    display:flex; align-items:center; gap:9px;
-  }
-  h2 .n{
-    background:var(--ember); color:#1a1208; border-radius:999px;
-    padding:1px 8px; font-size:10px;
-  }
-  .empty{
-    background:var(--bg-plate); border:1px dashed var(--line-strong);
-    border-radius:11px; padding:20px; color:var(--muted-2); font-size:.9rem;
-  }
-  .msg{ margin:16px 0 0; padding:13px 15px; border-radius:8px; font-size:.9rem; display:none; }
-  .msg.show{ display:block; }
-  .msg.err{ background:rgba(207,75,62,.12); border:1px solid var(--crack); color:#f0b3ac; }
-  .msg.ok{ background:rgba(143,168,127,.12); border:1px solid var(--moss); color:#cfe0c4; }
-  #loading{ padding:70px 0; text-align:center; color:var(--muted-2); font-family:var(--font-mono); font-size:.9rem; }
-  [hidden]{ display:none !important; }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <p id="loading">Đang tải…</p>
-
-  <div id="app" hidden>
-    <div class="top">
-      <a href="index.html">← Trang chủ</a>
-      <a href="ho-so.html">Hồ sơ của tôi →</a>
-    </div>
-
-    <h1>Bạn bè</h1>
-
-    <form class="search" id="search-form">
-      <input id="q" type="search" placeholder="Tìm theo Riot ID, ví dụ TuanViet hoặc TuanViet#0417"
-             autocomplete="off" aria-label="Tìm người chơi">
-      <button type="submit" id="search-btn">Tìm</button>
-    </form>
-    <p class="tip">Gõ tên để tìm gần đúng, hoặc cả <strong>tên#thẻ</strong> để tìm chính xác một người.</p>
-
-    <div class="msg" id="msg" role="status" aria-live="polite"></div>
-
-    <section id="sec-results" hidden>
-      <h2>Kết quả tìm kiếm</h2>
-      <div class="list" id="results"></div>
-    </section>
-
-    <section id="sec-incoming" hidden>
-      <h2>Lời mời đang chờ bạn <span class="n" id="n-incoming"></span></h2>
-      <div class="list" id="incoming"></div>
-    </section>
-
-    <section>
-      <h2>Danh sách bạn <span class="n" id="n-friends" hidden></span></h2>
-      <div class="list" id="friends"></div>
-      <div class="empty" id="friends-empty">Chưa có ai. Dùng ô tìm kiếm phía trên để kết bạn.</div>
-    </section>
-
-    <section id="sec-outgoing" hidden>
-      <h2>Lời mời bạn đã gửi</h2>
-      <div class="list" id="outgoing"></div>
-    </section>
-
-    <section id="sec-blocked" hidden>
-      <h2>Đã chặn</h2>
-      <div class="list" id="blocked"></div>
-    </section>
-  </div>
-</div>
+<p id="loading" style="padding:70px 16px;text-align:center;color:#75695a;font-family:ui-monospace,monospace">Đang tải…</p>
 
 <script type="module">
-import { supabase, getProfile, dichLoi } from './assets/js/auth.js';
+import { supabase, dichLoi } from './assets/js/auth.js';
+import { dungKhung, el, veXuong, hangNguoi, moChat } from './assets/js/app.js';
 
-const $ = (id) => document.getElementById(id);
-const show = (text, kind) => { const m = $('msg'); m.textContent = text; m.className = `msg show ${kind}`; };
-const clearMsg = () => { $('msg').className = 'msg'; };
+const { main, me } = await dungKhung('ban-be');
+document.getElementById('loading').remove();
 
-const me = await getProfile();
-if (!me) { location.replace('dang-nhap.html'); throw new Error('chưa đăng nhập'); }
-$('loading').hidden = true;
-$('app').hidden = false;
+// -------------------------------------------------------------- tìm kiếm ---
+const hopTim = el('section', 'ash-the');
+hopTim.append(el('h2', null, 'Tìm người chơi'));
+const form = el('form', 'tim');
+const oTim = el('input');
+Object.assign(oTim, { type: 'search', autocomplete: 'off',
+  placeholder: 'Riot ID, ví dụ TuanViet hoặc TuanViet#0417' });
+oTim.setAttribute('aria-label', 'Tìm người chơi');
+const nutTim = el('button', 'ash-nut', 'Tìm');
+nutTim.type = 'submit';
+form.append(oTim, nutTim);
+const bao = el('div', 'ash-bao');
+bao.setAttribute('role', 'status');
+bao.setAttribute('aria-live', 'polite');
+hopTim.append(form, el('p', 'goi-y', 'Gõ tên để tìm gần đúng, hoặc cả tên#thẻ để tìm chính xác một người.'), bao);
+main.append(hopTim);
 
-// ---------------------------------------------------------------- vẽ thẻ ---
-function card(p, actions) {
-  const el = document.createElement('div');
-  el.className = 'person';
+const noi = (text, kieu) => { bao.textContent = text; bao.className = `ash-bao hien ${kieu}`; };
+const xoaBao = () => { bao.className = 'ash-bao'; };
 
-  const ava = document.createElement('div');
-  ava.className = 'ava';
-  if (p.avatar_url) ava.style.backgroundImage = `url("${p.avatar_url.replace(/"/g, '%22')}")`;
-  else ava.textContent = (p.display_name || p.username || '?').charAt(0).toUpperCase();
+/** Một mục trong cột giữa; trả về {the, ds, tieu} để đổ dữ liệu vào sau. */
+function muc(tieuDe, anKhiRong = true) {
+  const the = el('section', 'ash-the');
+  const tieu = el('h2', null, tieuDe);
+  const ds = el('div');
+  the.append(tieu, ds);
+  the.hidden = anKhiRong;
+  main.append(the);
+  return { the, ds, tieu };
+}
 
-  const who = document.createElement('div');
-  who.className = 'who';
-  const id = document.createElement('div');
-  id.className = 'id';
-  id.textContent = p.display_name?.trim() || p.username;
-  who.append(id);
-  const sub = document.createElement('div');
-  sub.className = 'sub';
-  sub.textContent = `${p.username}#${p.tag}`;
-  who.append(sub);
+const mKetQua = muc('Kết quả tìm kiếm');
+const mDen    = muc('Lời mời đang chờ bạn');
+const mBan    = muc('Danh sách bạn', false);
+const mDaGui  = muc('Lời mời bạn đã gửi');
+const mChan   = muc('Đã chặn');
+mBan.ds.append(veXuong(3));
 
-  const acts = document.createElement('div');
-  acts.className = 'acts';
-  for (const a of actions) {
-    if (a.label === null) {                       // chỉ hiện chữ trạng thái
-      const s = document.createElement('span');
-      s.className = 'state';
-      s.textContent = a.text;
-      acts.append(s);
-      continue;
-    }
-    const b = document.createElement('button');
+// ------------------------------------------------------------- vẽ một hàng ---
+function hang(p, viecs) {
+  const row = hangNguoi(p, null, `${p.username}#${p.tag}`);
+  const viec = el('div', 'viec');
+  for (const v of viecs) {
+    if (v.label === null) { viec.append(el('span', 'trang-thai', v.text)); continue; }
+    const b = el('button', 'ash-nut ash-nut--nho' + (v.cls ? ' ' + v.cls : ''), v.label);
     b.type = 'button';
-    b.className = 'act' + (a.cls ? ' ' + a.cls : '');
-    b.textContent = a.label;
     b.onclick = async () => {
-      acts.querySelectorAll('button').forEach((x) => (x.disabled = true));
-      clearMsg();
-      try { await a.run(); await refresh(); }
-      catch (err) { show(dichLoi(err.message), 'err'); acts.querySelectorAll('button').forEach((x) => (x.disabled = false)); }
+      const nut = [...viec.querySelectorAll('button')];
+      nut.forEach((x) => (x.disabled = true));
+      xoaBao();
+      try {
+        await v.run();
+        if (v.taiLai !== false) await taiLai();     // taiLai() vẽ lại nên khỏi bật nút
+        else nut.forEach((x) => (x.disabled = false));
+      } catch (err) {
+        noi(dichLoi(err.message), 'loi');
+        nut.forEach((x) => (x.disabled = false));
+      }
     };
-    acts.append(b);
+    viec.append(b);
   }
-
-  el.append(ava, who, acts);
-  return el;
+  row.append(viec);
+  return row;
 }
 
 // ------------------------------------------------------------- hành động ---
-const pairOf = (otherId) => ({
-  user_a: me.id < otherId ? me.id : otherId,
-  user_b: me.id < otherId ? otherId : me.id,
+// friendships lưu mỗi cặp đúng MỘT hàng với user_a < user_b — xem supabase/friends.sql
+const cap = (kia) => ({
+  user_a: me.id < kia ? me.id : kia,
+  user_b: me.id < kia ? kia : me.id,
 });
 
 const guiLoiMoi = (id) =>
   supabase.rpc('gui_loi_moi', { ban_id: id }).then(({ error }) => { if (error) throw error; });
 
 const doiTrangThai = (id, status) => {
-  const { user_a, user_b } = pairOf(id);
+  const { user_a, user_b } = cap(id);
   return supabase.from('friendships').update({ status }).eq('user_a', user_a).eq('user_b', user_b)
     .then(({ error }) => { if (error) throw error; });
 };
 
 const xoaQuanHe = (id) => {
-  const { user_a, user_b } = pairOf(id);
+  const { user_a, user_b } = cap(id);
   return supabase.from('friendships').delete().eq('user_a', user_a).eq('user_b', user_b)
     .then(({ error }) => { if (error) throw error; });
 };
 
 const chan = async (id) => {
   await supabase.rpc('gui_loi_moi', { ban_id: id });        // đảm bảo có hàng
-  const { user_a, user_b } = pairOf(id);
+  const { user_a, user_b } = cap(id);
   const { error } = await supabase.from('friendships')
     .update({ status: 'blocked', requested_by: me.id })
     .eq('user_a', user_a).eq('user_b', user_b);
@@ -238,45 +146,48 @@ const chan = async (id) => {
 };
 
 // --------------------------------------------------------------- tải lại ---
-async function refresh() {
+const demTieu = (m, n) => {
+  m.tieu.querySelector('.dem')?.remove();
+  if (n) m.tieu.append(el('span', 'dem', String(n)));
+};
+
+async function taiLai() {
   const { data, error } = await supabase.rpc('danh_sach_ban');
-  if (error) return show(dichLoi(error.message), 'err');
+  if (error) {
+    mBan.ds.replaceChildren(el('div', 'ash-trong', 'Không tải được danh sách.'));
+    return noi(dichLoi(error.message), 'loi');
+  }
 
-  const friends  = data.filter((r) => r.status === 'accepted');
-  const incoming = data.filter((r) => r.status === 'pending' && !r.toi_gui);
-  const outgoing = data.filter((r) => r.status === 'pending' && r.toi_gui);
-  const blocked  = data.filter((r) => r.status === 'blocked');
+  const ban    = data.filter((r) => r.status === 'accepted');
+  const den    = data.filter((r) => r.status === 'pending' && !r.toi_gui);
+  const daGui  = data.filter((r) => r.status === 'pending' && r.toi_gui);
+  const daChan = data.filter((r) => r.status === 'blocked');
 
-  // bạn bè
-  const fl = $('friends');
-  fl.replaceChildren(...friends.map((p) => card(p, [
-    { label: 'Huỷ kết bạn', cls: 'danger', run: () => xoaQuanHe(p.id) },
-    { label: 'Chặn', cls: 'danger', run: () => chan(p.id) },
+  mBan.ds.replaceChildren(...ban.map((p) => hang(p, [
+    { label: 'Nhắn tin', run: async () => moChat(p.id), taiLai: false },
+    { label: 'Huỷ kết bạn', cls: 'ash-nut--vien', run: () => xoaQuanHe(p.id) },
+    { label: 'Chặn', cls: 'ash-nut--do', run: () => chan(p.id) },
   ])));
-  $('friends-empty').hidden = friends.length > 0;
-  $('n-friends').hidden = friends.length === 0;
-  $('n-friends').textContent = friends.length;
+  if (!ban.length) mBan.ds.append(el('div', 'ash-trong', 'Chưa có ai. Dùng ô tìm kiếm phía trên để kết bạn.'));
+  demTieu(mBan, ban.length);
 
-  // lời mời đến
-  $('sec-incoming').hidden = incoming.length === 0;
-  $('n-incoming').textContent = incoming.length;
-  $('incoming').replaceChildren(...incoming.map((p) => card(p, [
-    { label: 'Đồng ý', cls: 'primary', run: () => doiTrangThai(p.id, 'accepted') },
-    { label: 'Từ chối', run: () => xoaQuanHe(p.id) },
-    { label: 'Chặn', cls: 'danger', run: () => chan(p.id) },
+  mDen.the.hidden = den.length === 0;
+  demTieu(mDen, den.length);
+  mDen.ds.replaceChildren(...den.map((p) => hang(p, [
+    { label: 'Đồng ý', run: () => doiTrangThai(p.id, 'accepted') },
+    { label: 'Từ chối', cls: 'ash-nut--vien', run: () => xoaQuanHe(p.id) },
+    { label: 'Chặn', cls: 'ash-nut--do', run: () => chan(p.id) },
   ])));
 
-  // lời mời đã gửi
-  $('sec-outgoing').hidden = outgoing.length === 0;
-  $('outgoing').replaceChildren(...outgoing.map((p) => card(p, [
+  mDaGui.the.hidden = daGui.length === 0;
+  mDaGui.ds.replaceChildren(...daGui.map((p) => hang(p, [
     { label: null, text: 'Đang chờ' },
-    { label: 'Thu hồi', run: () => xoaQuanHe(p.id) },
+    { label: 'Thu hồi', cls: 'ash-nut--vien', run: () => xoaQuanHe(p.id) },
   ])));
 
-  // đã chặn
-  $('sec-blocked').hidden = blocked.length === 0;
-  $('blocked').replaceChildren(...blocked.map((p) => card(p, [
-    { label: 'Bỏ chặn', run: () => xoaQuanHe(p.id) },
+  mChan.the.hidden = daChan.length === 0;
+  mChan.ds.replaceChildren(...daChan.map((p) => hang(p, [
+    { label: 'Bỏ chặn', cls: 'ash-nut--vien', run: () => xoaQuanHe(p.id) },
   ])));
 }
 
@@ -288,38 +199,35 @@ const NHAN = {
   chan:           'Đã chặn',
 };
 
-$('search-form').addEventListener('submit', async (e) => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const q = $('q').value.trim();
-  clearMsg();
-  if (q.length < 2) return show('Nhập ít nhất 2 ký tự để tìm.', 'err');
+  const q = oTim.value.trim();
+  xoaBao();
+  if (q.length < 2) return noi('Nhập ít nhất 2 ký tự để tìm.', 'loi');
 
-  const btn = $('search-btn');
-  btn.disabled = true;
+  nutTim.disabled = true;
   try {
     const { data, error } = await supabase.rpc('tim_nguoi_choi', { tu_khoa: q });
     if (error) throw error;
 
-    $('sec-results').hidden = false;
+    mKetQua.the.hidden = false;
     if (!data.length) {
-      $('results').replaceChildren(
-        Object.assign(document.createElement('div'),
-          { className: 'empty', textContent: `Không tìm thấy ai khớp với "${q}".` }));
+      mKetQua.ds.replaceChildren(el('div', 'ash-trong', `Không tìm thấy ai khớp với "${q}".`));
       return;
     }
-    $('results').replaceChildren(...data.map((p) => card(p, [
+    mKetQua.ds.replaceChildren(...data.map((p) => hang(p, [
       p.trang_thai === 'chua'
-        ? { label: 'Kết bạn', cls: 'primary', run: () => guiLoiMoi(p.id) }
+        ? { label: 'Kết bạn', run: () => guiLoiMoi(p.id) }
         : { label: null, text: NHAN[p.trang_thai] },
     ])));
   } catch (err) {
-    show(dichLoi(err.message), 'err');
+    noi(dichLoi(err.message), 'loi');
   } finally {
-    btn.disabled = false;
+    nutTim.disabled = false;
   }
 });
 
-await refresh();
+await taiLai();
 </script>
 <script type="module" src="assets/js/chat.js"></script>
 </body>

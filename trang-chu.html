@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<meta name="description" content="Trang chính của người chơi Ashfall: tin nhắn, bạn bè và hồ sơ.">
+<title>Trang chủ — Ashfall</title>
+<link rel="icon" type="image/jpeg" href="assets/tuanviet-studio-logo.jpg?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;700&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<style>
+  /* thẻ chào ở đầu cột giữa */
+  .chao{
+    display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+    background:linear-gradient(180deg, rgba(255,157,71,.10), rgba(207,75,62,.04)), var(--bg-plate);
+  }
+  .chao__meta{ flex:1; min-width:180px; }
+  .chao__ten{ font-family:var(--font-display); font-weight:700; font-size:clamp(1.4rem,4.5vw,1.9rem); line-height:1.25; }
+  .chao__id{ font-family:var(--font-mono); font-size:.85rem; color:var(--muted-2); margin-top:4px; }
+  .chao__nut{ display:flex; gap:9px; flex-wrap:wrap; margin-top:14px; }
+  .the-vai{
+    display:inline-block; margin-top:9px;
+    font-family:var(--font-mono); font-size:10px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase;
+    border:1px solid var(--line-strong); border-radius:999px; padding:4px 11px; color:var(--muted);
+  }
+  .the-vai.admin{ color:#1a1208; background:var(--ember); border-color:var(--ember); }
+  .the-vai.mod{ color:var(--moss); border-color:var(--moss); }
+  .the-vai.canh{ color:var(--crack); border-color:var(--crack); }
+
+  /* lối tắt dạng ô vuông */
+  .loi-tat{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .loi-tat a{
+    display:flex; flex-direction:column; align-items:center; gap:7px;
+    padding:17px 9px; border-radius:11px; text-decoration:none;
+    background:var(--bg-plate-2); border:1px solid var(--line); color:var(--muted);
+    font-size:.84rem; text-align:center;
+  }
+  .loi-tat a:hover{ border-color:var(--ember-dim); color:var(--ink); text-decoration:none; }
+  .loi-tat .bieu{ font-size:1.5rem; }
+
+  /* mục tiến độ trong game */
+  .an{ display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
+  .an span{
+    width:34px; height:34px; border-radius:9px; display:grid; place-items:center;
+    border:1px dashed var(--line-strong); color:var(--muted-2);
+    font-family:var(--font-mono); font-size:11px;
+  }
+
+  @media (max-width:520px){
+    /* màn hẹp: xếp dọc, căn giữa cho đỡ lệch */
+    .chao{ flex-direction:column; text-align:center; gap:14px; }
+    .chao__meta{ min-width:0; }
+    .chao__nut{ justify-content:center; }
+    .ash-ava--to{ width:76px; height:76px; font-size:1.8rem; }
+  }
+</style>
+</head>
+<body>
+<p id="loading" style="padding:70px 16px;text-align:center;color:#75695a;font-family:ui-monospace,monospace">Đang tải…</p>
+
+<script type="module">
+import { supabase, riotId, tenHienThi } from './assets/js/auth.js';
+import { dungKhung, el, veAva, veXuong, hangNguoi, khiNao, moChat } from './assets/js/app.js';
+
+const { main, me } = await dungKhung('trang-chu');
+document.getElementById('loading').remove();
+
+// ------------------------------------------------------------- lời chào ---
+const chao = el('section', 'ash-the chao');
+const meta = el('div', 'chao__meta');
+meta.append(el('div', 'chao__ten', tenHienThi(me)), el('div', 'chao__id', riotId(me)));
+
+if (me.role === 'admin') meta.append(el('span', 'the-vai admin', 'Quản trị viên'));
+else if (me.role === 'moderator') meta.append(el('span', 'the-vai mod', 'Kiểm duyệt viên'));
+if (me.status === 'suspended') meta.append(el('span', 'the-vai canh', 'Tạm khóa'));
+if (me.status === 'banned') meta.append(el('span', 'the-vai canh', 'Bị cấm'));
+
+const nut = el('div', 'chao__nut');
+nut.append(
+  Object.assign(el('a', 'ash-nut', 'Sửa hồ sơ'), { href: 'ho-so.html' }),
+  Object.assign(el('a', 'ash-nut ash-nut--vien', 'Tìm bạn'), { href: 'ban-be.html' }),
+);
+meta.append(nut);
+chao.append(veAva(me, 'ash-ava ash-ava--to'), meta);
+main.append(chao);
+
+// -------------------------------------------------------- tin nhắn gần đây ---
+const hopTin = el('section', 'ash-the');
+const tieuTin = el('h2', null, 'Tin nhắn');
+const dsTin = el('div');
+dsTin.append(veXuong(3));
+hopTin.append(tieuTin, dsTin);
+main.append(hopTin);
+
+// ------------------------------------------------------------- lối tắt ---
+const tat = el('section', 'ash-the');
+tat.append(el('h2', null, 'Lối tắt'));
+const oTat = el('div', 'loi-tat');
+for (const [bieu, ten, href] of [
+  ['🗺️', 'Bản đồ thế giới', 'map.html'],
+  ['📰', 'Tin tức', 'tin-tuc.html'],
+  ['📖', 'Blog', 'blog.html'],
+]) {
+  const a = el('a');
+  a.href = href;
+  a.append(el('span', 'bieu', bieu), el('span', null, ten));
+  oTat.append(a);
+}
+tat.append(oTat);
+main.append(tat);
+
+// ------------------------------------------------- tiến độ trong game ---
+const td = el('section', 'ash-the');
+td.append(el('h2', null, 'Tiến độ trong game'));
+td.append(el('div', 'ash-trong', 'Game chưa nối với tài khoản. Khi nối xong, bảy Nghiệp Ấn bạn thu được sẽ sáng lên ở đây.'));
+const an = el('div', 'an');
+for (let i = 1; i <= 7; i++) an.append(el('span', null, String(i).padStart(2, '0')));
+td.append(an);
+main.append(td);
+
+// --------------------------------------------------------------- dữ liệu ---
+const { data, error } = await supabase.rpc('danh_sach_hoi_thoai');
+if (error) {
+  dsTin.replaceChildren(el('div', 'ash-trong', 'Không tải được tin nhắn. Tải lại trang giúp mình.'));
+} else {
+  const ds = data || [];
+  const chuaDoc = ds.reduce((s, r) => s + Number(r.chua_doc || 0), 0);
+  if (chuaDoc) tieuTin.append(el('span', 'dem', String(chuaDoc)));
+
+  if (!ds.length) {
+    dsTin.replaceChildren(el('div', 'ash-trong', 'Chưa có cuộc trò chuyện nào. Kết bạn trước rồi nhắn tin nhé.'));
+    hopTin.append(Object.assign(el('a', 'ash-the__more', 'Tìm người chơi →'), { href: 'ban-be.html' }));
+  } else {
+    const manh = document.createDocumentFragment();
+    for (const r of ds.slice(0, 6)) {
+      const xem = r.thoi_gian && r.tin_cuoi === null
+        ? 'Tin nhắn đã thu hồi'
+        : (r.tin_cuoi ? (r.tin_cuoi_cua_toi ? 'Bạn: ' : '') + r.tin_cuoi : 'Chưa có tin nhắn');
+      const row = hangNguoi(r, () => moChat(r.id), xem);
+      if (Number(r.chua_doc || 0) > 0) row.querySelector('.ash-nguoi__phu').classList.add('dam');
+      if (r.thoi_gian) {
+        const khi = el('span', 'ash-nguoi__phu', khiNao(r.thoi_gian));
+        khi.style.flex = 'none';
+        row.append(khi);
+      }
+      manh.append(row);
+    }
+    dsTin.replaceChildren(manh);
+  }
+}
+</script>
+<script type="module" src="assets/js/chat.js"></script>
+</body>
+</html>
