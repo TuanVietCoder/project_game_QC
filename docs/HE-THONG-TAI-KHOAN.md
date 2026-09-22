@@ -462,6 +462,39 @@ lên logo, ô tìm kiếm và nút **Đăng nhập** — trên điện thoại n
 Đã thu hẹp thành `nav:not(.nav):not(.mnav){ ... }`. Nếu sau này thêm thẻ `<nav>`
 mới ở trang chủ, nhớ thêm class đó vào danh sách loại trừ.
 
+### 7.7 `supabase.rpc()` không await thì KHÔNG gửi gì cả
+
+`supabase.rpc()` và `supabase.from()...` trả về một **builder**, không phải
+Promise. Nó chỉ thật sự gọi `fetch` ở bên trong `then()`. Viết trần một dòng
+rồi bỏ đó là **không có request nào rời khỏi trình duyệt** — không lỗi, không
+cảnh báo, im lặng hoàn toàn.
+
+```js
+// SAI — tưởng là "gửi trong nền", thật ra không gửi
+supabase.rpc('danh_dau_da_doc', { nguoi_gui: banId });
+
+// ĐÚNG — vẫn không chờ, nhưng then() mới kích hoạt request
+supabase.rpc('danh_dau_da_doc', { nguoi_gui: banId })
+  .then(({ error }) => { if (error) console.error(error.message); });
+```
+
+Đo bằng cách bọc `window.fetch` rồi đếm:
+
+| Cách viết | Số request thật sự gửi |
+|---|---|
+| `supabase.rpc(...)` | **0** |
+| `supabase.rpc(...).then(cb)` | 1 |
+| `await supabase.rpc(...)` | 1 |
+
+Lỗi này lọt vào lúc tối ưu tốc độ chat: bỏ `await` cho "khỏi chặn giao diện",
+vô tình giết luôn việc đánh dấu đã đọc ở **cả ba** chỗ gọi. Hậu quả người dùng
+thấy: bấm vào cuộc trò chuyện xong mà chấm đỏ không tắt, và vì `chua_doc` trên
+máy chủ không bao giờ về 0 nên lần `danh_sach_hoi_thoai()` sau nó lại hiện ra —
+trông như "tin mình tự gửi cũng bị tính là tin mới".
+
+> **Quy tắc rút ra:** muốn gọi mà không chờ thì vẫn phải `.then()`. Dò chỗ sót
+> bằng: `grep -rn "supabase\.\(rpc\|from\)" --include=*.js --include=*.html . | grep -v "await\|return\|\.then("`
+
 ---
 ## 8. Cách kiểm thử bảo mật
 

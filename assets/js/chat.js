@@ -3,7 +3,7 @@
 // Tự gắn vào mọi trang có nạp file này. Chỉ hiện khi đã đăng nhập.
 // Nạp bằng thẻ <script type="module"> trỏ tới file này, nhớ kèm ?v= giống các trang khác.
 // =============================================================================
-import { supabase, getProfile, tenHienThi, dichLoi } from './auth.js?v=6';
+import { supabase, getProfile, tenHienThi, dichLoi } from './auth.js?v=7';
 
 const CSS = `
 .ash-chat, .ash-chat * { box-sizing:border-box; }
@@ -398,6 +398,17 @@ async function init() {
     if (dangXem && !dangMo) veDanhSach();
   }
 
+  /**
+   * Báo lên máy chủ là đã đọc hết tin của người này. Không chờ kết quả, nhưng
+   * BẮT BUỘC phải .then(): supabase.rpc() trả về builder chứ không phải Promise,
+   * và nó chỉ thật sự gọi fetch bên trong then(). Viết trần một dòng
+   * `supabase.rpc(...)` thì không có request nào được gửi đi cả.
+   */
+  function danhDauDaDoc(banId) {
+    supabase.rpc('danh_dau_da_doc', { nguoi_gui: banId })
+      .then(({ error }) => { if (error) console.error('Không đánh dấu đã đọc:', error.message); });
+  }
+
   function xoaChuaDoc(banId) {
     const r = dsHoiThoai.find((x) => x.id === banId);
     if (r && Number(r.chua_doc) > 0) { r.chua_doc = 0; capNhatChuongBao(); }
@@ -547,11 +558,11 @@ async function init() {
     body.scrollTop = body.scrollHeight;
     form.querySelector('textarea')?.focus();
 
-    // đánh dấu đã đọc: cập nhật ngay ở máy, gửi lên máy chủ trong nền
-    if (Number(ban.chua_doc || 0) > 0) {
-      xoaChuaDoc(ban.id);
-      supabase.rpc('danh_dau_da_doc', { nguoi_gui: ban.id });
-    }
+    // đánh dấu đã đọc: cập nhật ngay ở máy, gửi lên máy chủ trong nền.
+    // Luôn gọi, không dựa vào chua_doc — ban có thể đến từ danh sách bạn bè
+    // hoặc sự kiện ashfall:mo-chat, những chỗ không mang theo số đếm.
+    xoaChuaDoc(ban.id);
+    danhDauDaDoc(ban.id);
   }
 
   function veTin(m, ban) {
@@ -667,7 +678,7 @@ async function init() {
             if (oDay) body.scrollTop = body.scrollHeight;   // chỉ cuộn nếu đang ở cuối
           }
           if (m.recipient_id === me.id && !document.hidden) {
-            supabase.rpc('danh_dau_da_doc', { nguoi_gui: dangMo.id });
+            danhDauDaDoc(dangMo.id);
           }
         }
 
@@ -747,7 +758,7 @@ async function init() {
   document.addEventListener('visibilitychange', () => {
     if (document.hidden || !dangXem || !dangMo) return;
     xoaChuaDoc(dangMo.id);                                    // cập nhật ngay ở máy
-    supabase.rpc('danh_dau_da_doc', { nguoi_gui: dangMo.id }); // gửi lên trong nền
+    danhDauDaDoc(dangMo.id);                                   // gửi lên trong nền
   });
 
   // Mở websocket và hỏi danh sách ngay lúc tải trang làm máy yếu giật một nhịp.
