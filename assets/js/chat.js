@@ -3,7 +3,7 @@
 // Tự gắn vào mọi trang có nạp file này. Chỉ hiện khi đã đăng nhập.
 // Nạp bằng thẻ <script type="module"> trỏ tới file này, nhớ kèm ?v= giống các trang khác.
 // =============================================================================
-import { supabase, getProfile, tenHienThi, dichLoi } from './auth.js?v=7';
+import { supabase, getProfile, tenHienThi, dichLoi } from './auth.js?v=8';
 
 const CSS = `
 .ash-chat, .ash-chat * { box-sizing:border-box; }
@@ -157,6 +157,28 @@ const CSS = `
    panel.hidden = true chẳng có tác dụng gì. Bắt buộc phải !important. */
 .ash-chat[hidden], .ash-chat [hidden]{ display:none !important; }
 
+/* --------------------------------------------- khách chưa đăng nhập --- */
+/* Vài hàng người mờ mờ làm nền, rồi phủ lời mời đăng nhập lên trên. */
+.ash-chat__mo{ position:relative; min-height:100%; }
+.ash-chat__mo .ash-chat__xuong{ opacity:.5; }
+.ash-chat__moi{
+  position:absolute; inset:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:11px; padding:22px; text-align:center;
+  /* trong suốt ở trên để còn thấy mấy hàng người trống, rồi mờ dần xuống đặc */
+  background:linear-gradient(180deg,
+    transparent 0%, rgba(26,21,16,.55) 20%, rgba(26,21,16,.92) 36%, var(--bg-plate,#1a1510) 50%);
+}
+.ash-chat__moi .khoa{ font-size:27px; line-height:1; }
+.ash-chat__moi b{ font-size:14.5px; color:var(--ink,#efe6d4); font-weight:600; }
+.ash-chat__moi p{ margin:0; font-size:12.5px; line-height:1.65; color:var(--muted-2,#75695a); max-width:250px; }
+.ash-chat__moi a{
+  margin-top:4px; padding:10px 22px; border-radius:9px; text-decoration:none;
+  background:var(--ember,#ff9d47); color:#1a1208;
+  font:700 11px var(--font-mono,monospace); letter-spacing:.11em; text-transform:uppercase;
+}
+.ash-chat__moi a:hover{ filter:brightness(1.1); text-decoration:none; }
+
 /* ---------------------------------------------------- thông báo nổi --- */
 .ash-toasts{
   position:fixed; right:18px; bottom:86px; z-index:2001;
@@ -290,11 +312,74 @@ function thongBaoHeThong(ban, noiDung, khiBam) {
   } catch { /* không sao */ }
 }
 
-async function init() {
-  const me = await getProfile();
-  if (!me) return;                                  // chưa đăng nhập → không hiện gì
+/**
+ * Khách chưa đăng nhập vẫn thấy nút chat, bấm vào thì hiện lời mời đăng nhập.
+ * Dựng riêng một khung tối giản thay vì nhét cờ "khách" vào cả widget thật —
+ * ở đây không có dữ liệu, không realtime, không gì để giữ trạng thái.
+ */
+function khungKhach() {
+  const root = el('div', 'ash-chat');
+  const fab = el('button', 'ash-chat__fab', '💬');
+  fab.type = 'button';
+  fab.title = 'Tin nhắn';
+  fab.setAttribute('aria-label', 'Mở tin nhắn');
 
+  const panel = el('div', 'ash-chat__panel');
+  panel.hidden = true;
+  const head = el('div', 'ash-chat__head');
+  const dong = el('button', 'ash-chat__icon', '✕');
+  dong.type = 'button';
+  dong.title = 'Đóng';
+  head.append(el('b', null, 'Tin nhắn'), dong);
+
+  const body = el('div', 'ash-chat__body');
+  const mo = el('div', 'ash-chat__mo');
+  const nen = el('div');
+  nen.setAttribute('aria-hidden', 'true');          // chỉ để nhìn, trình đọc bỏ qua
+  nen.append(veHangTrong(4));
+  mo.append(nen);
+
+  const moi = el('div', 'ash-chat__moi');
+  moi.append(el('div', 'khoa', '🔒'));
+  moi.append(el('b', null, 'Đăng nhập để trò chuyện'));
+  moi.append(el('p', null, 'Kết bạn với người chơi khác và nhắn tin ngay trên web. Tạo tài khoản mất chưa tới một phút.'));
+  const vao = el('a', null, 'Đăng nhập');
+  vao.href = 'dang-nhap.html';
+  moi.append(vao);
+  mo.append(moi);
+  body.append(mo);
+
+  panel.append(head, body);
+  root.append(panel, fab);
+  document.body.append(root);
+
+  const doi = (hien) => { panel.hidden = !hien; };
+  fab.onclick = () => doi(panel.hidden);
+  dong.onclick = () => doi(false);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) doi(false); });
+  document.addEventListener('pointerdown', (e) => {
+    if (!panel.hidden && !root.contains(e.target)) doi(false);
+  });
+}
+
+/** Mấy hàng xương xám làm nền cho màn mời đăng nhập (widget thật có bản riêng). */
+function veHangTrong(n) {
+  const hop = document.createDocumentFragment();
+  for (let i = 0; i < n; i++) {
+    const x = el('div', 'ash-chat__xuong');
+    const b = el('div', 'b');
+    b.append(el('i'), el('i'));
+    x.append(el('i', 'a'), b);
+    hop.append(x);
+  }
+  return hop;
+}
+
+async function init() {
   document.head.append(Object.assign(document.createElement('style'), { textContent: CSS }));
+
+  const me = await getProfile();
+  if (!me) { khungKhach(); return; }                // khách: chỉ lời mời đăng nhập
 
   // ------------------------------------------------------------ khung ---
   const root = el('div', 'ash-chat');

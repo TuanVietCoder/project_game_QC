@@ -4,7 +4,7 @@
 // cột giữa rồi tự đổ nội dung vào. Thanh trên, menu và cột phải do đây lo.
 // Phần nhìn nằm ở file app.css cạnh bên (thư mục assets/css).
 // =============================================================================
-import { supabase, getProfile, vietId, tenHienThi, signOut } from './auth.js?v=7';
+import { supabase, getProfile, vietId, tenHienThi, signOut } from './auth.js?v=8';
 
 export const el = (tag, cls, text) => {
   const e = document.createElement(tag);
