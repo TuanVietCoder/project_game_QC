@@ -46,3 +46,9 @@ composer.lock
 # - HTML/CSS/JS files (core website)
 # - assets/ (images, fonts, audio)
 # - SVG files
+
+# Tài liệu nội bộ — KHÔNG đẩy lên repo công khai.
+# Bản thật nằm ở ../ashfall-tai-lieu-rieng/ (ngoài repo, có OneDrive sao lưu).
+docs/
+supabase/
+*.private.md
